@@ -17,9 +17,23 @@ class CategoryController extends Controller
         $this->categoryInterface = $categoryInterface;
     }
 
+    public function insert(Request $req)
+    {
+       return $this->categoryInterface->postCategory($req);
+    }
+
     public function index()
     {
-       return $this->categoryInterface->getCategory();
+        return $this->categoryInterface->getCategory();
+    }
+    public function update($id,Request $req)
+    {
+        return $this->categoryInterface->updateCategory($id,$req);
+    }
+
+    public function destroy($id)
+    {
+        return $this->categoryInterface->deleteCategory($id);
     }
 
 }

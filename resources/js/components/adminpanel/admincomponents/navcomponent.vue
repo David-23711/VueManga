@@ -3,7 +3,7 @@
     <v-app-bar app class="navColor">
       <v-toolbar-title>
         <v-app-bar-nav-icon
-          class="hidden-lg-only"
+          class="hidden-md-and-up"
           @click="drawer = !drawer"
         ></v-app-bar-nav-icon>
         <span class="headline font-weight-bold">Admin</span>
@@ -19,7 +19,7 @@
         <span>Register</span>
         <v-icon>group</v-icon>
       </v-btn>
-      <v-btn v-if="adminData" text @click="logout" class="hidden-md-and-down">
+      <v-btn v-if="adminData" text @click="logout" >
         <span>Logout</span>
         <v-icon>logout</v-icon>
       </v-btn>
@@ -68,6 +68,7 @@
                       label="Name"
                       v-model="editName"
                       prepend-icon="people"
+                      
                     >
                     </v-text-field>
 
@@ -137,10 +138,10 @@ export default {
       editName: "",
       editAvatar: [],
       mnavlinks: [
-        { icon: "menu", title: "Home", to: "/admin/home" },
-        { icon: "local_activity", title: "Projects", to: "/admin/projects" },
-        { icon: "library_add", title: "Add Project", to: "/admin/addProject" },
-        { icon: "add_box", title: "Add Category", to: "/admin/addCategory" },
+        { icon: "home", title: "Home", to: "/admin/home" },
+        { icon: "local_activity", title: "Projects", to: "/admin/manga" },
+        { icon: "library_add", title: "Project Setting", to: "/admin/addProject" },
+        { icon: "list", title: "Category", to: "/admin/category" },
       ],
     };
   },

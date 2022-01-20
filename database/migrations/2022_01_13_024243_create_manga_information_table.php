@@ -15,12 +15,14 @@ class CreateMangaInformationTable extends Migration
     {
         Schema::create('manga_information', function (Blueprint $table) {
             $table->id();
-            $table->string('category_name');
             $table->string('manga_name');
             $table->string('alternative_name');
+            $table->string('author');
+            $table->integer('admin_id');
             $table->string('visual_key')->nullable();
             $table->string('release_date');
             $table->string('status');
+            $table->mediumText('description');
             $table->timestamps();
         });
     }

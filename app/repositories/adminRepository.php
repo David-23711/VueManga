@@ -56,7 +56,7 @@
         $data->admin = $adminData->editName;
         $data->avatar = $photo;
         $data->save();
-        File::delete("manga/$current");;
+        File::delete("manga/$current");
         return $data;
         } 
     }

@@ -15,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuetify from '../plugins/vuetify'
 import store from './vuex';
+import Multiselect from 'vue-multiselect'
 
 // Vue.use(IconsPlugin)
 
@@ -36,7 +37,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('adminpanel-component',require('./components/adminpanel/adminpanelComponent').default);
 Vue.component('pagination',require('laravel-vue-pagination'));
 Vue.component('multiple-image-component', require('./components/MultiImageUploadComponent.vue').default);
-
+Vue.component('multiselect', Multiselect);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -16,7 +16,7 @@ class CreateEpisodesTable extends Migration
         Schema::create('episodes', function (Blueprint $table) {
             $table->id();
             $table->integer('volume_id');
-            $table->string('episode_name');
+            $table->string('chapter');
             $table->timestamps();
         });
     }

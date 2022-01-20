@@ -229,15 +229,19 @@ export default {
     //for activate next window
     nextStep()
     {
-        if(this.$refs.form.validate())
-        {
-            this.step++
-        }
+        // if(this.$refs.form.validate())
+        // {
+        //     this.step=this.step+1;
+        // }
+        this.step=this.step+1;
         
     },
     //for insert admin to database
      async insertAdmin()
      {
+       if(this.$refs.form.validate())
+       {
+         
          var formData = new FormData;
          formData.append('name',this.form.name);
          formData.append('email',this.form.email);
@@ -249,6 +253,7 @@ export default {
          .then((resp)=>{
           this.step++;
          })
+       }
      }
   },
 };

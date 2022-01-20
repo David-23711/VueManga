@@ -2,10 +2,38 @@
  namespace App\repositories;
  use App\interfaces\categoryInterface;
  use App\Models\category;
- class categoryRepository implements categoryInterface{
+use Illuminate\Validation\Rule;
+
+class categoryRepository implements categoryInterface{
+   public function postCategory($category)
+   {
+     $category->validate([
+      'category' => [Rule::unique('categories')->ignore('id')],
+     ]);
+     $data = new category;
+     $data->category = $category->category;
+     $data->save();
+     return response(['message'=>'Category Added Successfully']);
+   }
+
    public function getCategory()
    {
-     dd('working');
+     return category::when(request('search'),function($query){
+       $query -> where('category','like','%'.request('search').'%');
+     })->orderBy('created_at','desc')->get();
+   }
+    function updateCategory($id, $category)
+   {
+       $data = category::find($id);
+      $data->update([
+       'category'=>$category['editCategory'],
+     ]);
+    return response(['message'=>'Updated Successfully']);
+   }
+   function deleteCategory($id)
+   {
+     $data= category::find($id);
+     $data->delete();
    }
  }
 ?>

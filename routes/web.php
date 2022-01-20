@@ -9,6 +9,8 @@ use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MultiImageController;
 use App\Http\Controllers\VolumeController;
+use App\Models\MangaInformation;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,13 +35,31 @@ Route::put('/admin/editdata/notavatar/{id}',[AdminController::class,'editAdminNo
 Route::put('/admin/editdata/withavatar/{id}',[AdminController::class,'editAdminWithAvatar']);
 
 //admin addCategory
-Route::get('/admin/category/manga',[CategoryController::class,'index']);
+Route::view('/admin/category','/manga/adminpanel');
+Route::post('/admin/category/post',[CategoryController::class,'insert']);
+Route::get('/admin/category/post',[CategoryController::class,'index']);
+Route::put('/admin/category/post/{id}',[CategoryController::class,'update']);
+Route::delete('/admin/category/post/{id}',[CategoryController::class,'destroy']);
 
 //admin addManga
-Route::get('/admin/posts/manga',[MangaInformationController::class,'insert']);
+Route::view('/admin/manga','/manga/adminpanel');
+Route::post('/admin/manga/post',[MangaInformationController::class,'insert']);
+Route::get('/admin/manga/post',[MangaInformationController::class,'index']);
+Route::put('/admin/manga/post/{id}',[MangaInformationController::class,'update']);
+Route::delete('/admin/manga/post/{id}',[MangaInformationController::class,'delete']);
+Route::view('/admin/manga/setting/{id}/admin/{aid}','/manga/adminpanel');
+Route::get('/admin/manga/setting/{aid}',[MangaInformationController::class,'admin']);
+Route::get('/admin/manga/setting/{aid}/{id}',[MangaInformationController::class,'manga']);
+Route::post('/admin/manga/setting/addgenre',[MangaInformationController::class,'genre']);
+Route::get('/admin/manga/getGenre/{id}',[MangaInformationController::class,'genrebyid']);
+Route::delete('/admin/manga/getGenre/delete/{id}',[MangaInformationController::class,'deleteGenre']);
+Route::get('/admin/manga/post/releaseDate',[MangaInformationController::class,'releaseDate']);
+Route::get('/admin/manga/post/byrelease',[MangaInformationController::class,'byrelease']);
 
 //admin addVolume
 Route::get('/admin/posts/manga/volume',[VolumeController::class,'index']);
+Route::post('/admin/manga/setting/addvolume',[MangaInformationController::class,'volume']);
+Route::get('/admin/manga/getVolume/{id}',[MangaInformationController::class,'indexVolume']);
 
 //admin addEpisode
 Route::get('/admin/posts/manga/volume/episode',[EpisodeController::class,'index']);

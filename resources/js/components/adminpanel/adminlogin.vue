@@ -173,7 +173,9 @@ export default {
   },
   methods: {
     async signIn() {
-      this.loading1 = true;
+     if(this.$refs.form.validate())
+     {
+        this.loading1 = true;
       var formData = new FormData();
       formData.append("email", this.admin.email);
       formData.append("password", this.admin.password);
@@ -220,6 +222,7 @@ export default {
             });
           }
         });
+     }
     },
   },
 };

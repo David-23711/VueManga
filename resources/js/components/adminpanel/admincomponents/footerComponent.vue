@@ -1,6 +1,6 @@
 <template>
   <v-row class="my-3">
-      <v-app-bar flat class="light hidden-md-and-down">
+      <!-- <v-app-bar flat class="light hidden-md-and-down">
         <v-spacer></v-spacer>
            <v-btn
         v-for="btn in btns"
@@ -13,7 +13,7 @@
         {{ btn.title }}
       </v-btn>
       <v-spacer></v-spacer>     
-      </v-app-bar>
+      </v-app-bar> -->
     <v-col cols="12" class="text-center"> ammgyi@gmail.com </v-col>
   </v-row>
 </template>   

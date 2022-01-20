@@ -130,7 +130,7 @@ computed:{
 
 <style lang="scss" scoped>
 .dframe{
-   padding-top: 200px;
+   padding-top: 216px;
    text-align: center;
 }
 </style>

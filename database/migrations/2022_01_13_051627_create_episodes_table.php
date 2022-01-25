@@ -14,10 +14,16 @@ class CreateEpisodesTable extends Migration
     public function up()
     {
         Schema::create('episodes', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
-            $table->integer('volume_id');
-            $table->string('chapter');
+            $table->bigInteger('volume_id')->unsigned();
+            $table->bigInteger('manga_information_id')->unsigned();
+            $table->string('episode_name');
             $table->timestamps();
+        });
+        Schema::table('episodes',function (Blueprint $table){
+            $table->foreign('manga_information_id')->references('id')->on('manga_information')->onDelete('cascade');
+            $table->foreign('volume_id')->references('id')->on('volumes')->onDelete('cascade');
         });
     }
 

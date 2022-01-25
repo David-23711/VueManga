@@ -13,8 +13,20 @@ class MultiImageController extends Controller
     {
         $this->imageInterface = $imageInterface;
     }
-    public function index()
+    public function index($id)
     {
-        return $this->imageInterface->getImage();
+        return $this->imageInterface->getMultiImages($id);
+    }
+    public function insert(Request $req)
+    {
+        return $this->imageInterface->uploadImages($req);
+    }
+    public function episodeByVid($id)
+    {
+        return $this->imageInterface->getEpisodeByVid($id);
+    }
+    public function dynamicIndex($id)
+    {
+        return $this->imageInterface->getdynamicImages($id);
     }
 }

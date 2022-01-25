@@ -14,10 +14,14 @@ class CreateGenresTable extends Migration
     public function up()
     {
         Schema::create('genres', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
-            $table->integer('mangaInfoId');
+            $table->bigInteger('manga_information_id')->unsigned();
             $table->string('genre');
             $table->timestamps();
+        });
+        Schema::table('genres',function (Blueprint $table){
+            $table->foreign('manga_information_id')->references('id')->on('manga_information')->onDelete('cascade');
         });
     }
 

@@ -14,6 +14,7 @@ class CreateMangaInformationTable extends Migration
     public function up()
     {
         Schema::create('manga_information', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->string('manga_name');
             $table->string('alternative_name');

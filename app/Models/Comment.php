@@ -11,6 +11,6 @@ class Comment extends Model
     protected $fillable = [
         'comment',
         'user_id',
-        'mangaInfoId'
+        'manga_information_id'
     ];
 }

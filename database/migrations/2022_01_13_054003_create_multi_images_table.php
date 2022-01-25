@@ -14,10 +14,18 @@ class CreateMultiImagesTable extends Migration
     public function up()
     {
         Schema::create('multi_images', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
-            $table->integer('episode_id');
+            $table->bigInteger('manga_information_id')->unsigned();
+            $table->integer('volume_id');
+            $table->bigInteger('episode_id')->unsigned();
             $table->string('manga_image');
+            $table->string('image_name');
             $table->timestamps();
+        });
+        Schema::table('multi_images',function (Blueprint $table){
+            $table->foreign('manga_information_id')->references('id')->on('manga_information')->onDelete('cascade');
+            $table->foreign('episode_id')->references('id')->on('episodes')->onDelete('cascade');
         });
     }
 

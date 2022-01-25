@@ -1,7 +1,7 @@
 <template>
   <div>
-      <div class="dframe" v-if="!adminData">
-           <v-container >
+      <div class="dframe">
+           <v-container  v-if="!adminData">
           <v-row>
               <v-col cols="12" md="6" offset-md="3">
                   <v-card>
@@ -16,7 +16,6 @@
               </v-col>
           </v-row>
       </v-container>
-      </div>
       <v-container v-if="adminData">
           <v-row>
              <v-col cols="12" md="6" sm="6">
@@ -102,6 +101,7 @@
              </v-col>
           </v-row>
       </v-container>
+      </div>
   </div>
 </template>
 
@@ -130,7 +130,10 @@ computed:{
 
 <style lang="scss" scoped>
 .dframe{
-   padding-top: 216px;
-   text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

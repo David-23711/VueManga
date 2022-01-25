@@ -1,5 +1,5 @@
 <template>
-  <v-row class="my-3">
+  <v-row class="my-3" v-if="wide==false">
       <!-- <v-app-bar flat class="light hidden-md-and-down">
         <v-spacer></v-spacer>
            <v-btn
@@ -18,6 +18,7 @@
   </v-row>
 </template>   
 <script>
+import { eventBus } from '../../../app';
 export default {
   data() {
     return {
@@ -27,8 +28,18 @@ export default {
         { title: "Add Project", to: "/admin/addProject" },
         { title: "Add Category", to: "/admin/addCategory" },
       ],
+      wide:true,
     };
   },
+  mounted()
+  {
+    eventBus.$on("wide",()=>{
+      this.wide=true;
+    })
+    eventBus.$on("show",()=>{
+      this.wide=false;
+    })
+  }
  
 };
 </script>

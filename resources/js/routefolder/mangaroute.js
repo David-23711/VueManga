@@ -4,6 +4,14 @@ import AdminRegister from '../components/adminpanel/adminRegister';
 import AdminCategory from '../components/adminpanel/adminCategory';
 import AdminManga from '../components/adminpanel/adminManga';
 import AdminMangaSetting from '../components/adminpanel/adminMangaSetting';
+import AdminMangaEpisodes from '../components/adminpanel/adminEpisodes';
+import AdminMultiImage from '../components/adminpanel/adminMangaImage'
+import AdminReadImage from '../components/adminpanel/adminReadManga';
+import MangaRoom from '../components/adminpanel/viewMangaWide';
+;
+
+;
+
 import store from '../vuex';
 const routes=[
  {
@@ -59,6 +67,26 @@ const routes=[
      name:'MangaSetting',
      path:'/admin/manga/setting/:id/admin/:aid',
      component:AdminMangaSetting,
+ },
+ {
+     name:'MangaEpisode',
+     path:'/admin/manga/volume/episodes/:id/:mid',
+     component:AdminMangaEpisodes
+ },
+ {
+     name:'MultiImage',
+     path:'/admin/manga/volume/episodes/insertImage/:eid/:mid/:vid',
+     component:AdminMultiImage,
+ },
+ {
+     name:'ReadImage',
+     path:'/admin/manga/volume/images/:eid/:vid',
+     component:AdminReadImage,
+ },
+ {
+     name:'MangaRoom',
+     path:'/admin/manga/volume/images/:eid/:vid/mangaRoom',
+     component:MangaRoom,
  }
 ]
 export default routes;

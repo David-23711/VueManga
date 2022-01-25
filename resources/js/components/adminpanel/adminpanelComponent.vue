@@ -2,7 +2,7 @@
   <div>
     <v-app class="background">
         <Navcomponent/>
-        <v-main>
+        <v-main class="topadmin">
           <router-view></router-view>
         </v-main>
         <v-footer padless class="light" dark>
@@ -15,6 +15,8 @@
 <script>
 import Navcomponent from './admincomponents/navcomponent.vue'
 import FooterComponent from './admincomponents/footerComponent.vue'
+import { mapGetters } from 'vuex';
+import { eventBus } from '../../app';
 export default {
 components:{
     Navcomponent,
@@ -23,6 +25,7 @@ components:{
   data() {
     return {
       page:1,
+      wide:false,
     };
   },
   methods:{
@@ -34,14 +37,17 @@ components:{
       {
           this.page--;
       }
-  }
+  },
+  computed:{
+    ...mapGetters(['adminData'])
+  },
 };
 </script>
 
 <style>
 .background{
   
- background-color: rgb(63, 59, 110) !important;
+ background-color: rgb(30, 30, 30,1) !important;
 }
 .light{
   background-color:#3a547b  !important ;

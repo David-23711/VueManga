@@ -14,10 +14,15 @@ class CreateVolumesTable extends Migration
     public function up()
     {
         Schema::create('volumes', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
-            $table->integer('mangaInfoId');
+            $table->bigInteger('manga_information_id')->unsigned();
             $table->string('volume');
             $table->timestamps();
+        });
+
+        Schema::table('volumes',function (Blueprint $table){
+            $table->foreign('manga_information_id')->references('id')->on('manga_information')->onDelete('cascade');
         });
     }
 

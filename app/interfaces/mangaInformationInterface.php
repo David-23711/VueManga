@@ -14,8 +14,6 @@ interface mangaInformationInterface{
     public function deletegetGenre($id);
     public function getReleaseDates();
     public function getByRelease();
-    public function addVolume($volume);
-    public function getVolume($id);
 }
 
 ?>

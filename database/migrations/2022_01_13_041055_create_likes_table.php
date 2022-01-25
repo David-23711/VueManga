@@ -16,8 +16,11 @@ class CreateLikesTable extends Migration
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('mangaInfoId');
+            $table->bigInteger('manga_information_id')->unsigned();
             $table->timestamps();
+        });
+        Schema::table('likes',function (Blueprint $table){
+            $table->foreign('manga_information_id')->references('id')->on('manga_information')->onDelete('cascade');
         });
     }
 

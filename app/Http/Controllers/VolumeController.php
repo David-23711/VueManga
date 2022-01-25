@@ -13,9 +13,20 @@ class VolumeController extends Controller
     {
         $this->volumeInterface = $volumeInterface;
     }
-
-    public function index()
+    public function volume(Request $req)
     {
-        return $this->volumeInterface->getVolume();
+        return $this->volumeInterface->addVolume($req);
+    }
+    public function indexVolume($id)
+    {
+        return $this->volumeInterface->getVolume($id);
+    }
+    public function destroy($id)
+    {
+        return $this->volumeInterface->deleteVolume($id);
+    }
+    public function getAll($id)
+    {
+        return $this->volumeInterface->getAllData($id);
     }
 }

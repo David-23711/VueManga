@@ -10,6 +10,6 @@ class Like extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'mangaInfoId'
+        'manga_information_id'
     ];
 }

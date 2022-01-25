@@ -9,7 +9,10 @@ use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MultiImageController;
 use App\Http\Controllers\VolumeController;
+use App\Models\Episode;
 use App\Models\MangaInformation;
+use App\Models\MultiImage;
+use App\Models\Volume;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,14 +61,27 @@ Route::get('/admin/manga/post/byrelease',[MangaInformationController::class,'byr
 
 //admin addVolume
 Route::get('/admin/posts/manga/volume',[VolumeController::class,'index']);
-Route::post('/admin/manga/setting/addvolume',[MangaInformationController::class,'volume']);
-Route::get('/admin/manga/getVolume/{id}',[MangaInformationController::class,'indexVolume']);
-
+Route::post('/admin/manga/setting/addvolume',[VolumeController::class,'volume']);
+Route::get('/admin/manga/getVolume/{id}',[VolumeController::class,'indexVolume']);
+Route::delete('/admin/manga/getVolume/{id}',[VolumeController::class,'destroy']);
+Route::get('/admin/getalldata/{id}',[VolumeController::class,'getAll']);
 //admin addEpisode
-Route::get('/admin/posts/manga/volume/episode',[EpisodeController::class,'index']);
+Route::view('/admin/manga/volume/episodes/{id}/{mid}','/manga/adminpanel');
+Route::get('/admin/getVolume/{id}',[EpisodeController::class,'volume']);
+Route::post('/admin/manga/setting/episode/save',[EpisodeController::class,'insert']);
+Route::get('/admin/manga/setting/episode/save/{id}',[EpisodeController::class,'index']);
+Route::put('/admin/manga/setting/episode/update/{id}',[EpisodeController::class,'update']);
+Route::delete('/admin/manga/setting/episode/save/{id}',[EpisodeController::class,'destroy']);
+
 
 //admin addimage
-Route::get('/admin/posts/manga/volume/episode/image',[MultiImageController::class,'index']);
+Route::view('/admin/manga/volume/episodes/insertImage/{eid}/{mid}/{vid}','/manga/adminpanel');
+Route::post('/admin/manga/volume/episodes/insertImage',[MultiImageController::class,'insert']);
+Route::view('admin/manga/volume/images/{id}/{vid}', '/manga/adminpanel');
+Route::get('/admin/manga/volume/getEpisodeByVid/{vid}',[MultiImageController::class,'episodeByVid']);
+Route::get('/admin/manga/volume/multiImages/{id}',[MultiImageController::class,'index']);
+Route::view('/admin/manga/volume/images/{eid}/{vid}/mangaRoom','/manga/adminpanel');
+Route::get('/admin/manga/volume/dynamicImages/{id}',[MultiImageController::class,'dynamicIndex']);
 
 //user Comment
 Route::get('/user/manga/comment',[CommentController::class,'index']);

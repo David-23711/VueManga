@@ -10,6 +10,6 @@ class Genre extends Model
     use HasFactory;
     protected $fillable = [
         'genre',
-        'mangaInfoId'
+        'manga_information_id'
     ];
 }

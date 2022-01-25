@@ -61,12 +61,5 @@ class MangaInformationController extends Controller
     {
         return $this->mangaInterface->getByRelease();
     }
-    public function volume(Request $req)
-    {
-        return $this->mangaInterface->addVolume($req);
-    }
-    public function indexVolume($id)
-    {
-        return $this->mangaInterface->getVolume($id);
-    }
+   
 }

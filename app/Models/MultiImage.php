@@ -9,7 +9,10 @@ class MultiImage extends Model
 {
     use HasFactory;
     protected $fillable = [
+     'manga_information_id',
+     'volume_id',
      'episode_id',
-     'manga_image'
+     'manga_image',
+     'image_name',
     ];
 }

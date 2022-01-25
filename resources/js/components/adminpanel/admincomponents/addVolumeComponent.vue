@@ -33,7 +33,7 @@
             </v-row>
           </v-card-text>
           <v-card-actions class="justify-center">
-            <v-btn dark @click="postVolume(dialog)">Add</v-btn>
+            <v-btn :loading="loading" dark @click="postVolume(dialog)">Add</v-btn>
           </v-card-actions>
         </v-card>
       </template>
@@ -47,6 +47,7 @@ export default {
   data() {
     return {
       volume: "Vol.",
+      loading:false,
       volumeRules:[
         v=>!!v || 'Volume is require!'
       ]
@@ -56,13 +57,18 @@ export default {
   methods:{
     async postVolume(dialog)
     {
+      this.loading=true
       await axios.post(`/admin/manga/setting/addvolume`,{
         volume:this.volume,
         mangaInfoId:this.id
       })
       .then((resp)=>{
         dialog.value=false;
+         this.loading = false;
         eventBus.$emit('addVolume');
+      })
+      .catch((error)=>{
+        this.loading = false;
       })
     }
   }

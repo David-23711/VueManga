@@ -101,14 +101,14 @@ class mangaInformationRepository implements mangaInformationInterface{
            foreach($genres as $genre)
            {
               $add = new Genre;
-              $add->mangaInfoId = $mangaInfoId;
+              $add->manga_information_id = $mangaInfoId;
               $add->genre = $genre;
               $add->save();
            }
         }
         public function getGenreById($id)
         {
-            $data = Genre::where('mangaInfoId',$id)->orderBy('genre','asc')->get();
+            $data = Genre::where('manga_information_id',$id)->orderBy('genre','asc')->get();
             return $data;
         }
         public function deletegetGenre($id)
@@ -138,18 +138,6 @@ class mangaInformationRepository implements mangaInformationInterface{
                 })->orderBy('created_at')->paginate(5);
             }
              return $data;
-        }
-        public function addVolume($volume)
-        {
-            $data = new Volume;
-            $data->volume = $volume->volume;
-            $data->mangaInfoId = $volume->mangaInfoId;
-            $data->save();
-        }
-        public function getVolume($id)
-        {
-            $data = Volume::where('mangaInfoId',$id)->get();
-            return $data;
         }
 }
 

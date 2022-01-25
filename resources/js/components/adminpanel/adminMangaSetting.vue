@@ -1,10 +1,34 @@
 <template>
-  <div>
-    <v-container>
+  <div class="sframe">
+    <v-container v-if="mangaInfos==0">
+      <v-row class="text-center">
+        <v-col cols="12" md="6" offset-md="3">
+          <v-card>
+            <v-card-text>
+              <h4>Loading Wait</h4>
+              <br />
+              <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                      <div class="spinner-grow text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                      <div class="spinner-grow text-success" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                      <div class="spinner-grow text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container v-if="mangaInfos!=0">
       <v-row>
         <v-col cols="12" sm="10" md="8" offset-md="2" offset-sm="1">
-          <v-card v-for="manga in mangaInfos" :key="manga.id">
-            <v-toolbar flat dark class="cyan">
+          <v-card v-for="manga in mangaInfos" :key="manga.id" :loading="cardLoading">
+            <v-toolbar flat dark class="cyan" floating>
               <v-btn class="cyan" text to="/admin/manga">
                 <v-icon>arrow_back</v-icon> 
               </v-btn>
@@ -13,10 +37,16 @@
               <v-row>
                 <v-col md="4" cols="12" sm="5" class="text-center">
                   <img
+                  v-if="imageLoading==false"
                     :src="`/manga/${manga.visual_key}`"
-                  class="img"
-
+                    class="img"
                  />
+                    <v-skeleton-loader
+                        type="image"
+                        v-if="imageLoading==true"
+                      >
+                      </v-skeleton-loader>
+                
                 </v-col>
                 <v-col md="8" cols="12" sm="7">
                   <v-simple-table>
@@ -81,7 +111,7 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="6" md="6" sm="6">
+                  <v-col cols="12" md="6" sm="12">
                      <span class="subtitle-1">Volumes</span>
                      <v-list>
                        <v-list-item v-for="volume in volumes" :key="volume.id">
@@ -90,11 +120,13 @@
                        </v-list-item-icon>
                        <v-list-item-content>
                            <v-list-item-title class="subtitle-2">
-                                  {{volume.volume}}
+                                  <v-btn text :to="`/admin/manga/volume/episodes/${volume.id}/${manga.id}`">{{volume.volume}}</v-btn>
                            </v-list-item-title>
                        </v-list-item-content>
                        <v-list-item-action>
-                         <v-icon>delete</v-icon>
+                         <v-btn :loading="loading" outlined color="red" text @click="deleteVolume(volume.id)">
+                           <v-icon color="red">delete</v-icon>
+                         </v-btn>
                        </v-list-item-action>
                        </v-list-item>
                      </v-list>
@@ -122,8 +154,11 @@ export default {
     return {
       adminName: "",
       mangaInfos: [],
+      cardLoading:false,
       genres:[],
       volumes:[],
+      loading:false,
+      imageLoading:false,
     };
   },
   methods: {
@@ -134,27 +169,39 @@ export default {
       });
     },
     async getInfos() {
+      this.imageLoading=true;
       const aid = this.$route.params.aid;
       const id = this.$route.params.id;
       await axios.get(`/admin/manga/setting/${aid}/${id}`).then((resp) => {
         this.mangaInfos = resp.data;
-      });
+        this.imageLoading=false;
+      })
+      .catch((error)=>{
+        this.imageLoading=false;
+      })
     },
     async getGenres()
     {
+      this.cardLoading=true;
       const id = this.$route.params.id;
       await axios.get(`/admin/manga/getGenre/${id}`)
       .then((resp)=>{
         this.genres = resp.data;
+        this.cardLoading=false;
       })
     },
     async deleteGenre(id)
     {
+      this.loading = true;
       let formData = new FormData();
       formData.append('_method','DELETE');
       await axios.post(`/admin/manga/getGenre/delete/${id}`,formData)
       .then((resp)=>{
         this.getGenres();
+        this.loading = false;
+      })
+      .catch((error)=>{
+        this.loading = false;
       })
     },
     async getVolume()
@@ -164,6 +211,15 @@ export default {
       .then((resp)=>{
         this.volumes=resp.data;
       })
+    },
+    async deleteVolume(id)
+    {
+       let formData = new FormData;
+       formData.append("_method","DELETE");
+       await axios.post(`/admin/manga/getVolume/${id}`,formData)
+       .then((resp)=>{
+         this.getVolume();
+       })
     }
   },
   mounted() {
@@ -184,17 +240,36 @@ export default {
 <style lang="scss" scoped>
 .img {
     width: 200px;
-  height: 300px;
+  height: 300px !important;
   margin-right: 50px;
+  border: 1px solid cyan;
 }
-.v-application .text-center {
-    text-align: end !important;
+.sframe{
+  width:100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+::v-deep .v-skeleton-loader.v-skeleton-loader--is-loading {
+  .v-skeleton-loader__image {
+    height: 300px;
+  }
+  @media only screen and(max-width: 600px) {
+     .v-skeleton-loader__image {
+       width: 335px;
+       height: 435px;
+       border: 1px solid cyan;
+       margin-right: 0px;
+  }
+  }
 }
 @media only screen and(max-width: 600px) {
+  
   .img {
     border: 1px solid cyan;
-    height: auto;
-    width: 335px;
+     width: 335px;
+       height: 435px !important;
     margin-right: 0px;
   }
   .v-application .text-center {

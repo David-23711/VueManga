@@ -85,37 +85,65 @@
                                   label="Email"
                                   v-model="forgetEmail"
                                   required
-                                  :rules="EmailRules"
+                                  :rules="forgetEmailRules"
                                   filled
                                   dark
                                 >
                                 </v-text-field>
                               </v-window-item>
                               <v-window-item :value="2">
-                                  <v-text-field
+                                <v-text-field
                                   label="Password"
                                   required
-                                  :rules="passRules"
+                                  :rules="forgetpassRules"
                                   filled
                                   dark
+                                  value=" "
                                   v-model="forgetPass"
-                                  :type="isicon ? 'text':'password'"
-                                  :append-icon="isicon ? 'mdi-eye':'mdi-eye-off'"
-                                  >
-
-                                  </v-text-field>
-                                   <v-text-field
+                                  :type="isicon ? 'text' : 'password'"
+                                  :append-icon="
+                                    isicon ? 'mdi-eye' : 'mdi-eye-off'
+                                  "
+                                >
+                                </v-text-field>
+                                <v-text-field
                                   label="Confirm Password"
                                   required
-                                  :rules="cpassRules"
+                                  :rules="forgetcpassRules"
                                   filled
                                   dark
-                                  v-model="forgetPass"
-                                  :type="isicon2 ? 'text':'password'"
-                                  :append-icon="isicon2 ? 'mdi-eye':'mdi-eye-off'"
-                                  >
-
-                                  </v-text-field>
+                                  v-model="forgetCpass"
+                                  value=" "
+                                  :type="isicon2 ? 'text' : 'password'"
+                                  :append-icon="
+                                    isicon2 ? 'mdi-eye' : 'mdi-eye-off'
+                                  "
+                                >
+                                </v-text-field>
+                              </v-window-item>
+                              <v-window-item :value="3">
+                                <v-card class="color pa-10" flat>
+                                  <v-row class="text-center">
+                                    <v-col cols="12" md="12" sm="12">
+                                      <span
+                                        class="
+                                          headline
+                                          yellow--text
+                                          font-weight-bold
+                                        "
+                                        >Password Change Success</span
+                                      ><br />
+                                      <span
+                                        class="
+                                          subheading
+                                          white--text
+                                          font-weight-bold
+                                        "
+                                        >Please Login To Continue</span
+                                      >
+                                    </v-col>
+                                  </v-row>
+                                </v-card>
                               </v-window-item>
                             </v-window>
                           </v-form>
@@ -123,8 +151,17 @@
                         <v-card-actions>
                           <v-btn @click="dialog.value = false">Close</v-btn>
                           <v-spacer></v-spacer>
-                          <v-btn :disabled='step == 1 ? true:false'>Back</v-btn>
-                          <v-btn >Next</v-btn>
+                          <v-btn
+                          v-if="step!=3"
+                            :disabled="step == 1 ? true : false"
+                            @click="step = step - 1"
+                            >Back</v-btn
+                          >
+                          <v-btn
+                            v-if="step != 3"
+                            @click="step == 1 ? check() : next()"
+                            >Next</v-btn
+                          >
                         </v-card-actions>
                       </v-card>
                     </template>
@@ -140,22 +177,44 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       step: 1,
       isClick: false,
       loading1: false,
-      isicon:false,
-      isicon2:false,
+      isicon: false,
+      isicon2: false,
+      valid: null,
+      adminId:null,
       admin: {
         email: "",
         password: "",
       },
+      forgetEmail: "",
+      forgetPass: "",
+      forgetCpass: "",
       emailRules: [(v) => !!v || "Email is required"],
       passRules: [
         (v) => !!v || "Password is required",
         (v) => v.length > 4 || "Characters must be greater than 4",
+      ],
+      forgetEmailRules: [
+        (v) => !!v || "Email is required",
+        (v) =>
+          !v ||
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "E-mail must be valid",
+      ],
+      forgetcpassRules: [
+        (v) => !!v || "Confirm Password is required",
+        (v) => v.length >= 4 || "Confirm Password must be greater than 4",
+      ],
+      forgetpassRules: [
+        (v) => !!v || "Password is required",
+        (v) => v === this.forgetPass || "Confirm Password is not match",
+        (v) => v.length >= 4 || "Confirm Password must be greater than 4",
       ],
     };
   },
@@ -165,64 +224,90 @@ export default {
         case 1:
           return "Enter Your Email";
         case 2:
-          return "Enter Password";
+          return "Enter New Password";
         default:
           return "Success";
       }
     },
   },
   methods: {
-    async signIn() {
-     if(this.$refs.form.validate())
-     {
-        this.loading1 = true;
+    async next() {
       var formData = new FormData();
-      formData.append("email", this.admin.email);
-      formData.append("password", this.admin.password);
+      formData.append("forgetPass", this.forgetPass);
+      formData.append("forgetCpass", this.forgetCpass);
+      formData.append("_method", 'PUT');
+      await axios.post(`/admin/login/putPassword/${this.adminId}`, formData).then((resp) => {
+        this.step = this.step + 1;
+      });
+    },
+    async check() {
+      var formData = new FormData();
+      formData.append("forgetEmail", this.forgetEmail);
       await axios
-        .post("/admin/login/accept", formData)
+        .post("/admin/login/checkEmail", formData)
         .then((resp) => {
-          this.loading1 = false;
-          this.$store.dispatch("setAdminData", resp.data);
-          const Toast = Swal.mixin({
-            position: "top-right",
-            toast: true,
-            iconColor: "white",
-            background: "#34cb5d",
-            color: "white",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-          Toast.fire({
-            title: "Success",
-            icon: "success",
-          });
+          this.valid = resp.data.count;
+          this.adminId=resp.data.data[0];
+          
         })
         .then((resp) => {
-          this.$router.push("/admin/home");
-        })
-        .catch((error) => {
-          console.log(error.response.status);
-          if (error.response.status == 500) {
+          if (this.valid == 0) {
+            alert("Email is not valid");
+          } else {
+            this.step = this.step + 1;
+          }
+        });
+    },
+    async signIn() {
+      if (this.$refs.form.validate()) {
+        this.loading1 = true;
+        var formData = new FormData();
+        formData.append("email", this.admin.email);
+        formData.append("password", this.admin.password);
+        await axios
+          .post("/admin/login/accept", formData)
+          .then((resp) => {
             this.loading1 = false;
-            let Toast = Swal.mixin({
+            this.$store.dispatch("setAdminData", resp.data);
+            const Toast = Swal.mixin({
               position: "top-right",
               toast: true,
               iconColor: "white",
-              background: "#f2210d",
+              background: "#34cb5d",
               color: "white",
               showConfirmButton: false,
               timer: 1500,
               timerProgressBar: true,
             });
             Toast.fire({
-              title: "Something Went Wrong (Status Code 500)",
-              icon: "error",
+              title: "Success",
+              icon: "success",
             });
-          }
-        });
-     }
+          })
+          .then((resp) => {
+            this.$router.push("/admin/home");
+          })
+          .catch((error) => {
+            console.log(error.response.status);
+            if (error.response.status == 500) {
+              this.loading1 = false;
+              let Toast = Swal.mixin({
+                position: "top-right",
+                toast: true,
+                iconColor: "white",
+                background: "#f2210d",
+                color: "white",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+              });
+              Toast.fire({
+                title: "Something Went Wrong (Status Code 500)",
+                icon: "error",
+              });
+            }
+          });
+      }
     },
   },
 };

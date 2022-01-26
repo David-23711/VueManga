@@ -79,7 +79,7 @@
                     </v-row>
                   </v-card-text>
                   <v-card-actions class="justify-end">
-                    <v-btn class="indigo" dark @click="editAdmin(dialog)"
+                    <v-btn :loading="loading" class="indigo" dark @click="editAdmin(dialog)"
                       >Update</v-btn
                     >
                   </v-card-actions>
@@ -151,13 +151,14 @@ export default {
       wide:false,
       file:null,
       condition:true,
+      loading:false,
       mnavlinks: [
         { icon: "home", title: "Home", to: "/admin/home" },
         { icon: "local_activity", title: "Projects", to: "/admin/manga" },
         {
           icon: "library_add",
-          title: "Project Setting",
-          to: "/admin/addProject",
+          title: "Team",
+          to: "/admin/team",
         },
         { icon: "list", title: "Category", to: "/admin/category" },
       ],
@@ -187,6 +188,7 @@ export default {
     },
     async editAdmin(dialog) {
       if (this.editAvatar.length == 0) {
+        this.loading=true;
         let formData = new FormData();
         formData.append("editName", this.editName);
         formData.append("_method", "PUT");
@@ -195,8 +197,10 @@ export default {
           .then((resp) => {
             this.$store.dispatch("setAdminData", resp.data);
             dialog.value = false;
+            this.loading=false;
           });
       } else {
+        this.loading=true;
         let formData = new FormData();
         formData.append("editName", this.editName);
         formData.append("editAvatar", this.editAvatar);
@@ -207,6 +211,7 @@ export default {
           .then((resp) => {
             this.$store.dispatch("setAdminData", resp.data);
             dialog.value = false;
+            this.loading=false;
           });
       }
     },

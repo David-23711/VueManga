@@ -33,4 +33,16 @@ class AdminController extends Controller
     {
         return $this->adminInterface->editAdminDataWithAvatar($id,$req);
     }
+    function check(Request $req)
+    {
+        return $this->adminInterface->checkEmail($req);
+    }
+    function putPassword($id,Request $req)
+    {
+        return $this->adminInterface->updatePassword($id,$req);
+    }
+    function index()
+    {
+        return $this->adminInterface->getAllAdmin();
+    }
 }

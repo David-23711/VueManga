@@ -120,12 +120,17 @@
                        </v-list-item-icon>
                        <v-list-item-content>
                            <v-list-item-title class="subtitle-2">
-                                  <v-btn text :to="`/admin/manga/volume/episodes/${volume.id}/${manga.id}`">{{volume.volume}}</v-btn>
+                                  <span>{{volume.volume}}</span>
                            </v-list-item-title>
                        </v-list-item-content>
                        <v-list-item-action>
                          <v-btn :loading="loading" outlined color="red" text @click="deleteVolume(volume.id)">
                            <v-icon color="red">delete</v-icon>
+                         </v-btn>
+                       </v-list-item-action>
+                       <v-list-item-action>
+                          <v-btn outlined color="blue"  text :to="`/admin/manga/volume/episodes/${volume.id}/${manga.id}`">
+                           <v-icon color="blue">input</v-icon> 
                          </v-btn>
                        </v-list-item-action>
                        </v-list-item>

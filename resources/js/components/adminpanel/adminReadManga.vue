@@ -63,7 +63,6 @@
               </div>
               <div v-for="(img, index) in multiImages" :key="index">
                 <img
-                  @click="goMangaRoom(index)"
                   class="mt-3 img"
                   :src="`/manga/${$route.params.eid}/${img}`"
                   alt=""

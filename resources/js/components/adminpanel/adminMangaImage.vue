@@ -11,7 +11,7 @@
           </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-row>
-            <v-col cols="8" md="8" class="mt-5">
+            <v-col cols="4" md="8" class="mt-5">
               <v-form id="form" ref="form">
                 <v-file-input
                   id="image"
@@ -27,8 +27,8 @@
                 <!-- <input type="file" id="image" multiple hidden @change="imageSelect"> -->
               </v-form>
             </v-col>
-            <v-col cols="4" md="4" class="mt-5">
-              <v-btn @click="clickImage">
+            <v-col cols="8" md="4" class="mt-3">
+              <v-btn @click="clickImage" small>
                 <span>Upload</span>
                 <v-icon>upload</v-icon>
               </v-btn>

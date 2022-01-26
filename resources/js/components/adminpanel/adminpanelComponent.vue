@@ -2,7 +2,7 @@
   <div>
     <v-app class="background">
         <Navcomponent/>
-        <v-main class="topadmin">
+        <v-main class="pb-3">
           <router-view></router-view>
         </v-main>
         <v-footer padless class="light" dark>

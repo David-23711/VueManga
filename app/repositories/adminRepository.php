@@ -60,6 +60,26 @@
         return $data;
         } 
     }
+    function checkEmail($admin)
+    {
+        $count = admin::where("email",$admin->forgetEmail)->count();
+        $data = admin::where("email",$admin->forgetEmail)->pluck("id")->toArray();
+        return response()->json(["count"=>$count,"data"=>$data]);
+    }
+    function updatePassword($id,$admin)
+    {
+        $data = admin::find($id);
+        $password=bcrypt($admin['forgetPass']);
+        $data->update([
+            'password'=>$password,
+        ]);
+        return $data;
+    }
+    function getAllAdmin()
+    {
+        $data = admin::all();
+        return $data;
+    }
  }
 
 ?>

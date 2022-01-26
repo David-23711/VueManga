@@ -5,9 +5,9 @@ namespace App\interfaces;
     public function loginAccept($adminData);
     public function editAdminDataNotAvatar($id,$adminData);
     public function editAdminDataWithAvatar($id,$adminData);
-    // public function readAdminData();
-    // public function readAdminDataById($id);
-    // public function updateAdminData($id,$adminData);
+    public function checkEmail($admin);
+    public function getAllAdmin();
+    public function updatePassword($id,$admin);
     // public function deleteAdminData($id);
 }
 ?>

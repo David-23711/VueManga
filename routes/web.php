@@ -36,6 +36,10 @@ Route::match(['get','post'],'/admin/register/addAdmin',[AdminController::class,'
 Route::match(['get','post'],'/admin/login/accept',[AdminController::class,'getLoginData']);
 Route::put('/admin/editdata/notavatar/{id}',[AdminController::class,'editAdminNotAvatar']);
 Route::put('/admin/editdata/withavatar/{id}',[AdminController::class,'editAdminWithAvatar']);
+Route::post('/admin/login/checkEmail',[AdminController::class,'check']);
+Route::put('/admin/login/putPassword/{id}',[AdminController::class,'putPassword']);
+Route::view('/admin/team','/manga/adminpanel');
+Route::get('/admin/team/getAdmin',[AdminController::class,'index']);
 
 //admin addCategory
 Route::view('/admin/category','/manga/adminpanel');

@@ -8,6 +8,9 @@ import AdminMangaEpisodes from '../components/adminpanel/adminEpisodes';
 import AdminMultiImage from '../components/adminpanel/adminMangaImage'
 import AdminReadImage from '../components/adminpanel/adminReadManga';
 import MangaRoom from '../components/adminpanel/viewMangaWide';
+import AdminTeam from '../components/adminpanel/adminTeams';
+;
+
 ;
 
 ;
@@ -87,6 +90,11 @@ const routes=[
      name:'MangaRoom',
      path:'/admin/manga/volume/images/:eid/:vid/mangaRoom',
      component:MangaRoom,
+ },
+ {
+     name:'Team',
+     path:'/admin/team',
+     component:AdminTeam,
  }
 ]
 export default routes;

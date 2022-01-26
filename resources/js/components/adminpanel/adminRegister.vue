@@ -151,6 +151,7 @@ export default {
       isClick2: false,
       isCreated:false,
       loading:false,
+      file:null,
       form: {
         name: "",
         email: "",
@@ -209,8 +210,8 @@ export default {
   methods: {
       //for show image
     showimg() {
-      var file = this.form.input;
-      if (file == null) {
+      this.file = this.form.input;
+      if (this.file == null) {
         img.src = "/manga/user.png";
       } else {
         var reader = new FileReader();
@@ -219,7 +220,7 @@ export default {
           var img = document.getElementById("img");
           img.src = result;
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(this.file);
       }
     },
     //for navigate to login page

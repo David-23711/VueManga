@@ -149,6 +149,7 @@ export default {
       editName: "",
       editAvatar: [],
       wide:false,
+      file:null,
       condition:true,
       mnavlinks: [
         { icon: "home", title: "Home", to: "/admin/home" },
@@ -170,8 +171,8 @@ export default {
       this.$store.dispatch("setAdminData", null);
     },
     showimg() {
-      var file = this.editAvatar;
-      if (file == null) {
+      this.file = this.editAvatar;
+      if (this.file == null) {
         img.src = `/manga/${this.adminData.avatar}`;
       } else {
         var reader = new FileReader();
@@ -180,8 +181,9 @@ export default {
           var img = document.getElementById("img");
           img.src = result;
         };
-        reader.readAsDataURL(file);
+       reader.readAsDataURL(this.file);
       }
+       
     },
     async editAdmin(dialog) {
       if (this.editAvatar.length == 0) {

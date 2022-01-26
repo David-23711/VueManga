@@ -135,6 +135,7 @@ export default {
         date: "",
         description: "",
         currentKey:"",
+        file:null,
         mangaRules: [(v) => !!v || "Manga Name is require!"],
         alterRules: [(v) => !!v || "Alter Name is require!"],
         dateRules: [(v) => !!v || "Date is require!"],
@@ -161,14 +162,14 @@ export default {
       if (this.edit.visualKey == null) {
         img.src = "";
       } else {
-        let file = this.edit.visualKey;
+        this.file = this.edit.visualKey;
         let reader = new FileReader();
         reader.onload = () => {
           let result = reader.result;
           let img = document.getElementById("img");
           img.src = result;
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(this.file);
       }
     },
     cancelAdd(dialog) {

@@ -30,9 +30,9 @@ class EpisodeController extends Controller
     {
         return $this->episodeInterface->updateEpisode($id,$req);
     }
-    public function destroy($id)
+    public function destroy($id,$mid,$vid)
     {
-        return $this->episodeInterface->deleteEpisode($id);
+        return $this->episodeInterface->deleteEpisode($id,$mid,$vid);
     }
 
 }

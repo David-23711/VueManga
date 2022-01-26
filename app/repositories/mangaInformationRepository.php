@@ -75,11 +75,13 @@ class mangaInformationRepository implements mangaInformationInterface{
         
         public function deleteManga($id,$data)
         {
+            
             $current = $data->current_key;
            
                 $delete = MangaInformation::find($id);
                 $delete->delete();
                 File::delete("manga/$current");
+                File::deleteDirectory("manga/$id");
             
         }
         public function getAdminData($aid)
@@ -113,7 +115,7 @@ class mangaInformationRepository implements mangaInformationInterface{
         public function deletegetGenre($id)
         {
             $data = Genre::find($id);
-            $data->delete();
+            $data->delete();   
         }
         public function getReleaseDates()
         {

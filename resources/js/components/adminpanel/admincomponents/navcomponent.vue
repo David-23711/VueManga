@@ -155,12 +155,12 @@ export default {
       mnavlinks: [
         { icon: "home", title: "Home", to: "/admin/home" },
         { icon: "local_activity", title: "Projects", to: "/admin/manga" },
-        {
-          icon: "library_add",
+        { icon: "list", title: "Category", to: "/admin/category" },
+         {
+          icon: "groups",
           title: "Team",
           to: "/admin/team",
         },
-        { icon: "list", title: "Category", to: "/admin/category" },
       ],
     };
   },

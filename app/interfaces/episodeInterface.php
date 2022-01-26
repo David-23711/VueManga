@@ -6,6 +6,6 @@ interface episodeInterface{
     public function getoneVolume($id); 
     public function saveEpisode($episode);
     public function updateEpisode($id,$episode);
-    public function deleteEpisode($id);
+    public function deleteEpisode($id,$mid,$vid);
 }
 ?>

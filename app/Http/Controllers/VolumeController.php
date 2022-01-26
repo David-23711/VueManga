@@ -21,9 +21,9 @@ class VolumeController extends Controller
     {
         return $this->volumeInterface->getVolume($id);
     }
-    public function destroy($id)
+    public function destroy($vid,$mid)
     {
-        return $this->volumeInterface->deleteVolume($id);
+        return $this->volumeInterface->deleteVolume($vid,$mid);
     }
     public function getAll($id)
     {

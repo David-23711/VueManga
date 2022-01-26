@@ -197,16 +197,16 @@ export default {
     },
     async deleteGenre(id)
     {
-      this.loading = true;
+      this.cardLoading=true;
       let formData = new FormData();
       formData.append('_method','DELETE');
       await axios.post(`/admin/manga/getGenre/delete/${id}`,formData)
       .then((resp)=>{
         this.getGenres();
-        this.loading = false;
+        this.cardLoading=false;
       })
       .catch((error)=>{
-        this.loading = false;
+       this.cardLoading=false;
       })
     },
     async getVolume()
@@ -219,12 +219,18 @@ export default {
     },
     async deleteVolume(id)
     {
+       this.cardLoading=true;
        let formData = new FormData;
        formData.append("_method","DELETE");
-       await axios.post(`/admin/manga/getVolume/${id}`,formData)
+       await axios.post(`/admin/manga/getVolume/${id}/${this.$route.params.id}`,formData)
        .then((resp)=>{
          this.getVolume();
+         this.cardLoading=false;
        })
+       .catch((error)=>{
+         this.cardLoading=false;
+       })
+      
     }
   },
   mounted() {

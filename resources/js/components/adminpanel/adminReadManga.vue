@@ -29,6 +29,7 @@
               <v-spacer></v-spacer>
               <v-sheet  @click="goViewRoom">
                  <v-btn
+                 ref="top"
               :to="`/admin/manga/volume/images/${eid}/${$route.params.vid}/mangaRoom`"
                 >Slide View</v-btn
               >
@@ -57,7 +58,7 @@
 
             <v-card-text class="text-center">
               <div class="rtl">
-                <v-btn small fixed bottom outlined text to="#top">
+                <v-btn small fixed bottom outlined text @click="scrollTop('top')">
                   <v-icon color="blue">arrow_upward</v-icon>
                 </v-btn>
               </div>
@@ -124,6 +125,12 @@ export default {
     goViewRoom()
     {
       eventBus.$emit("wide");
+    },
+    scrollTop(refName)
+    {
+      var element = this.$refs[refName];
+      var top = element.offsetTop;
+      window.scrollTo(0,top);
     }
     // async nextEpisode(id)
     // {

@@ -3,6 +3,7 @@ namespace App\repositories;
 use App\interfaces\episodeInterface;
 use App\Models\Episode;
 use App\Models\Volume;
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 
 class episodeRepository implements episodeInterface{
@@ -28,6 +29,10 @@ class episodeRepository implements episodeInterface{
     {
         $vid = $episode->volume_id;
         $mid = $episode->manga_information_id;
+        if(!File::exists("manga/$mid/$vid"))
+        {
+            File::makeDirectory("manga/$mid/$vid");
+        }
         $episode->validate([
             'episode_name'=>[Rule::unique('episodes')->where(function($query) use($vid,$mid){
                 return $query->where('volume_id',$vid)
@@ -47,10 +52,11 @@ class episodeRepository implements episodeInterface{
             'episode_name'=>$episode['episode_name']
         ]);
     }
-    public function deleteEpisode($id)
+    public function deleteEpisode($id,$mid,$vid)
     {
         $data = Episode::find($id);
         $data->delete();
+        File::deleteDirectory("manga/$mid/$vid/$id");
     }
 }
 ?>

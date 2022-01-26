@@ -194,6 +194,7 @@ export default {
       episodes: [],
       searchEpisode: "",
       eloading: false,
+      
     };
   },
   methods: {
@@ -226,8 +227,10 @@ export default {
     async deleteEpisode(id) {
       var formData = new FormData();
       formData.append("_method", "DELETE");
+      const mid=this.$route.params.mid;
+      const vid = this.$route.params.id;
       await axios
-        .post(`/admin/manga/setting/episode/save/${id}`, formData)
+        .post(`/admin/manga/setting/episode/save/${id}/${mid}/${vid}`, formData)
         .then((resp) => {
           this.getEpisode();
         });

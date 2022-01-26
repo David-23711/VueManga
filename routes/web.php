@@ -67,7 +67,7 @@ Route::get('/admin/manga/post/byrelease',[MangaInformationController::class,'byr
 Route::get('/admin/posts/manga/volume',[VolumeController::class,'index']);
 Route::post('/admin/manga/setting/addvolume',[VolumeController::class,'volume']);
 Route::get('/admin/manga/getVolume/{id}',[VolumeController::class,'indexVolume']);
-Route::delete('/admin/manga/getVolume/{id}',[VolumeController::class,'destroy']);
+Route::delete('/admin/manga/getVolume/{vid}/{mid}',[VolumeController::class,'destroy']);
 Route::get('/admin/getalldata/{id}',[VolumeController::class,'getAll']);
 //admin addEpisode
 Route::view('/admin/manga/volume/episodes/{id}/{mid}','/manga/adminpanel');
@@ -75,7 +75,7 @@ Route::get('/admin/getVolume/{id}',[EpisodeController::class,'volume']);
 Route::post('/admin/manga/setting/episode/save',[EpisodeController::class,'insert']);
 Route::get('/admin/manga/setting/episode/save/{id}',[EpisodeController::class,'index']);
 Route::put('/admin/manga/setting/episode/update/{id}',[EpisodeController::class,'update']);
-Route::delete('/admin/manga/setting/episode/save/{id}',[EpisodeController::class,'destroy']);
+Route::delete('/admin/manga/setting/episode/save/{id}/{mid}/{vid}',[EpisodeController::class,'destroy']);
 
 
 //admin addimage

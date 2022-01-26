@@ -1,7 +1,7 @@
 <?php
  namespace App\repositories;
  use App\interfaces\categoryInterface;
- use App\Models\category;
+ use App\Models\Category;
 use Illuminate\Validation\Rule;
 
 class categoryRepository implements categoryInterface{
@@ -10,7 +10,7 @@ class categoryRepository implements categoryInterface{
      $category->validate([
       'category' => [Rule::unique('categories')->ignore('id')],
      ]);
-     $data = new category;
+     $data = new Category;
      $data->category = $category->category;
      $data->save();
      return response(['message'=>'Category Added Successfully']);
@@ -18,13 +18,13 @@ class categoryRepository implements categoryInterface{
 
    public function getCategory()
    {
-     return category::when(request('search'),function($query){
+     return Category::when(request('search'),function($query){
        $query -> where('category','like','%'.request('search').'%');
      })->orderBy('created_at','desc')->get();
    }
     function updateCategory($id, $category)
    {
-       $data = category::find($id);
+       $data = Category::find($id);
       $data->update([
        'category'=>$category['editCategory'],
      ]);
@@ -32,7 +32,7 @@ class categoryRepository implements categoryInterface{
    }
    function deleteCategory($id)
    {
-     $data= category::find($id);
+     $data= Category::find($id);
      $data->delete();
    }
  }

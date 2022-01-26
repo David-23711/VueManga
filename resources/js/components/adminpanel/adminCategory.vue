@@ -141,9 +141,6 @@ export default {
     ...mapGetters(["adminData"]),
   },
   methods: {
-    nameWithLang({ category }) {
-      return `${category}`;
-    },
     async getCategory() {
       this.mainLoading = true;
       await axios

@@ -8,7 +8,7 @@ class categoryRepository implements categoryInterface{
    public function postCategory($category)
    {
      $category->validate([
-      'category' => [Rule::unique('categories')->ignore('id')],
+      'category' => [Rule::unique('categories')],
      ]);
      $data = new Category;
      $data->category = $category->category;

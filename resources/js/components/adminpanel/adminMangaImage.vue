@@ -4,6 +4,9 @@
       <v-card>
         <v-toolbar>
           <v-toolbar-title>
+            <v-btn @click="goBack">
+              <v-icon>arrow_back</v-icon>
+            </v-btn>
             <span class="subtitle-1">Image Uploading</span>
           </v-toolbar-title>
           <v-spacer></v-spacer>
@@ -38,7 +41,7 @@
           </v-row>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn small class="cyan" dark @click="uploadImages">Upload</v-btn>
+          <v-btn :loading="loading" small class="cyan" dark @click="uploadImages">Upload</v-btn>
         </v-card-actions>
       </v-card>
     </v-container>
@@ -52,6 +55,7 @@ export default {
       inputs: [],
       images: [],
       files:[],
+      loading:false,
     };
   },
   methods: {
@@ -94,7 +98,12 @@ export default {
       this.images.splice(e, 1);
       document.getElementById("container").innerHTML = this.image_show();
     },
+    goBack()
+    {
+      this.$router.back();
+    },
     async uploadImages() {
+      this.loading=true;
       let eid = this.$route.params.eid;
       let mid = this.$route.params.mid;
       let vid = this.$route.params.vid;
@@ -118,6 +127,7 @@ export default {
           this.$refs.form.reset();
           this.images=[];
           this.files=[];
+          this.loading=false;
         });
     },
   },

@@ -11,7 +11,7 @@
           <v-sheet width="500" height="700" dark>
             <img
               class="img"
-              :src="`/storage/manga/${$route.params.eid}/${item}`"
+              :src="`/manga/${$route.params.eid}/${item}`"
               alt=""
             />
           </v-sheet>
@@ -33,18 +33,17 @@ export default {
     async getMultiImages() {
       let eid = this.$route.params.eid;
       await axios.get(`/admin/manga/volume/multiImages/${eid}`).then((resp) => {
-        this.items = resp.data;
+        this.items = resp.data.data;
       });
     },
-    goAndShow()
-    {
+    goAndShow() {
       this.$router.back();
       eventBus.$emit("show");
-    }
+    },
   },
   mounted() {
     this.getMultiImages();
-    eventBus.$emit("wide");
+    eventBus.$emit("nav");
   },
 };
 </script>

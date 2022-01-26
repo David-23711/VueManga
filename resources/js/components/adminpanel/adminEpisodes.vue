@@ -156,11 +156,12 @@
                       </v-list-item-content>
                     </v-list-item>
                   </v-list>
-                  <v-list v-if="eloading">
+                  <v-list>
                     <v-list-item>
                       <v-list-item-content>
                         <v-list-item-title>
                           <v-progress-linear
+                            v-if="eloading"
                             indeterminate
                             color="yellow darken-2"
                           ></v-progress-linear>

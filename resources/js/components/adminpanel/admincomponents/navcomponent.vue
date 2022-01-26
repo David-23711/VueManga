@@ -213,7 +213,7 @@ export default {
     if (this.adminData) {
       this.editName = this.adminData.admin;
     }
-    eventBus.$on('wide',()=>{
+    eventBus.$on('nav',()=>{
       this.wide=true;
     })
     eventBus.$on("show",()=>{

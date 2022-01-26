@@ -23,11 +23,16 @@
         <v-col cols="12" md="12" sm="12">
           <v-card dark>
             <v-toolbar>
-              <v-btn
-                :to="`/admin/manga/volume/images/${eid}/${$route.params.vid}/mangaRoom`"
+              <v-btn @click="$router.back()">
+                <v-icon>arrow_back</v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-sheet  @click="goViewRoom">
+                 <v-btn
+              :to="`/admin/manga/volume/images/${eid}/${$route.params.vid}/mangaRoom`"
                 >Slide View</v-btn
               >
-              <v-spacer></v-spacer>
+              </v-sheet>
             </v-toolbar>
             <v-tabs
               background-color="cyan"
@@ -41,7 +46,7 @@
                 v-for="i in allEpisodes"
                 :key="i.id"
                 @click="
-                  i.episode_name == 'Episode 1'
+                  i.episode_name == 'Episode 0'
                     ? getMultiImages()
                     : getDynamicEpisode(i.id)
                 "
@@ -60,7 +65,7 @@
                 <img
                   @click="goMangaRoom(index)"
                   class="mt-3 img"
-                  :src="`/storage/manga/${$route.params.eid}/${img}`"
+                  :src="`/manga/${$route.params.eid}/${img}`"
                   alt=""
                 />
                 <v-divider></v-divider>
@@ -85,7 +90,7 @@ export default {
     return {
       allEpisodes: [],
       multiImages: [],
-      eid:this.$route.params.eid,
+      eid:null,
     };
   },
   methods: {
@@ -98,18 +103,18 @@ export default {
         });
     },
     async getMultiImages() {
-      console.log('one')
-      let eid = this.$route.params.eid;
-      await axios.get(`/admin/manga/volume/multiImages/${eid}`).then((resp) => {
-        this.multiImages = resp.data;
+      let epid = this.$route.params.eid;
+      await axios.get(`/admin/manga/volume/multiImages/${epid}`).then((resp) => {
+        this.multiImages = resp.data.data;
+        this.eid=JSON.parse(resp.data.id);
       });
     },
     async getDynamicEpisode(id) {
-      console.log('dynamic');
       await axios.get(`/admin/manga/volume/dynamicImages/${id}`)
       .then((resp)=>{
         this.multiImages=resp.data;
         this.eid=id;
+        
       })
     },
     goMangaRoom(id) {
@@ -117,6 +122,10 @@ export default {
         `/admin/manga/volume/mangaRoom/${id}/${this.$route.params.eid}`
       );
     },
+    goViewRoom()
+    {
+      eventBus.$emit("wide");
+    }
     // async nextEpisode(id)
     // {
     //   let eid=this.$route.params.eid;

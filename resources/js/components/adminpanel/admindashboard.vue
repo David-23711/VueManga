@@ -1,11 +1,11 @@
 <template>
-  <div>
+ 
       <div class="dframe">
            <v-container  v-if="!adminData">
           <v-row>
               <v-col cols="12" md="6" offset-md="3">
                   <v-card>
-                      <v-card-text>
+                      <v-card-text class="text-center">
                           <h4>Please Login To Continue...</h4><br>
                           <v-btn dark to="/admin/login">
                               <span>Login</span>
@@ -102,7 +102,7 @@
           </v-row>
       </v-container>
       </div>
-  </div>
+  
 </template>
 
 <script>

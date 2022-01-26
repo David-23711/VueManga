@@ -129,7 +129,7 @@
                   <span>{{step==5? 'Login':'Continue'}}</span>
                   <v-icon> {{step==5? 'login':'chevron_right'}} </v-icon>
                 </v-btn>
-                <v-btn v-if="step==4" text @click="insertAdmin" dark>
+                <v-btn :loading="loading" v-if="step==4" text @click="insertAdmin" dark>
                  <span>Continue</span>   
                  <v-icon>chevron_right</v-icon>  
                 </v-btn>
@@ -150,6 +150,7 @@ export default {
       isClick: false,
       isClick2: false,
       isCreated:false,
+      loading:false,
       form: {
         name: "",
         email: "",
@@ -241,7 +242,7 @@ export default {
      {
        if(this.$refs.form.validate())
        {
-         
+         this.loading=true;
          var formData = new FormData;
          formData.append('name',this.form.name);
          formData.append('email',this.form.email);
@@ -251,7 +252,9 @@ export default {
          formData.append('address',this.form.address);
          await axios.post('/admin/register/addAdmin',formData)
          .then((resp)=>{
+          this.loading=false;
           this.step++;
+          
          })
        }
      }

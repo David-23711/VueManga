@@ -11,14 +11,19 @@ class multiImageRepository implements multiImageInterface
     public function getMultiImages($id)
     {
        $data = MultiImage::where('episode_id',$id)->orderBy('manga_image','asc')->pluck('manga_image','id')->toArray();
-       return $data;
+       return response()->json(['data'=>$data,'id'=>$id]);
     }
     public function uploadImages($images)
-    {   
+    {    
+        if(!File::exists("manga/$images->episode_id"))
+               {
+                File::makeDirectory("manga/$images->episode_id");
+               }
             foreach($images->multi_images as $key=>$img)
             {
-                $img_name=$img->getClientOriginalName();
-                $img->storeAs("manga/$images->episode_id",$img_name);
+              
+               $img_name=$img->getClientOriginalName();
+               $data=$img->move("manga/$images->episode_id",$img_name);
                 $data = new MultiImage;
                 $data->episode_id = $images->episode_id;
                 $data->manga_information_id = $images->manga_information_id;

@@ -116,7 +116,7 @@
           </v-card-text>
           <v-card-actions class="justify-end">
             <v-btn class="red" @click="cancelAdd(dialog)" dark>Cancel</v-btn>
-            <v-btn class="cyan" dark @click="postManga(dialog)">Save</v-btn>
+            <v-btn :loading="loading" class="cyan" dark @click="postManga(dialog)">Save</v-btn>
           </v-card-actions>
         </v-card>
       </template>
@@ -140,6 +140,7 @@ export default {
         date: "",
         description:'',
         file:null,
+        loading:false,
         mangaRules: [(v) => !!v || "Manga Name is require!"],
         alterRules: [(v) => !!v || "Alter Name is require!"],
         visualRules: [(v) => !!v || "Image is require!"],
@@ -176,6 +177,7 @@ export default {
     async postManga(dialog) {
      
       if (this.$refs.form.validate()) {
+        this.loading=true;
         let formData = new FormData();
         formData.append("manga_name", this.info.mangaName);
         formData.append("alternative_name", this.info.alterName);
@@ -188,8 +190,10 @@ export default {
         await axios.post("/admin/manga/post", formData)
         .then((resp) => {
           this.$refs.form.reset();
+          this.loading=false;
          dialog.value = false;
           eventBus.$emit('addManga');
+          
         })
         .then((resp)=>{
            const Toast = Swal.mixin({
@@ -206,6 +210,9 @@ export default {
            icon:'success',
          })  
         })
+         .catch((error)=>{
+           this.loading=false;
+         })
       }
     },
   },

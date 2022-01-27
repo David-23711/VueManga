@@ -1,38 +1,38 @@
 <template>
   <div>
-  <div class="rframe" >
-    <v-container v-if="!adminData">
-      <v-row>
-        <v-col cols="12" md="6" offset-md="3">
-          <v-card>
-            <v-card-text>
-              <h4>Please Login To Continue...</h4>
-              <br />
-              <v-btn dark to="/admin/login">
-                <span>Login</span>
-                <v-icon>login</v-icon>
-              </v-btn>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+    <div class="rframe">
+      <v-container v-if="!adminData">
+        <v-row>
+          <v-col cols="12" md="6" offset-md="3">
+            <v-card>
+              <v-card-text>
+                <h4>Please Login To Continue...</h4>
+                <br />
+                <v-btn dark to="/admin/login">
+                  <span>Login</span>
+                  <v-icon>login</v-icon>
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
     <v-container>
       <v-row>
         <v-col cols="12" md="12" sm="12">
-          <v-card dark>
+          <v-card dark ref="top">
             <v-toolbar>
-              <v-btn @click="$router.back()">
+              <v-btn :to="`/admin/manga/volume/episodes/${$route.params.vid}/${$route.params.mid}/${$route.params.aid}`">
                 <v-icon>arrow_back</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
-              <v-sheet  @click="goViewRoom">
-                 <v-btn
-                 ref="top"
-              :to="`/admin/manga/volume/images/${eid}/${$route.params.vid}/mangaRoom`"
-                >Slide View</v-btn
-              >
+              <v-sheet @click="goViewRoom">
+                <v-btn
+                  
+                  :to="`/admin/manga/volume/images/${eid}/${$route.params.mid}/${$route.params.vid}/${$route.params.aid}/mangaRoom`"
+                  >Slide View</v-btn
+                >
               </v-sheet>
             </v-toolbar>
             <v-tabs
@@ -41,16 +41,14 @@
               next-icon="mdi-arrow-right-bold-box-outline"
               prev-icon="mdi-arrow-left-bold-box-outline"
               show-arrows
+                v-model="model"
             >
               <v-tabs-slider color="yellow"></v-tabs-slider>
               <v-tab
                 v-for="i in allEpisodes"
                 :key="i.id"
-                @click="
-                  i.episode_name == 'Episode 0'
-                    ? getMultiImages()
-                    : getDynamicEpisode(i.id)
-                "
+                :href="`#tab-${i.id}`"
+                @click=" getDynamicEpisode(i.id)"
               >
                 {{ i.episode_name }}
               </v-tab>
@@ -58,21 +56,28 @@
 
             <v-card-text class="text-center">
               <div class="rtl">
-                <v-btn small fixed bottom outlined text @click="scrollTop('top')">
+                <v-btn
+                  small
+                  fixed
+                  bottom
+                  outlined
+                  text
+                  @click="scrollTop('top')"
+                >
                   <v-icon color="blue">arrow_upward</v-icon>
                 </v-btn>
               </div>
               <div v-for="(img, index) in multiImages" :key="index">
                 <img
                   class="mt-3 img"
-                  :src="`/manga/${$route.params.eid}/${img}`"
+                  :src="`/manga/${$route.params.mid}/${$route.params.vid}/${eid}/${img}`"
                   alt=""
                 />
                 <v-divider></v-divider>
               </div>
             </v-card-text>
-            <v-card-actions>
-              <v-btn>up</v-btn>
+            <v-card-actions class="justify-end">
+              <v-btn @click="scrollTop('top')">up</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -90,7 +95,8 @@ export default {
     return {
       allEpisodes: [],
       multiImages: [],
-      eid:null,
+      eid: null,
+      model:`tab-${this.$route.params.eid}`,
     };
   },
   methods: {
@@ -104,34 +110,37 @@ export default {
     },
     async getMultiImages() {
       let epid = this.$route.params.eid;
-      await axios.get(`/admin/manga/volume/multiImages/${epid}`).then((resp) => {
-        this.multiImages = resp.data.data;
-        this.eid=JSON.parse(resp.data.id);
-      });
+      await axios
+        .get(`/admin/manga/volume/multiImages/${epid}`)
+        .then((resp) => {
+          this.multiImages = resp.data.data;
+          this.eid = JSON.parse(resp.data.id);
+          this.model=`tab-${this.eid}`
+        });
     },
     async getDynamicEpisode(id) {
-      await axios.get(`/admin/manga/volume/dynamicImages/${id}`)
-      .then((resp)=>{
-        this.multiImages=resp.data;
-        this.eid=id;
-        
-      })
+      await axios
+        .get(`/admin/manga/volume/dynamicImages/${id}`)
+        .then((resp) => {
+          this.multiImages = resp.data;
+          this.eid = id;
+          this.model=`tab-${this.eid}`
+          this.$router.push(`/admin/manga/volume/images/${this.eid}/${this.$route.params.mid}/${this.$route.params.vid}/${this.$route.params.aid}`)
+        });
     },
     goMangaRoom(id) {
       this.$router.push(
         `/admin/manga/volume/mangaRoom/${id}/${this.$route.params.eid}`
       );
     },
-    goViewRoom()
-    {
+    goViewRoom() {
       eventBus.$emit("wide");
     },
-    scrollTop(refName)
-    {
+    scrollTop(refName) {
       var element = this.$refs[refName];
       var top = element.offsetTop;
-      window.scrollTo(0,top);
-    }
+      window.scrollTo(0, top);
+    },
     // async nextEpisode(id)
     // {
     //   let eid=this.$route.params.eid;
@@ -146,6 +155,7 @@ export default {
     this.getEpisodeByVid();
     this.getMultiImages();
     eventBus.$emit("hideDrawer");
+    eventBus.$emit("show");
   },
 };
 </script>

@@ -9,13 +9,14 @@ use Illuminate\Validation\Rule;
 class episodeRepository implements episodeInterface{
     public function getEpisode($id)
     {
+        $start=0;
         if(request('search')=="null")
         {
-           $data= Episode::where('volume_id',$id)->orderBy('episode_name','asc')->get();
+           $data= Episode::where('volume_id',$id)->orderByRaw("LENGTH(episode_name)", 'ASC')->orderBy("episode_name",'ASC')->get();
         }else{
             $data = Episode::when(request('search'),function($query){
                 $query->where('episode_name','like','%'.request('search').'%');
-            })->orderBy('episode_name','asc')->where('volume_id',$id)->get();
+            })->orderByRaw("LENGTH(episode_name)", 'ASC')->orderBy("episode_name",'ASC')->where('volume_id',$id)->get();
            
         }
          return $data;

@@ -11,7 +11,7 @@
           <v-sheet width="500" height="700" dark>
             <img
               class="img"
-              :src="`/manga/${$route.params.eid}/${item}`"
+              :src="`/manga/${$route.params.mid}/${$route.params.vid}/${$route.params.eid}/${item}`"
               alt=""
             />
           </v-sheet>

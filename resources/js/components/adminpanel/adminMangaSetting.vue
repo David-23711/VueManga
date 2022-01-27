@@ -129,7 +129,7 @@
                          </v-btn>
                        </v-list-item-action>
                        <v-list-item-action>
-                          <v-btn outlined color="blue"  text :to="`/admin/manga/volume/episodes/${volume.id}/${manga.id}`">
+                          <v-btn outlined color="blue"  text :to="`/admin/manga/volume/episodes/${volume.id}/${manga.id}/${$route.params.aid}`">
                            <v-icon color="blue">input</v-icon> 
                          </v-btn>
                        </v-list-item-action>

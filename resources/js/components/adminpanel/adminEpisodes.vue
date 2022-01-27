@@ -29,7 +29,7 @@
         <v-col cols="12" md="8" offset-md="2" sm="10" offset-sm="1">
           <v-card v-for="manga in allData" :key="manga.id">
             <v-toolbar flat dark class="cyan" floating>
-              <v-btn class="cyan" text @click="$router.go(-1)">
+              <v-btn class="cyan" text :to="`/admin/manga/setting/${$route.params.mid}/admin/${$route.params.aid}`">
                 <v-icon>arrow_back</v-icon>
               </v-btn>
             </v-toolbar>
@@ -138,7 +138,7 @@
                                   >
                                 </v-list-item-title>
                                 <v-list-item-title>
-                                  <v-btn text :to="`/admin/manga/volume/images/${episode.id}/${volume.id}`">Read</v-btn>
+                                  <v-btn text :to="`/admin/manga/volume/images/${episode.id}/${manga.id}/${volume.id}/${$route.params.aid}`">Read</v-btn>
                                 </v-list-item-title>
                               </v-list-item-content>
                             </v-list-item>

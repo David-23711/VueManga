@@ -73,7 +73,7 @@ const routes=[
  },
  {
      name:'MangaEpisode',
-     path:'/admin/manga/volume/episodes/:id/:mid',
+     path:'/admin/manga/volume/episodes/:id/:mid/:aid',
      component:AdminMangaEpisodes
  },
  {
@@ -83,12 +83,12 @@ const routes=[
  },
  {
      name:'ReadImage',
-     path:'/admin/manga/volume/images/:eid/:vid',
+     path:'/admin/manga/volume/images/:eid/:mid/:vid/:aid',
      component:AdminReadImage,
  },
  {
      name:'MangaRoom',
-     path:'/admin/manga/volume/images/:eid/:vid/mangaRoom',
+     path:'/admin/manga/volume/images/:eid/:mid/:vid/:aid/mangaRoom',
      component:MangaRoom,
  },
  {

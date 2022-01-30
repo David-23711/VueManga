@@ -1,12 +1,10 @@
 <template>
   <v-row v-if="wide==false">
-   
   <v-app-bar :hidden="wide">
     <v-spacer></v-spacer>
     <span>ammgyi@gmail.com</span>
     <v-spacer></v-spacer>
   </v-app-bar>
-    
   </v-row>
 </template>   
 <script>

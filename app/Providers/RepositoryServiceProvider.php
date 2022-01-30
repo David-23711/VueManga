@@ -4,21 +4,25 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\interfaces\adminRepositoryInterface;
+use App\interfaces\authInterface;
 use App\interfaces\categoryInterface;
 use App\interfaces\mangaInformationInterface;
 use App\interfaces\commentInterface;
 use App\interfaces\episodeInterface;
 use App\interfaces\likeInterface;
 use App\interfaces\multiImageInterface;
+use App\interfaces\ratingInterface;
 use App\interfaces\volumeInterface;
 
 use App\repositories\adminRepository;
+use App\repositories\authRepository;
 use App\repositories\categoryRepository;
 use App\repositories\mangaInformationRepository;
 use App\repositories\commentRepository;
 use App\repositories\episodeRepository;
 use App\repositories\likeRepository;
 use App\repositories\multiImageRepository;
+use App\repositories\ratingRepository;
 use App\repositories\volumeRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -39,6 +43,8 @@ class RepositoryServiceProvider extends ServiceProvider
        $this->app->bind(volumeInterface::class,volumeRepository::class);
        $this->app->bind(episodeInterface::class,episodeRepository::class);
        $this->app->bind(multiImageInterface::class,multiImageRepository::class);
+       $this->app->bind(ratingInterface::class,ratingRepository::class);
+       $this->app->bind(authInterface::class,authRepository::class);
     }
 
     /**

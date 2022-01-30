@@ -6,5 +6,6 @@ namespace App\interfaces;
     public function getCategory();
     public function updateCategory($id,$category);
     public function deleteCategory($id);
+    public function categoryCount();
 }
 ?>

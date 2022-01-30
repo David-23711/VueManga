@@ -10,8 +10,9 @@ class multiImageRepository implements multiImageInterface
 {
     public function getMultiImages($id)
     {
-       $data = MultiImage::where('episode_id',$id)->orderBy('manga_image','asc')->pluck('manga_image','id')->toArray();
-       return response()->json(['data'=>$data,'id'=>$id]);
+       $data = MultiImage::where('episode_id',$id)->orderByRaw("LENGTH(manga_image)", 'ASC')->orderBy("manga_image",'ASC')->pluck('manga_image','id')->toArray();
+       $count=MultiImage::where('episode_id',$id)->count();
+       return response()->json(['data'=>$data,'id'=>$id,'count'=>$count]);
     }
     public function uploadImages($images)
     {    
@@ -41,7 +42,8 @@ class multiImageRepository implements multiImageInterface
     public function getdynamicImages($id)
     {
         $data = MultiImage::where('episode_id',$id)->orderByRaw("LENGTH(manga_image)", 'ASC')->orderBy("manga_image",'ASC')->pluck('manga_image','id')->toArray();
-        return $data;
+        $count=MultiImage::where('episode_id',$id)->count();
+        return response()->json(['data'=>$data,'count'=>$count]);
     }
 }
 ?>

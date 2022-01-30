@@ -35,5 +35,9 @@ class CategoryController extends Controller
     {
         return $this->categoryInterface->deleteCategory($id);
     }
+    public function count()
+    {
+        return $this->categoryInterface->categoryCount();
+    }
 
 }

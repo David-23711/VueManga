@@ -35,5 +35,10 @@ class categoryRepository implements categoryInterface{
      $data= Category::find($id);
      $data->delete();
    }
+   function categoryCount()
+   {
+     $data = Category::all()->count();
+     return $data; 
+   }
  }
 ?>

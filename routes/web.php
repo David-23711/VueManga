@@ -47,6 +47,7 @@ Route::post('/admin/category/post',[CategoryController::class,'insert']);
 Route::get('/admin/category/post',[CategoryController::class,'index']);
 Route::put('/admin/category/post/{id}',[CategoryController::class,'update']);
 Route::delete('/admin/category/post/{id}',[CategoryController::class,'destroy']);
+Route::get('/admin/home/dashboard/categorycount',[CategoryController::class,'count']); 
 
 //admin addManga
 Route::view('/admin/manga','/manga/adminpanel');
@@ -62,6 +63,7 @@ Route::get('/admin/manga/getGenre/{id}',[MangaInformationController::class,'genr
 Route::delete('/admin/manga/getGenre/delete/{id}',[MangaInformationController::class,'deleteGenre']);
 Route::get('/admin/manga/post/releaseDate',[MangaInformationController::class,'releaseDate']);
 Route::get('/admin/manga/post/byrelease',[MangaInformationController::class,'byrelease']);
+Route::get('/admin/home/dashboard/projectcount',[MangaInformationController::class,'count']);
 
 //admin addVolume
 Route::get('/admin/posts/manga/volume',[VolumeController::class,'index']);
@@ -93,4 +95,14 @@ Route::get('/user/manga/comment',[CommentController::class,'index']);
 //user Like
 Route::get('/user/manga//like',[LikeController::class,'likeOrUnlike']);
 
+//user view
+Route::view('/user','/manga/userpanel');
+Route::view('/','/manga/userpanel');
+Route::view('/user/{category}','/manga/userpanel');
+Route::view('/user/data/{date}','/manga/userpanel');
+Route::get('/user/allDatas',[MangaInformationController::class,'userIndex']);
+Route::get('/admin/category/byGenre',[MangaInformationController::class,'getByGenre']);
+
+//user Register
+Route::post('/register',[UserController::class,'']);
 

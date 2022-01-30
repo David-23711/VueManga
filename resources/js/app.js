@@ -36,8 +36,7 @@ export const eventBus = new Vue();
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('adminpanel-component',require('./components/adminpanel/adminpanelComponent').default);
 Vue.component('pagination',require('laravel-vue-pagination'));
-Vue.component('multiple-image-component', require('./components/MultiImageUploadComponent.vue').default);
-Vue.component('multiselect', Multiselect);
+Vue.component('userpanel-component',require('./components/userpanel/userPanelComponent').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

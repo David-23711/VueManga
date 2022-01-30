@@ -14,6 +14,9 @@ interface mangaInformationInterface{
     public function deletegetGenre($id);
     public function getReleaseDates();
     public function getByRelease();
+    public function projectCount();
+    public function getAllDataForUser();
+    public function getDataByGenre();
 }
 
 ?>

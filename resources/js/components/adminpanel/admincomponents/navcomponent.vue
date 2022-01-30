@@ -153,7 +153,7 @@ export default {
       condition:true,
       loading:false,
       mnavlinks: [
-        { icon: "home", title: "Home", to: "/admin/home" },
+        { icon: "dashboard", title: "Dashboard", to: "/admin/home" },
         { icon: "local_activity", title: "Projects", to: "/admin/manga" },
         { icon: "list", title: "Category", to: "/admin/category" },
          {

@@ -29,7 +29,11 @@
         <v-col cols="12" md="8" offset-md="2" sm="10" offset-sm="1">
           <v-card v-for="manga in allData" :key="manga.id">
             <v-toolbar flat dark class="cyan" floating>
-              <v-btn class="cyan" text :to="`/admin/manga/setting/${$route.params.mid}/admin/${$route.params.aid}`">
+              <v-btn
+                class="cyan"
+                text
+                :to="`/admin/manga/setting/${$route.params.mid}/admin/${$route.params.aid}`"
+              >
                 <v-icon>arrow_back</v-icon>
               </v-btn>
             </v-toolbar>
@@ -104,6 +108,9 @@
                         <v-list-item-title>
                           <span>{{ episode.episode_name }}</span>
                         </v-list-item-title>
+                        <v-list-item-subtitle>
+                          {{ago(episode.created_at)}}
+                        </v-list-item-subtitle>
                       </v-list-item-content>
 
                       <v-list-item-action>
@@ -120,14 +127,10 @@
                                   {{ episode.episode_name }}
                                 </v-list-item>
                                 <v-list-item-title>
-                                  <edit-episode-component
-                                    :id="episode.id"
-                                    :episode="episode.episode_name"
-                                  ></edit-episode-component>
-                                </v-list-item-title>
-                                <v-list-item-title>
-                                  <v-btn text @click="deleteEpisode(episode.id)"
-                                    >Delete</v-btn
+                                  <v-btn
+                                    text
+                                    :to="`/admin/manga/volume/images/${episode.id}/${manga.id}/${volume.id}/${$route.params.aid}`"
+                                    >Read</v-btn
                                   >
                                 </v-list-item-title>
                                 <v-list-item-title>
@@ -138,7 +141,15 @@
                                   >
                                 </v-list-item-title>
                                 <v-list-item-title>
-                                  <v-btn text :to="`/admin/manga/volume/images/${episode.id}/${manga.id}/${volume.id}/${$route.params.aid}`">Read</v-btn>
+                                  <edit-episode-component
+                                    :id="episode.id"
+                                    :episode="episode.episode_name"
+                                  ></edit-episode-component>
+                                </v-list-item-title>
+                                <v-list-item-title>
+                                  <v-btn text @click="deleteEpisode(episode.id)"
+                                    >Delete</v-btn
+                                  >
                                 </v-list-item-title>
                               </v-list-item-content>
                             </v-list-item>
@@ -180,6 +191,7 @@
 </template>
 
 <script>
+import moment from'moment'
 import axios from "axios";
 import addEpisodeComponent from "./admincomponents/addEpisodeComponent.vue";
 import { eventBus } from "../../app";
@@ -198,6 +210,10 @@ export default {
     };
   },
   methods: {
+    ago(time)
+    {
+      return moment(time).fromNow();
+    },
     async getAllData() {
       this.imageLoading = true;
       const mid = this.$route.params.mid;
@@ -209,7 +225,7 @@ export default {
     async getVolume() {
       const id = this.$route.params.id;
       await axios.get(`/admin/getVolume/${id}`).then((resp) => {
-        this.volume=resp.data[0];
+        this.volume = resp.data[0];
       });
     },
     async getEpisode() {
@@ -227,7 +243,7 @@ export default {
     async deleteEpisode(id) {
       var formData = new FormData();
       formData.append("_method", "DELETE");
-      const mid=this.$route.params.mid;
+      const mid = this.$route.params.mid;
       const vid = this.$route.params.id;
       await axios
         .post(`/admin/manga/setting/episode/save/${id}/${mid}/${vid}`, formData)

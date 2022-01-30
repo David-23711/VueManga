@@ -1,15 +1,15 @@
 <template>
   <div>
     <v-app-bar app class="indigo">
-      <v-btn text class="mr-2" @click="drawer=!drawer">
+      <v-btn text class="mr-2 hidden-md-and-up" @click="drawer=!drawer">
         <v-icon size="35" color="white">menu</v-icon>
       </v-btn>
       <v-toolbar-title>
         <span class="headline white--text">Manga</span>
-        <span class="headline">Wolrd</span>
+        <span class="headline">Mize</span>
       </v-toolbar-title>
       <div class="ml-5 hidden-md-and-down" v-for="nav in navlinks" :key="nav.title">
-         <v-btn text class="white--text">{{nav.title}}</v-btn>
+         <v-btn :to="nav.link" text class="white--text">{{nav.title}}</v-btn>
       </div>
       <v-spacer></v-spacer>
       <div class="hidden-md-and-down">
@@ -23,7 +23,7 @@
         </v-btn>
       </div>
     </v-app-bar>
-    <v-navigation-drawer stateless v-model="drawer" dark class="drawer">
+    <v-navigation-drawer stateless v-model="drawer" dark class="drawer hidden-md-and-up">
          <div class="ml-2 hidden-md-and-up">
            <v-btn>
           <span>Login</span>
@@ -36,7 +36,7 @@
          </div>
       <v-list v-for="mnav in navlinks" :key="mnav.title" class="hidden-md-and-up">
         <v-list-item>
-          <v-btn text>{{mnav.title}}</v-btn> 
+          <v-btn :to="mnav.link" text>{{mnav.title}}</v-btn> 
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -49,7 +49,7 @@ export default {
     {
         return {
          navlinks:[
-             {title:'Manga Online',link:''},
+             {title:'Manga Online',link:'/'},
              {title:'Latest Manga',link:''},
              {title:'Hot Manga',link:''},
              {title:'Newest Manga',link:''}

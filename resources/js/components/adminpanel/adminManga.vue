@@ -51,9 +51,9 @@
                     <option value="Desc" selected>Descend</option>
                     <option value="Asc" selected>Ascend</option>
                     <option
-                      v-for="manga in releaseDates"
+                      v-for="(manga, index) in releaseDates"
                       :value="manga"
-                      :key="manga"
+                      :key="index"
                     >
                       {{ manga }}
                     </option>
@@ -62,127 +62,131 @@
               </v-row>
             </v-toolbar>
             <v-card-text>
-              <v-simple-table height="382" fixed-header>
-                <thead>
-                  <tr>
-                    <th>Item</th>
-                    <th>Visual Key</th>
-                    <th>Manga Name</th>
-                    <th>Alternative Name</th>
-                    <th>Release Date</th>
-                    <th>status</th>
-                    <th>Actions</th>
-                    <th>Setting</th>
-                  </tr>
-                </thead>
-                <tbody v-if="error500 == false">
-                  <tr
-                    v-for="(manga, index) in mangaInformations.data"
-                    :key="manga.id"
-                  >
-                    <td class="text-left">
-                      <span class="overline">{{ index + 1 }}</span>
-                    </td>
-                    <td class="text-left pt-2">
-                      <v-img
-                        :id="index"
-                        @loadstart="imgLoading=true"
-                        @load="imgLoading=false"
-                        :hidden="imgLoading==true"
-                        :src="`/manga/${manga.visual_key}`"
-                        alt=""
-                        width="100"
-                        height="150"
-                        class="img"
-                      >
-                      </v-img>
-                      <v-skeleton-loader
-                        v-if="imgLoading==true"
-                        type="image"
-                        width="100"
-                        height="150"
-                        class="img"
-                      >
-                      </v-skeleton-loader>
-                    </td>
-                    <td class="text-left">
-                      <span class="overline">{{ manga.manga_name }}</span>
-                    </td>
-                    <td>
-                      <span class="overline">{{ manga.alternative_name }}</span>
-                    </td>
-                    <td>
-                      <span class="subtitle-2">{{ manga.release_date }}</span>
-                    </td>
-                    <td>
-                      <span
-                        class="subtitle-2"
-                        :class="
-                          manga.status == 'ongoing'
-                            ? 'orange--text'
-                            : 'green--text'
-                        "
-                        >{{ manga.status }}</span
-                      >
-                    </td>
-                    <td>
-                      <tr>
-                        <td>
-                          <edit-manga-component
-                            :manga="manga"
-                          ></edit-manga-component>
-                        </td>
-                        <td class="pa-2">||</td>
-                        <td>
-                          <v-icon color="red" @click="deleteData(manga)"
-                            >delete</v-icon
-                          >
-                        </td>
-                      </tr>
-                    </td>
-                    <td>
-                      <v-btn
-                        outlined
-                        :to="`/admin/manga/setting/${manga.id}/admin/${manga.admin_id}`"
-                      >
-                        <v-icon>settings</v-icon>
-                      </v-btn>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody v-if="error500 == true">
-                  <tr>
-                    <td colspan="8" align="center">
-                      <span class="subtitle-2">Something Went Wrong</span>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody v-if="mangaInformations == 0">
-                  <tr>
-                    <td colspan="8" align="center">
-                      <span class="subtitle-2">Result Not Found</span>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody v-if="mainLoading">
-                  <tr>
-                    <td colspan="8" align="center">
-                      <div class="spinner-grow text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                      <div class="spinner-grow text-secondary" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                      <div class="spinner-grow text-success" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                      <div class="spinner-grow text-danger" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-simple-table>
+              <v-responsive>
+                <v-simple-table height="382" fixed-header>
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Visual Key</th>
+                      <th>Manga Name</th>
+                      <th>Alternative Name</th>
+                      <th>Release Date</th>
+                      <th>status</th>
+                      <th>Actions</th>
+                      <th>Setting</th>
+                    </tr>
+                  </thead>
+                  <tbody v-if="error500 == false">
+                    <tr
+                      v-for="(manga, index) in mangaInformations.data"
+                      :key="manga.id"
+                    >
+                      <td class="text-left">
+                        <span class="overline">{{ index + 1 }}</span>
+                      </td>
+                      <td class="text-left pt-2">
+                        <v-img
+                          :id="index"
+                          @loadstart="imgLoading = true"
+                          @load="imgLoading = false"
+                          :hidden="imgLoading == true"
+                          :src="`/manga/${manga.visual_key}`"
+                          alt=""
+                          width="100"
+                          height="150"
+                          class="img"
+                        >
+                        </v-img>
+                        <v-skeleton-loader
+                          v-if="imgLoading == true"
+                          type="image"
+                          width="100"
+                          height="150"
+                          class="img"
+                        >
+                        </v-skeleton-loader>
+                      </td>
+                      <td class="text-left">
+                        <span class="overline">{{ manga.manga_name }}</span>
+                      </td>
+                      <td>
+                        <span class="overline">{{
+                          manga.alternative_name
+                        }}</span>
+                      </td>
+                      <td>
+                        <span class="subtitle-2">{{ manga.release_date }}</span>
+                      </td>
+                      <td>
+                        <span
+                          class="subtitle-2"
+                          :class="
+                            manga.status == 'ongoing'
+                              ? 'orange--text'
+                              : 'green--text'
+                          "
+                          >{{ manga.status }}</span
+                        >
+                      </td>
+                      <td>
+                        <tr>
+                          <td>
+                            <edit-manga-component
+                              :manga="manga"
+                            ></edit-manga-component>
+                          </td>
+                          <td class="pa-2">||</td>
+                          <td>
+                            <v-icon color="red" @click="deleteData(manga)"
+                              >delete</v-icon
+                            >
+                          </td>
+                        </tr>
+                      </td>
+                      <td>
+                        <v-btn
+                          outlined
+                          :to="`/admin/manga/setting/${manga.id}/admin/${manga.admin_id}`"
+                        >
+                          <v-icon>settings</v-icon>
+                        </v-btn>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody v-if="error500 == true">
+                    <tr>
+                      <td colspan="8" align="center">
+                        <span class="subtitle-2">Something Went Wrong</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody v-if="mangaInformations == 0">
+                    <tr>
+                      <td colspan="8" align="center">
+                        <span class="subtitle-2">Result Not Found</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody v-if="mainLoading">
+                    <tr>
+                      <td colspan="8" align="center">
+                        <div class="spinner-grow text-primary" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-secondary" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-success" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-danger" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+              </v-responsive>
             </v-card-text>
             <v-card-actions class="justify-center">
               <v-spacer></v-spacer>
@@ -212,18 +216,18 @@ export default {
   components: { addMangaComponent, EditMangaComponent },
   data() {
     return {
-      page:1,
+      page: 1,
       mangaInformations: {},
       error500: false,
       loading: false,
       mainLoading: false,
-      imgLoading:false,
+      imgLoading: false,
       releaseDates: [],
       searchName: "",
       byRelease: "All",
-      pagination:{
-        current:1,
-        total:0
+      pagination: {
+        current: 1,
+        total: 0,
       },
       options: [
         { name: "Aung Aung", age: "12" },
@@ -243,7 +247,9 @@ export default {
       this.loading = true;
       this.mainLoading = true;
       await axios
-        .get(`/admin/manga/post?search=${this.searchName} && page=${this.pagination.current}`)
+        .get(
+          `/admin/manga/post?search=${this.searchName} && page=${this.pagination.current}`
+        )
         .then((resp) => {
           this.mangaInformations = resp.data;
           this.loading = false;
@@ -261,8 +267,7 @@ export default {
           }
         });
     },
-    onPageChange()
-    {
+    onPageChange() {
       this.getMangaInfo();
     },
     async getReleaseDates() {

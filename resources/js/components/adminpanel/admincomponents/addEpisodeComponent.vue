@@ -2,7 +2,7 @@
   <div>
    <v-dialog max-width="600">
         <template v-slot:activator="{on,attrs}">
-             <v-btn v-on="on" v-bind="attrs"> Add Episode </v-btn>
+             <v-btn small v-on="on" v-bind="attrs"> Add Episode </v-btn>
         </template>
         <template v-slot:default="dialog">
              <v-row>

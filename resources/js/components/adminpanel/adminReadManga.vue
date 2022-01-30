@@ -27,6 +27,8 @@
                 <v-icon>arrow_back</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
+              <span>Pages:{{count}}</span>
+              <v-spacer></v-spacer>
               <v-sheet @click="goViewRoom">
                 <v-btn
                   
@@ -41,7 +43,7 @@
               next-icon="mdi-arrow-right-bold-box-outline"
               prev-icon="mdi-arrow-left-bold-box-outline"
               show-arrows
-                v-model="model"
+              v-model="model"
             >
               <v-tabs-slider color="yellow"></v-tabs-slider>
               <v-tab
@@ -97,6 +99,7 @@ export default {
       multiImages: [],
       eid: null,
       model:`tab-${this.$route.params.eid}`,
+      count:0,
     };
   },
   methods: {
@@ -115,6 +118,7 @@ export default {
         .then((resp) => {
           this.multiImages = resp.data.data;
           this.eid = JSON.parse(resp.data.id);
+          this.count=resp.data.count;
           this.model=`tab-${this.eid}`
         });
     },
@@ -122,9 +126,10 @@ export default {
       await axios
         .get(`/admin/manga/volume/dynamicImages/${id}`)
         .then((resp) => {
-          this.multiImages = resp.data;
+          this.multiImages = resp.data.data;
           this.eid = id;
           this.model=`tab-${this.eid}`
+          this.count=resp.data.count;
           this.$router.push(`/admin/manga/volume/images/${this.eid}/${this.$route.params.mid}/${this.$route.params.vid}/${this.$route.params.aid}`)
         });
     },

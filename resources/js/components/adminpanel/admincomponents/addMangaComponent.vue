@@ -22,7 +22,7 @@
             </v-btn>
           </v-toolbar>
           <v-card-text class="pt-5">
-            <v-form ref="form">
+            <v-form ref="form" class="form">
               <v-row>
                 <v-col cols="12" md="6" sm="6" lg="6">
                   <v-text-field
@@ -59,7 +59,7 @@
                   >
                   </v-file-input>
                   <img
-                    src=""
+                    src="/manga/nofound.png"
                     id="img"
                     width="175"
                     height="250"
@@ -131,6 +131,7 @@ export default {
   data() {
     return {
       categoriesData: null,
+      loading:false,
       info: {
         mangaName: "",
         alterName: "",
@@ -140,7 +141,6 @@ export default {
         date: "",
         description:'',
         file:null,
-        loading:false,
         mangaRules: [(v) => !!v || "Manga Name is require!"],
         alterRules: [(v) => !!v || "Alter Name is require!"],
         visualRules: [(v) => !!v || "Image is require!"],
@@ -158,20 +158,28 @@ export default {
   methods: {
     showImage() {
       if (this.info.visualKey == null) {
-        img.src = "";
+        img.src = "/manga/nofound.png";
       } else {
-        this.file = this.info.visualKey;
+        this.info.file = this.info.visualKey;
         let reader = new FileReader();
         reader.onload = () => {
           let result = reader.result;
           let img = document.getElementById("img");
           img.src = result;
         };
-        reader.readAsDataURL(this.file);
+         reader.readAsDataURL(this.info.file);
       }
     },
     cancelAdd(dialog) {
-      this.$refs.form.reset();
+      this.$refs.form.resetValidation();
+      this.info.alterName="";
+      this.info.mangaName="";
+      this.info.alterName="";
+      this.info.author="";
+      this.info.status="";
+      this.info.date="";
+      this.info.description="";
+      document.getElementById('img').src="/manga/nofound.png";
       dialog.value = false;
     },
     async postManga(dialog) {
@@ -216,11 +224,25 @@ export default {
       }
     },
   },
-  mounted() {
-    
-  },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.content,
+.outer-border {
+  height: 400px;
+}
+.outer-border {
+  position: relative;
+  overflow: hidden;
+}
+.inner-border {
+  position: absolute;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.inner-border::-webkit-scrollbar {
+  display: none;
+}
 </style>

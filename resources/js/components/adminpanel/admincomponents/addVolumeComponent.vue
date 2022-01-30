@@ -2,7 +2,7 @@
   <div>
     <v-dialog max-width="600">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn text v-on="on" v-bind="attrs">
+        <v-btn outlined color="primary" v-on="on" v-bind="attrs">
           <span>add Volumes</span>
           <v-icon>add</v-icon>
         </v-btn>

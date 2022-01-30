@@ -7,7 +7,8 @@ use App\Models\admin;
 use App\Models\Genre;
 use App\Models\MangaInformation;
 use App\Models\Volume;
-use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\File;
+use SebastianBergmann\Type\ObjectType;
 
 class mangaInformationRepository implements mangaInformationInterface{
     public function addManga($mangaInfo)
@@ -31,14 +32,24 @@ class mangaInformationRepository implements mangaInformationInterface{
     {
        if(request('search') == "null")
        {
-           $data = MangaInformation::orderBy('created_at','desc')->paginate(5);
+           $data = MangaInformation::orderBy('created_at','desc')->paginate(6);
        }else 
        {
         $data = MangaInformation::when(request('search'),function($query){
             $query->where('manga_name','like','%'.request('search').'%')
             ->orWhere('alternative_name','like','%'.request('search').'%');
-        })->orderBy('created_at','desc')->paginate(5);
+        })->orderBy('created_at','desc')->paginate(6);
        }
+    //    if(request('genre')!='null')
+    //    {
+        //    }
+        // $data=Genre::where('genre',request('genre'))->pluck('manga_information_id')->toArray();
+        // $count=count($data);
+        // $manga=array();
+        // for($i=0;$i<$count;$i++)
+        // {
+        //     $manga[]=MangaInformation::where('id',$data[$i])->paginate(6);
+        // }
         return $data;
     }
     public function updateManga($id,$editData)
@@ -126,19 +137,40 @@ class mangaInformationRepository implements mangaInformationInterface{
         {
             if(request('release')=='All')
             {
-                $data = MangaInformation::orderBy('created_at','desc')->paginate(5);
+                $data = MangaInformation::orderBy('created_at','desc')->paginate(6);
             }else if(request('release') == 'Desc')
             {
-                $data = MangaInformation::orderBy('manga_name','desc')->paginate(5);
+                $data = MangaInformation::orderBy('manga_name','desc')->paginate(6);
             }else if(request('release')== 'Asc')
             {
-                $data = MangaInformation::orderBy('manga_name','asc')->paginate(5);
+                $data = MangaInformation::orderBy('manga_name','asc')->paginate(6);
             }else {
                 $data = MangaInformation::when(request('release'),function($query){
                     $query -> where('release_date','like','%'.request('release').'%');
-                })->orderBy('created_at')->paginate(5);
+                })->orderBy('created_at')->paginate(6);
             }
              return $data;
+        }
+        public function projectCount()
+        {
+            $data=MangaInformation::all()->count();
+            return $data;
+        }
+        public function getAllDataForUser()
+        {
+            $data = MangaInformation::with('volumes','episodes')->get();
+            return $data;
+        }
+        public function getDataByGenre()
+        {
+            $data=Genre::where('genre',request('genre'))->pluck('manga_information_id')->toArray();
+            $count=count($data);
+            $manga=array();
+            for($i=0;$i<$count;$i++)
+            {
+                $manga[]=MangaInformation::where('id',$data[$i])->get();
+            }
+            return $manga;
         }
 }
 

@@ -152,7 +152,7 @@
                           <v-btn @click="dialog.value = false">Close</v-btn>
                           <v-spacer></v-spacer>
                           <v-btn
-                          v-if="step!=3"
+                            v-if="step != 3"
                             :disabled="step == 1 ? true : false"
                             @click="step = step - 1"
                             >Back</v-btn
@@ -187,7 +187,7 @@ export default {
       isicon: false,
       isicon2: false,
       valid: null,
-      adminId:null,
+      adminId: null,
       admin: {
         email: "",
         password: "",
@@ -235,10 +235,12 @@ export default {
       var formData = new FormData();
       formData.append("forgetPass", this.forgetPass);
       formData.append("forgetCpass", this.forgetCpass);
-      formData.append("_method", 'PUT');
-      await axios.post(`/admin/login/putPassword/${this.adminId}`, formData).then((resp) => {
-        this.step = this.step + 1;
-      });
+      formData.append("_method", "PUT");
+      await axios
+        .post(`/admin/login/putPassword/${this.adminId}`, formData)
+        .then((resp) => {
+          this.step = this.step + 1;
+        });
     },
     async check() {
       var formData = new FormData();
@@ -247,8 +249,7 @@ export default {
         .post("/admin/login/checkEmail", formData)
         .then((resp) => {
           this.valid = resp.data.count;
-          this.adminId=resp.data.data[0];
-          
+          this.adminId = resp.data.data[0];
         })
         .then((resp) => {
           if (this.valid == 0) {

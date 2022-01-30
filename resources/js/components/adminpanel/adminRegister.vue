@@ -35,7 +35,7 @@
                 </v-window-item>
                 <v-window-item :value="2">
                   <v-text-field
-                  v-model="form.pass"
+                    v-model="form.pass"
                     dark
                     label="Password"
                     :type="isClick ? 'text' : 'password'"
@@ -49,7 +49,7 @@
                   >
                   </v-text-field>
                   <v-text-field
-                  v-model="form.cpass"
+                    v-model="form.cpass"
                     dark
                     label="Confirm_Password"
                     :type="isClick2 ? 'text' : 'password'"
@@ -102,14 +102,16 @@
                 </v-window-item>
                 <v-window-item :value="5">
                   <v-card class="color pa-10" flat>
-                      <v-row class="text-center">
-                    <v-col cols="12" md="12" sm="12">
-                      <span class="headline yellow--text font-weight-bold"
-                        >Account Created Successfully</span
-                      ><br>
-                      <span class="subheading white--text font-weight-bold">Please Login To Continue</span>
-                    </v-col>
-                  </v-row>
+                    <v-row class="text-center">
+                      <v-col cols="12" md="12" sm="12">
+                        <span class="headline yellow--text font-weight-bold"
+                          >Account Created Successfully</span
+                        ><br />
+                        <span class="subheading white--text font-weight-bold"
+                          >Please Login To Continue</span
+                        >
+                      </v-col>
+                    </v-row>
                   </v-card>
                 </v-window-item>
               </v-window>
@@ -125,13 +127,24 @@
                   <v-icon> chevron_left </v-icon>
                   <span>Back</span>
                 </v-btn>
-                <v-btn text dark @click="step==5? goLogin():nextStep()" v-if="step!=4">
-                  <span>{{step==5? 'Login':'Continue'}}</span>
-                  <v-icon> {{step==5? 'login':'chevron_right'}} </v-icon>
+                <v-btn
+                  text
+                  dark
+                  @click="step == 5 ? goLogin() : nextStep()"
+                  v-if="step != 4"
+                >
+                  <span>{{ step == 5 ? "Login" : "Continue" }}</span>
+                  <v-icon> {{ step == 5 ? "login" : "chevron_right" }} </v-icon>
                 </v-btn>
-                <v-btn :loading="loading" v-if="step==4" text @click="insertAdmin" dark>
-                 <span>Continue</span>   
-                 <v-icon>chevron_right</v-icon>  
+                <v-btn
+                  :loading="loading"
+                  v-if="step == 4"
+                  text
+                  @click="insertAdmin"
+                  dark
+                >
+                  <span>Continue</span>
+                  <v-icon>chevron_right</v-icon>
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -149,47 +162,43 @@ export default {
       step: 1,
       isClick: false,
       isClick2: false,
-      isCreated:false,
-      loading:false,
-      file:null,
+      isCreated: false,
+      loading: false,
+      file: null,
       form: {
         name: "",
         email: "",
         pass: "",
         cpass: "",
         input: [],
-        phone:'',
-        address:'',
+        phone: "",
+        address: "",
       },
       errors: {
-        nameError: [
-            v=>!!v || 'Name is required!'
-        ],
+        nameError: [(v) => !!v || "Name is required!"],
         emailError: [
-            v=>!!v || 'Email is required!',
-            v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+          (v) => !!v || "Email is required!",
+          (v) =>
+            !v ||
+            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+            "E-mail must be valid",
         ],
         passError: [
-            v=> !!v || 'Password is required!',
-            v=> v.length >= 4 || 'Password must be greater than 4'
+          (v) => !!v || "Password is required!",
+          (v) => v.length >= 4 || "Password must be greater than 4",
         ],
         cpassError: [
-            v=> !!v || 'Confirm Password is required!',
-            v=> v===this.form.pass || 'Confirm Password is not match',
-            v=> v.length >= 4 || 'Confirm Password must be greater than 4'
+          (v) => !!v || "Confirm Password is required!",
+          (v) => v === this.form.pass || "Confirm Password is not match",
+          (v) => v.length >= 4 || "Confirm Password must be greater than 4",
         ],
-        phoneError: [
-            v=>!!v || 'Phone is required',
-        ],
-        addressError: [
-            v=> !!v || 'Address is required'
-        ],
+        phoneError: [(v) => !!v || "Phone is required"],
+        addressError: [(v) => !!v || "Address is required"],
       },
-
     };
   },
   computed: {
-      //for switch title when active window to next
+    //for switch title when active window to next
     currentTitle() {
       switch (this.step) {
         case 1:
@@ -208,7 +217,7 @@ export default {
     },
   },
   methods: {
-      //for show image
+    //for show image
     showimg() {
       this.file = this.form.input;
       if (this.file == null) {
@@ -224,41 +233,34 @@ export default {
       }
     },
     //for navigate to login page
-    goLogin()
-    {
-        this.$router.push('/admin/login');
+    goLogin() {
+      this.$router.push("/admin/login");
     },
     //for activate next window
-    nextStep()
-    {
-        // if(this.$refs.form.validate())
-        // {
-        //     this.step=this.step+1;
-        // }
-        this.step=this.step+1;
-        
+    nextStep() {
+      // if(this.$refs.form.validate())
+      // {
+      //     this.step=this.step+1;
+      // }
+      this.step = this.step + 1;
     },
     //for insert admin to database
-     async insertAdmin()
-     {
-       if(this.$refs.form.validate())
-       {
-         this.loading=true;
-         var formData = new FormData;
-         formData.append('name',this.form.name);
-         formData.append('email',this.form.email);
-         formData.append('password',this.form.pass);
-         formData.append('avatar',this.form.input);
-         formData.append('phone',this.form.phone);
-         formData.append('address',this.form.address);
-         await axios.post('/admin/register/addAdmin',formData)
-         .then((resp)=>{
-          this.loading=false;
+    async insertAdmin() {
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        var formData = new FormData();
+        formData.append("name", this.form.name);
+        formData.append("email", this.form.email);
+        formData.append("password", this.form.pass);
+        formData.append("avatar", this.form.input);
+        formData.append("phone", this.form.phone);
+        formData.append("address", this.form.address);
+        await axios.post("/admin/register/addAdmin", formData).then((resp) => {
+          this.loading = false;
           this.step++;
-          
-         })
-       }
-     }
+        });
+      }
+    },
   },
 };
 </script>

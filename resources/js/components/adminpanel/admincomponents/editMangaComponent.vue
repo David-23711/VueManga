@@ -109,7 +109,7 @@
             </v-form>
           </v-card-text>
           <v-card-actions class="justify-end">
-            <v-btn :loading="loading" dark class="cyan" @click="updateManga(dialog)"> 
+            <v-btn :loading="edit.loading" dark class="cyan" @click="updateManga(dialog)"> 
                 Update
             </v-btn>
           </v-card-actions>
@@ -174,12 +174,20 @@ export default {
       }
     },
     cancelAdd(dialog) {
-      this.$refs.form.reset();
+      this.$refs.form.resetValidation();
+      this.edit.alterName="";
+      this.edit.mangaName="";
+      this.edit.alterName="";
+      this.edit.author="";
+      this.edit.status="";
+      this.edit.date="";
+      this.edit.description="";
+      document.getElementById('img').src="/manga/nofound.png";
       dialog.value = false;
     },
     async updateManga(dialog)
     {
-         this.loading=true;
+         this.edit.loading=true;
         let formData = new FormData();
         formData.append("manga_name", this.edit.mangaName);
         formData.append("alternative_name", this.edit.alterName);
@@ -193,7 +201,7 @@ export default {
         await axios.post(`/admin/manga/post/${this.edit.id}`,formData)
         .then((resp)=>{
             eventBus.$emit("editManga");
-            this.loading=false;
+            this.edit.loading=false;
             dialog.value = false;
             const Toast = Swal.mixin({
                 toast : true,
@@ -210,7 +218,7 @@ export default {
                 icon:'success',
             })
             .catch((error)=>{
-              this.loading=false;
+              this.edit.loading=false;
             })
         })
     }

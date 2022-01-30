@@ -61,5 +61,16 @@ class MangaInformationController extends Controller
     {
         return $this->mangaInterface->getByRelease();
     }
-   
+   public function count()
+   {
+       return $this->mangaInterface->projectCount();
+   }
+   public function userIndex()
+   {
+       return $this->mangaInterface->getAllDataForUser();
+   }
+   public function getByGenre()
+   {
+       return $this->mangaInterface->getDataByGenre();
+   }
 }

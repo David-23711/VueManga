@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MangaInformationController;
 use App\Http\Controllers\CommentController;
@@ -13,6 +14,7 @@ use App\Models\Episode;
 use App\Models\MangaInformation;
 use App\Models\MultiImage;
 use App\Models\Volume;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,9 +102,16 @@ Route::view('/user','/manga/userpanel');
 Route::view('/','/manga/userpanel');
 Route::view('/user/{category}','/manga/userpanel');
 Route::view('/user/data/{date}','/manga/userpanel');
+Route::view('/user/data/{date}/{current}/{total}','/manga/userpanel');
+Route::view('/user/{category}/{current}/{total}','/manga/userpanel');
 Route::get('/user/allDatas',[MangaInformationController::class,'userIndex']);
 Route::get('/admin/category/byGenre',[MangaInformationController::class,'getByGenre']);
 
 //user Register
-Route::post('/register',[UserController::class,'']);
+Route::post('/register',[AuthController::class,'register']);
+Route::post('/login',[AuthController::class,'login']);
+Route::view("/user/index/login",'/manga/userpanel');
+Route::view("/user/index/register",'/manga/userpanel');
+Route::view("/pagination/{current}/{total}",'/manga/userpanel');
+Route::post("/user/index/register",[AuthController::class,"register"]);
 

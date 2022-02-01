@@ -13,4 +13,7 @@ class AuthController extends Controller
     {
        $this->authInterface=$authInterface;
     }
+    public function register(Request $req){
+        return $this->authInterface->userRegister($req);
+    }
 }

@@ -11,6 +11,8 @@ import MangaRoom from "../components/adminpanel/viewMangaWide";
 import AdminTeam from "../components/adminpanel/adminTeams";
 import Userindex from "../components/userpanel/index";
 import store from "../vuex";
+import userLogin from "../components/userpanel/login";
+import userRegister from "../components/userpanel/register";
 const routes = [
     {
         name: "admindashboard",
@@ -100,9 +102,39 @@ const routes = [
         component: Userindex,
     },
     {
-        name: "Uindex",
+        name: "Uindexdate",
         path: "/user/data/:date",
         component: Userindex,
+    },
+    {
+        name: "paginationDate",
+        path: "/user/data/:date/:current/:total",
+        component: Userindex,
+    },
+    {
+        name: "pagination",
+        path: "/pagination/:pageCurrent/:pageTotal",
+        component: Userindex,
+    },
+    {
+        name: "Datepagination",
+        path: "/pagination/:current/:total/:date",
+        component: Userindex,
+    },
+    {
+        name: "Genrepagination",
+        path: "/user/:category/:current/:total",
+        component: Userindex,
+    },
+    {
+        name: "UserLogin",
+        path: "/user/index/login",
+        component: userLogin,
+    },
+    {
+        name: "UserRegister",
+        path: "/user/index/register",
+        component: userRegister,
     },
 ];
 export default routes;

@@ -17,10 +17,11 @@
         <v-row class="justify-end">
           <v-col cols="4" md="3" sm="4">
             <select
+              :hidden="isOnGenre == true"
               name="genre"
               v-model="byRelease"
               class="form-control mt-2"
-              @change="getByRelease"
+              @change="byReleaseController"
             >
               <option value="Desc" selected>Descend</option>
               <option value="Asc" selected>Ascend</option>
@@ -107,11 +108,52 @@
                 :length="length"
                 color="red lighten-3"
                 background-color="grey lighten-1"
+                size="20"
               ></v-rating>
+              <span class="subtitle-2">4.9 Rating</span>
             </v-card-actions>
+            <v-toolbar>
+              <v-row>
+                <v-btn text>
+                  <span>Read</span>
+                </v-btn>
+              </v-row>
+            </v-toolbar>
           </v-card>
         </v-col>
       </v-row>
+      <v-toolbar class="mt-3">
+        <v-row>
+          <div v-if="isOnDate == false">
+            <v-pagination
+              :hidden="isOnGenre == true"
+              v-model="pagination.current"
+              :length="pagination.total"
+              @input="onPageChange(pagination.current, pagination.total)"
+              prev-icon="mdi-menu-left"
+              next-icon="mdi-menu-right"
+            ></v-pagination>
+            <v-pagination
+              :hidden="isOnGenre == false"
+              v-model="paginationGenre.current"
+              :length="paginationGenre.total"
+              @input="
+                onChangeGenre(paginationGenre.current, paginationGenre.total)
+              "
+              prev-icon="mdi-menu-left"
+              next-icon="mdi-menu-right"
+            ></v-pagination>
+          </div>
+          <v-pagination
+            :hidden="isOnDate == false"
+            v-model="paginationDate.current"
+            :length="paginationDate.total"
+            @input="onChangeDate(paginationDate.current, paginationDate.total)"
+            prev-icon="mdi-menu-left"
+            next-icon="mdi-menu-right"
+          ></v-pagination>
+        </v-row>
+      </v-toolbar>
     </v-container>
   </div>
 </template>
@@ -122,19 +164,43 @@ export default {
   data() {
     return {
       datas: [],
+      datasGenre: [],
       length: 5,
       rating: 0,
       searchName: "",
+
       releaseDates: [],
       searchName: "",
+      isOnGenre: false,
+      isOnDate: false,
       datagenre: this.$route.params.category,
       tab: this.$route.params.category
         ? `tab-${this.$route.params.category}`
         : "",
       genres: [],
       pagination: {
-        current: 1,
-        total: 0,
+        current: this.$route.params.current
+          ? JSON.parse(this.$route.params.current)
+          : 1,
+        total: this.$route.params.total
+          ? JSON.parse(this.$route.params.total)
+          : 0,
+      },
+      paginationDate: {
+        current: this.$route.params.current
+          ? JSON.parse(this.$route.params.current)
+          : 1,
+        total: this.$route.params.total
+          ? JSON.parse(this.$route.params.total)
+          : 0,
+      },
+      paginationGenre: {
+        current: this.$route.params.current
+          ? JSON.parse(this.$route.params.current)
+          : 1,
+        total: this.$route.params.total
+          ? JSON.parse(this.$route.params.total)
+          : 0,
       },
       byRelease: this.$route.params.date,
     };
@@ -147,6 +213,11 @@ export default {
         )
         .then((resp) => {
           this.datas = resp.data.data;
+          // console.log("getAllDatas");
+          this.byRelease = "Desc";
+          this.isOnDate = false;
+          this.pagination.current = resp.data.current_page;
+          this.pagination.total = resp.data.last_page;
         });
     },
     async getAllGenres() {
@@ -162,23 +233,64 @@ export default {
       await axios
         .get(`/admin/category/byGenre?genre=${this.datagenre}`)
         .then((resp) => {
+          // console.log("getDataByGenre");
           let array = resp.data;
+          this.datasGenre = [];
           for (let i = 0; i < array.length; i++) {
             let data = array[i];
+
             for (let j = 0; j < data.length; j++) {
-              this.datas.push(data[j]);
+              this.datasGenre.push(data[j]);
             }
           }
+
+          if (this.$route.params.category == "Latest") {
+            this.isOnGenre = false;
+          } else {
+            this.isOnGenre = true;
+          }
           this.byRelease = "Desc";
+          const numberOfItems = this.datasGenre.length;
+          const numberPerPage = 6;
+          const currentPage = this.paginationGenre.current;
+          let numberOfPages = 0;
+          numberOfPages = Math.ceil(numberOfItems / numberPerPage);
+          const trimStart = (currentPage - 1) * numberPerPage;
+          const trimEnd = trimStart + numberPerPage;
+          // console.log(this.datasGenre.slice(trimStart, trimEnd));
+          this.paginationGenre.current = currentPage;
+          this.paginationGenre.total = numberOfPages;
+          this.datas = this.datasGenre.slice(trimStart, trimEnd);
         });
     },
-    goGenre(cat) {
-      this.$router.push(`/user/${cat}`);
-      this.datagenre = this.$route.params.category;
-      this.datas = [];
+    onChangeGenre(current, total) {
+      let path = `/user/${this.$route.params.category}/${current}/${total}`;
+      if (this.$route.path != path) {
+        this.$router.push(path);
+      }
       this.getDataByGenre();
+    },
+    onChangeDate(current, total) {
+      let path = `/user/data/${this.$route.params.date}/${current}/${total}`;
+      if (this.$route.path != path) {
+        this.$router.push(path);
+      }
+      this.getByRelease();
+    },
+    goGenre(cat) {
+      if (this.$route.path != `/user/${cat}`) {
+        this.$router.push(`/user/${cat}`);
+        this.paginationGenre.current = 1;
+      }
+      this.datagenre = this.$route.params.category;
+      this.isOnDate = false;
+      this.datas = [];
+
       if (this.$route.params.category == "Latest") {
+        this.isOnGenre = false;
         this.getAllDatas();
+      } else {
+        this.getDataByGenre();
       }
     },
     async getReleaseDates() {
@@ -188,26 +300,56 @@ export default {
     },
     async getByRelease() {
       await axios
-        .get(`/admin/manga/post/byrelease?release=${this.byRelease}`)
+        .get(
+          `/admin/manga/post/byrelease?release=${this.byRelease}&& page=${this.paginationDate.current}`
+        )
         .then((resp) => {
-          this.$router.push(`/user/data/${this.byRelease}`).catch(() => {});
+          console.log("getByRElease");
+          this.isOnGenre = false;
+          this.isOnDate = true;
           this.datas = resp.data.data;
+          this.paginationDate.current = resp.data.current_page;
+          this.paginationDate.total = resp.data.last_page;
         });
+    },
+    async byReleaseController() {
+      this.$router.push(`/user/data/${this.byRelease}`);
+      this.getByRelease();
+    },
+    onPageChange(current, total) {
+      let path = `/pagination/${current}/${total}`;
+      if (this.$route.path) {
+        this.$router.push(path);
+      }
+
+      this.getAllDatas();
     },
   },
   mounted() {
     this.getAllGenres();
+    this.getReleaseDates();
     if (this.$route.params.category == "Latest") {
       this.getAllDatas();
     }
-    if (this.$route.params.category) {
+    if (
+      this.$route.params.category != "Latest" &&
+      this.$route.params.category
+    ) {
       this.getDataByGenre();
-    } else if (this.$route.params.date) {
+    }
+    if (this.$route.params.date) {
       this.getByRelease();
-    } else {
+    }
+    // if (this.reload == true) {
+    //   this.getAllDatas();
+    // }
+    if (Object.keys(this.$route.params).length === 0) {
+      // this.isOnGenre=false;
       this.getAllDatas();
     }
-    this.getReleaseDates();
+    if (this.$route.params.pageCurrent && this.$route.params.pageTotal) {
+      this.getAllDatas();
+    }
   },
 };
 </script>

@@ -20,7 +20,7 @@ class volumeRepository implements volumeInterface{
     }
     public function getVolume($id)
     {
-        $data = Volume::where('manga_information_id',$id)->orderByRaw('volume', 'asc')->get();
+        $data = Volume::where('manga_information_id',$id)->orderByRaw("LENGTH(volume)",'ASC')->orderBy("volume",'ASC')->get();
         return $data;
     }
     public function deleteVolume($vid,$mid)

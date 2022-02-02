@@ -120,7 +120,7 @@ class mangaInformationRepository implements mangaInformationInterface{
         }
         public function getGenreById($id)
         {
-            $data = Genre::where('manga_information_id',$id)->orderByRaw('genre','asc')->get();
+            $data = Genre::where('manga_information_id',$id)->orderBy('genre','asc')->get();
             return $data;
         }
         public function deletegetGenre($id)

@@ -10,7 +10,7 @@ class multiImageRepository implements multiImageInterface
 {
     public function getMultiImages($id)
     {
-       $data = MultiImage::where('episode_id',$id)->orderByRaw('manga_image', 'ASC')->orderBy("manga_image",'ASC')->pluck('manga_image','id')->toArray();
+       $data = MultiImage::where('episode_id',$id)->orderByRaw("LENGTH(manga_image)",'ASC')->orderBy("manga_image",'ASC')->pluck('manga_image','id')->toArray();
        $count=MultiImage::where('episode_id',$id)->count();
        return response()->json(['data'=>$data,'id'=>$id,'count'=>$count]);
     }
@@ -36,12 +36,12 @@ class multiImageRepository implements multiImageInterface
     }
     public function getEpisodeByVid($id)
     {
-        $data = Episode::where('volume_id',$id)->orderByRaw('episode_name', 'ASC')->get();
+        $data = Episode::where('volume_id',$id)->orderByRaw("LENGTH(episode_name)",'ASC')->orderBy("episode_name",'ASC')->get();
         return $data;
     }
     public function getdynamicImages($id)
     {
-        $data = MultiImage::where('episode_id',$id)->orderByRaw('manga_image', 'ASC')->pluck('manga_image','id')->toArray();
+        $data = MultiImage::where('episode_id',$id)->orderByRaw("LENGTH(manga_image)",'ASC')->orderBy("manga_image",'ASC')->pluck('manga_image','id')->toArray();
         $count=MultiImage::where('episode_id',$id)->count();
         return response()->json(['data'=>$data,'count'=>$count]);
     }

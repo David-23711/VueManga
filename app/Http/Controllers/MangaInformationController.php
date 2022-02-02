@@ -36,7 +36,7 @@ class MangaInformationController extends Controller
     {
         return $this->mangaInterface->getAdminData($aid);   
     }
-    public function manga($aid,$id)
+    public function manga($id)
     {
        return $this->mangaInterface->getInfos($id);   
     }

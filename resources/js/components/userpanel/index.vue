@@ -1,6 +1,23 @@
 <template>
-  <div>
-    <v-container>
+  <div class="frame">
+    <v-container v-if="datas == 0">
+      <v-row class="text-center">
+        <v-col cols="12">
+          <v-progress-circular
+            v-if="isSearch == false"
+            :size="70"
+            :width="7"
+            color="primary"
+            :indeterminate="datas == 0"
+          ></v-progress-circular>
+          <v-card v-if="isSearch == true">
+            <h3>Result not found...</h3>
+            <v-btn @click="notFound">Back</v-btn>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container v-if="datas != 0">
       <v-tabs v-model="tab" class="mb-5" show-arrows>
         <v-tabs-slider color="primary"></v-tabs-slider>
         <!-- <v-tab :href="`#tab-${datagenre}`">Latest</v-tab> -->
@@ -114,7 +131,7 @@
             </v-card-actions>
             <v-toolbar>
               <v-row>
-                <v-btn text>
+                <v-btn text :to="`/user/viewinfo/${data.id}`">
                   <span>Read</span>
                 </v-btn>
               </v-row>
@@ -173,6 +190,7 @@ export default {
       searchName: "",
       isOnGenre: false,
       isOnDate: false,
+      isSearch: false,
       datagenre: this.$route.params.category,
       tab: this.$route.params.category
         ? `tab-${this.$route.params.category}`
@@ -206,6 +224,11 @@ export default {
     };
   },
   methods: {
+    notFound() {
+      this.searchName = "";
+      this.isSearch = false;
+      this.getAllDatas();
+    },
     async getAllDatas() {
       await axios
         .get(
@@ -218,6 +241,11 @@ export default {
           this.isOnDate = false;
           this.pagination.current = resp.data.current_page;
           this.pagination.total = resp.data.last_page;
+          if (this.searchName != "") {
+            this.isSearch = true;
+          } else {
+            this.isSearch = false;
+          }
         });
     },
     async getAllGenres() {
@@ -230,6 +258,7 @@ export default {
     },
     async getDataByGenre() {
       this.datas = [];
+      this.isSearch = false;
       await axios
         .get(`/admin/category/byGenre?genre=${this.datagenre}`)
         .then((resp) => {
@@ -317,7 +346,7 @@ export default {
       this.getByRelease();
     },
     onPageChange(current, total) {
-      let path = `/pagination/${current}/${total}`;
+      let path = `/user/pagination/${current}/${total}`;
       if (this.$route.path) {
         this.$router.push(path);
       }
@@ -360,5 +389,12 @@ export default {
   border-radius: 6px;
   width: 130px;
   height: 180px;
+}
+.frame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

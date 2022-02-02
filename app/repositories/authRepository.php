@@ -4,7 +4,9 @@ namespace App\repositories;
 use App\interfaces\authInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+
 
 class authRepository implements authInterface{
     public function userRegister($user){
@@ -28,6 +30,15 @@ class authRepository implements authInterface{
       $data->save();
 
       return response()->json(['response'=>$data]);
+    }
+    public function userLogin($user)
+    {
+      $data = User::where(['email'=>$user->email])->first();
+      if(!$data || Hash::check($user->password, $data->password)){
+        return response()->json(['message'=>'Email or Password not match']);
+      }else{
+        return $data;
+      }
     }
 }
 ?>

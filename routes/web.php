@@ -59,7 +59,7 @@ Route::put('/admin/manga/post/{id}',[MangaInformationController::class,'update']
 Route::delete('/admin/manga/post/{id}',[MangaInformationController::class,'delete']);
 Route::view('/admin/manga/setting/{id}/admin/{aid}','/manga/adminpanel');
 Route::get('/admin/manga/setting/{aid}',[MangaInformationController::class,'admin']);
-Route::get('/admin/manga/setting/{aid}/{id}',[MangaInformationController::class,'manga']);
+Route::get('/admin/manga/setting/data/{id}',[MangaInformationController::class,'manga']);
 Route::post('/admin/manga/setting/addgenre',[MangaInformationController::class,'genre']);
 Route::get('/admin/manga/getGenre/{id}',[MangaInformationController::class,'genrebyid']);
 Route::delete('/admin/manga/getGenre/delete/{id}',[MangaInformationController::class,'deleteGenre']);
@@ -98,20 +98,22 @@ Route::get('/user/manga/comment',[CommentController::class,'index']);
 Route::get('/user/manga//like',[LikeController::class,'likeOrUnlike']);
 
 //user view
+// Route::view('/user','/manga/userpanel');
 Route::view('/user','/manga/userpanel');
-Route::view('/','/manga/userpanel');
 Route::view('/user/{category}','/manga/userpanel');
 Route::view('/user/data/{date}','/manga/userpanel');
 Route::view('/user/data/{date}/{current}/{total}','/manga/userpanel');
 Route::view('/user/{category}/{current}/{total}','/manga/userpanel');
 Route::get('/user/allDatas',[MangaInformationController::class,'userIndex']);
 Route::get('/admin/category/byGenre',[MangaInformationController::class,'getByGenre']);
+Route::view('/user/viewinfo/{mid}','/manga/userpanel');
 
 //user Register
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
-Route::view("/user/index/login",'/manga/userpanel');
-Route::view("/user/index/register",'/manga/userpanel');
+Route::view("/index/login",'/manga/userpanel');
+Route::view("/index/register",'/manga/userpanel');
 Route::view("/pagination/{current}/{total}",'/manga/userpanel');
 Route::post("/user/index/register",[AuthController::class,"register"]);
+Route::post("/index/login/singIn",[AuthController::class,"login"]);
 

@@ -15,7 +15,7 @@ export default {
     },
     actions: {
         setUser(context, userData) {
-            context.commit("getAdmin", userData);
+            context.commit("getUser", userData);
         },
     },
 };

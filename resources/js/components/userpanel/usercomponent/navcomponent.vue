@@ -16,14 +16,20 @@
         <v-btn :to="nav.link" text class="white--text">{{ nav.title }}</v-btn>
       </div>
       <v-spacer></v-spacer>
-      <div class="hidden-md-and-down">
-        <v-btn to="/user/index/login">
+      <div class="hidden-md-and-down" v-if="!userData">
+        <v-btn to="/index/login">
           <span>Login</span>
           <v-icon>login</v-icon>
         </v-btn>
-        <v-btn to="/user/index/register">
+        <v-btn to="/index/register">
           <span>Register</span>
           <v-icon>group</v-icon>
+        </v-btn>
+      </div>
+      <div v-if="userData">
+        <v-btn @click="logout">
+          <span>Logout</span>
+          <v-icon>logout</v-icon>
         </v-btn>
       </div>
     </v-app-bar>
@@ -33,14 +39,20 @@
       dark
       class="drawer hidden-md-and-up"
     >
-      <div class="ml-2 hidden-md-and-up">
-        <v-btn>
+      <div class="ml-2 hidden-md-and-up" v-if="!userData">
+        <v-btn to="/index/login">
           <span>Login</span>
           <v-icon>login</v-icon>
         </v-btn>
-        <v-btn>
+        <v-btn to="/index/register">
           <span>Register</span>
           <v-icon>group</v-icon>
+        </v-btn>
+      </div>
+      <div v-if="userData">
+        <v-btn @click="logout">
+          <span>Logout</span>
+          <v-icon>logout</v-icon>
         </v-btn>
       </div>
       <v-list
@@ -57,17 +69,26 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       navlinks: [
-        { title: "Manga Online", link: "/" },
+        { title: "Manga Online", link: "/user" },
         { title: "Latest Manga", link: "" },
         { title: "Hot Manga", link: "" },
         { title: "Newest Manga", link: "" },
       ],
       drawer: false,
     };
+  },
+  computed: {
+    ...mapGetters(["userData"]),
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("setUser", null);
+    },
   },
 };
 </script>

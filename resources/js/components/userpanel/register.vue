@@ -3,8 +3,8 @@
     <v-container>
       <v-row>
         <v-col cols="12" md="6" offset-md="3" sm="8" offset-sm="2">
-          <v-card class="blue darken-4" dark>
-            <v-card-title>
+          <v-card class="blue darken-4">
+            <v-card-title class="white--text">
               {{ currentTitle }}
               <v-spacer> </v-spacer>
               <v-chip class="white blue--text">{{ this.step }}</v-chip>
@@ -14,21 +14,21 @@
                 <v-window v-model="step">
                   <v-window-item :value="1">
                     <v-text-field
-                      filled
+                      solo
                       v-model="fName"
                       :rules="fNameRule"
                       label="First Name"
                     >
                     </v-text-field>
                     <v-text-field
-                      filled
+                      solo
                       v-model="lName"
                       :rules="lNameRule"
                       label="Last Name"
                     >
                     </v-text-field>
                     <v-text-field
-                      filled
+                      solo
                       v-model="email"
                       :rules="emailRule"
                       label="Email"
@@ -37,7 +37,7 @@
                   </v-window-item>
                   <v-window-item :value="2">
                     <v-text-field
-                      filled
+                      solo
                       v-model="pass"
                       :rules="passwordRule"
                       :type="isHide ? 'text' : 'password'"
@@ -48,7 +48,7 @@
                     >
                     </v-text-field>
                     <v-text-field
-                      filled
+                      solo
                       v-model="cpass"
                       :type="isHide1 ? 'text' : 'password'"
                       :append-icon="isHide1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -63,7 +63,7 @@
                     <v-file-input
                       @change="previewImage()"
                       placeholder="choose avatar"
-                      filled
+                      solo
                       v-model="avatar"
                     >
                     </v-file-input>
@@ -82,7 +82,12 @@
               </v-form>
             </v-card-text>
             <v-card-actions>
-              <v-btn class="blue darken-2">Back</v-btn>
+              <v-btn
+                :disabled="this.step == 1 || this.step == 4"
+                class="blue darken-2"
+                @click="goBack"
+                >Back</v-btn
+              >
               <v-spacer></v-spacer>
               <v-btn
                 class="blue darken-2"
@@ -162,8 +167,8 @@ export default {
     },
     async next() {
       if (this.$refs.form.validate()) {
+        this.step = this.step + 1;
         this.loading = true;
-        this.step++;
         this.loading = false;
         if (this.step == 4) {
           this.loading = true;
@@ -184,8 +189,13 @@ export default {
         }
       }
     },
+    goBack() {
+      if (this.$refs.form.validate()) {
+        this.step = this.step - 1;
+      }
+    },
     goLogin() {
-      this.$router.push("/user/index/login");
+      this.$router.push("/index/login");
     },
   },
 };

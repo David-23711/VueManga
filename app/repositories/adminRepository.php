@@ -47,8 +47,7 @@
     {
         $current=$adminData->currentAvatar;
         $file = $adminData->editAvatar;
-        if(File::exists("manga/$current"))
-        {
+       
         $ext = $file->getClientOriginalExtension();
         $photo = time().'.'.$ext;
         $path = $file->move('manga/',$photo);
@@ -58,7 +57,7 @@
         $data->save();
         File::delete("manga/$current");
         return $data;
-        } 
+       
     }
     function checkEmail($admin)
     {

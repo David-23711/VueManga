@@ -13,6 +13,7 @@ import Userindex from "../components/userpanel/index";
 import store from "../vuex";
 import userLogin from "../components/userpanel/login";
 import userRegister from "../components/userpanel/register";
+import viewInfo from "../components/userpanel/viewInfo";
 const routes = [
     {
         name: "admindashboard",
@@ -93,7 +94,7 @@ const routes = [
     },
     {
         name: "Index",
-        path: "/",
+        path: "/user",
         component: Userindex,
     },
     {
@@ -113,12 +114,12 @@ const routes = [
     },
     {
         name: "pagination",
-        path: "/pagination/:pageCurrent/:pageTotal",
+        path: "/user/pagination/:pageCurrent/:pageTotal",
         component: Userindex,
     },
     {
         name: "Datepagination",
-        path: "/pagination/:current/:total/:date",
+        path: "/user/pagination/:current/:total/:date",
         component: Userindex,
     },
     {
@@ -128,13 +129,18 @@ const routes = [
     },
     {
         name: "UserLogin",
-        path: "/user/index/login",
+        path: "/index/login",
         component: userLogin,
     },
     {
         name: "UserRegister",
-        path: "/user/index/register",
+        path: "/index/register",
         component: userRegister,
+    },
+    {
+        name: "ViewInfo",
+        path: "/user/viewInfo/:mid",
+        component: viewInfo,
     },
 ];
 export default routes;

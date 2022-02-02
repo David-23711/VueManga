@@ -161,7 +161,7 @@ class mangaInformationRepository implements mangaInformationInterface{
             $data = MangaInformation::with('volumes','episodes')->get();
             return $data;
         }
-        public function getDataByGenre()
+        public function getDataByGenre() 
         {
             $data=Genre::where('genre',request('genre'))->pluck('manga_information_id')->toArray();
             $count=count($data);

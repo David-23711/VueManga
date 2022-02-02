@@ -1,6 +1,10 @@
 <template>
   <div>
-    <v-dialog transition="dialog-top-transition" max-width="800" :scrollable="true">
+    <v-dialog
+      transition="dialog-top-transition"
+      max-width="800"
+      :scrollable="true"
+    >
       <template v-slot:activator="{ on, attrs }">
         <v-fab-transition>
           <v-btn fab v-on="on" v-bind="attrs" dark class="cyan">
@@ -10,8 +14,7 @@
       </template>
       <template v-slot:default="dialog">
         <v-card style="border: 5px solid cyan">
-          
-            <v-toolbar class="cyan" dark >
+          <v-toolbar class="cyan" dark>
             <span class="headline">Add Manga</span>
             <v-spacer></v-spacer>
             <v-btn text outlined dark @click="dialog.value = false">
@@ -63,18 +66,17 @@
                     id="img"
                     width="175"
                     height="250"
-                    style="border: 1px solid cyan;margin-left:30px;"
+                    style="border: 1px solid cyan; margin-left: 30px"
                   />
                 </v-col>
                 <v-col cols="12" md="6" sm="6" lg="6">
                   <v-text-field
-                   label="Author"
+                    label="Author"
                     filled
                     v-model="info.author"
                     :rules="info.authorRules"
                     prepend-icon="face"
                   >
-
                   </v-text-field>
                 </v-col>
               </v-row>
@@ -116,7 +118,13 @@
           </v-card-text>
           <v-card-actions class="justify-end">
             <v-btn class="red" @click="cancelAdd(dialog)" dark>Cancel</v-btn>
-            <v-btn :loading="loading" class="cyan" dark @click="postManga(dialog)">Save</v-btn>
+            <v-btn
+              :loading="loading"
+              class="cyan"
+              dark
+              @click="postManga(dialog)"
+              >Save</v-btn
+            >
           </v-card-actions>
         </v-card>
       </template>
@@ -126,28 +134,28 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { eventBus } from '../../../app';
+import { eventBus } from "../../../app";
 export default {
   data() {
     return {
       categoriesData: null,
-      loading:false,
+      loading: false,
       info: {
         mangaName: "",
         alterName: "",
-        author:"",
+        author: "",
         status: "",
         visualKey: [],
         date: "",
-        description:'',
-        file:null,
+        description: "",
+        file: null,
         mangaRules: [(v) => !!v || "Manga Name is require!"],
         alterRules: [(v) => !!v || "Alter Name is require!"],
         visualRules: [(v) => !!v || "Image is require!"],
         dateRules: [(v) => !!v || "Date is require!"],
         statusRules: [(v) => !!v || "Status is require!"],
-        dRules:[(v)=> !!v || "Description is require!"],
-        authorRules:[(v)=> !!v || "Author Name is require"]
+        dRules: [(v) => !!v || "Description is require!"],
+        authorRules: [(v) => !!v || "Author Name is require"],
       },
       statusData: ["ongoing", "complete"],
     };
@@ -167,25 +175,24 @@ export default {
           let img = document.getElementById("img");
           img.src = result;
         };
-         reader.readAsDataURL(this.info.file);
+        reader.readAsDataURL(this.info.file);
       }
     },
     cancelAdd(dialog) {
       this.$refs.form.resetValidation();
-      this.info.alterName="";
-      this.info.mangaName="";
-      this.info.alterName="";
-      this.info.author="";
-      this.info.status="";
-      this.info.date="";
-      this.info.description="";
-      document.getElementById('img').src="/manga/nofound.png";
+      this.info.alterName = "";
+      this.info.mangaName = "";
+      this.info.alterName = "";
+      this.info.author = "";
+      this.info.status = "";
+      this.info.date = "";
+      this.info.description = "";
+      document.getElementById("img").src = "/manga/nofound.png";
       dialog.value = false;
     },
     async postManga(dialog) {
-     
       if (this.$refs.form.validate()) {
-        this.loading=true;
+        this.loading = true;
         let formData = new FormData();
         formData.append("manga_name", this.info.mangaName);
         formData.append("alternative_name", this.info.alterName);
@@ -194,33 +201,33 @@ export default {
         formData.append("visual_key", this.info.visualKey);
         formData.append("release_date", this.info.date);
         formData.append("status", this.info.status);
-        formData.append("description",this.info.description);
-        await axios.post("/admin/manga/post", formData)
-        .then((resp) => {
-          this.$refs.form.reset();
-          this.loading=false;
-         dialog.value = false;
-          eventBus.$emit('addManga');
-          
-        })
-        .then((resp)=>{
-           const Toast = Swal.mixin({
-           toast:true,
-           color:'white',
-           background:'green',
-           position:'top-right',
-           timer:1500,
-           timerProgressBar:true,
-           showConfirmButton:false,
-         })
-         Toast.fire({
-           title:'Added',
-           icon:'success',
-         })  
-        })
-         .catch((error)=>{
-           this.loading=false;
-         })
+        formData.append("description", this.info.description);
+        await axios
+          .post("/admin/manga/post", formData)
+          .then((resp) => {
+            this.$refs.form.reset();
+            this.loading = false;
+            dialog.value = false;
+            eventBus.$emit("addManga");
+          })
+          .then((resp) => {
+            const Toast = Swal.mixin({
+              toast: true,
+              color: "white",
+              background: "green",
+              position: "top-right",
+              timer: 1500,
+              timerProgressBar: true,
+              showConfirmButton: false,
+            });
+            Toast.fire({
+              title: "Added",
+              icon: "success",
+            });
+          })
+          .catch((error) => {
+            this.loading = false;
+          });
       }
     },
   },

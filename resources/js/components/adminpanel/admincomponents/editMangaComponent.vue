@@ -11,7 +11,7 @@
           <v-toolbar class="cyan" dark>
             <span class="headline">Edit Manga</span>
             <v-spacer></v-spacer>
-            
+
             <v-btn text outlined dark @click="cancelAdd(dialog)">
               <v-icon color="red">clear</v-icon>
             </v-btn>
@@ -52,23 +52,22 @@
                     @change="showImage"
                   >
                   </v-file-input>
-                   <img
+                  <img
                     :src="`/manga/${edit.image}`"
                     id="img"
                     width="175"
                     height="250"
-                    style="border: 1px solid cyan;margin-left:30px;"
+                    style="border: 1px solid cyan; margin-left: 30px"
                   />
                 </v-col>
                 <v-col cols="12" md="6" sm="6" lg="6">
                   <v-text-field
-                   label="Author"
+                    label="Author"
                     filled
                     v-model="edit.author"
                     :rules="edit.authorRules"
                     prepend-icon="face"
                   >
-
                   </v-text-field>
                 </v-col>
               </v-row>
@@ -109,8 +108,13 @@
             </v-form>
           </v-card-text>
           <v-card-actions class="justify-end">
-            <v-btn :loading="edit.loading" dark class="cyan" @click="updateManga(dialog)"> 
-                Update
+            <v-btn
+              :loading="edit.loading"
+              dark
+              class="cyan"
+              @click="updateManga(dialog)"
+            >
+              Update
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -120,23 +124,23 @@
 </template>
 
 <script>
-import { eventBus } from '../../../app';
+import { eventBus } from "../../../app";
 export default {
   data() {
     return {
       edit: {
-          id:"",
+        id: "",
         mangaName: "",
         alterName: "",
-        author:"",
+        author: "",
         status: "",
         visualKey: [],
         image: "",
         date: "",
-        loading:false,
+        loading: false,
         description: "",
-        currentKey:"",
-        file:null,
+        currentKey: "",
+        file: null,
         mangaRules: [(v) => !!v || "Manga Name is require!"],
         alterRules: [(v) => !!v || "Alter Name is require!"],
         dateRules: [(v) => !!v || "Date is require!"],
@@ -175,60 +179,60 @@ export default {
     },
     cancelAdd(dialog) {
       this.$refs.form.resetValidation();
-      this.edit.alterName="";
-      this.edit.mangaName="";
-      this.edit.alterName="";
-      this.edit.author="";
-      this.edit.status="";
-      this.edit.date="";
-      this.edit.description="";
-      document.getElementById('img').src="/manga/nofound.png";
+      this.edit.alterName = "";
+      this.edit.mangaName = "";
+      this.edit.alterName = "";
+      this.edit.author = "";
+      this.edit.status = "";
+      this.edit.date = "";
+      this.edit.description = "";
+      document.getElementById("img").src = "/manga/nofound.png";
       dialog.value = false;
     },
-    async updateManga(dialog)
-    {
-         this.edit.loading=true;
-        let formData = new FormData();
-        formData.append("manga_name", this.edit.mangaName);
-        formData.append("alternative_name", this.edit.alterName);
-        formData.append("author", this.edit.author);
-        formData.append("visual_key", this.edit.visualKey);
-        formData.append("current_key",this.edit.currentKey)
-        formData.append("release_date", this.edit.date);
-        formData.append("status", this.edit.status);
-        formData.append("description",this.edit.description);
-        formData.append('_method',"PUT");
-        await axios.post(`/admin/manga/post/${this.edit.id}`,formData)
-        .then((resp)=>{
-            eventBus.$emit("editManga");
-            this.edit.loading=false;
-            dialog.value = false;
-            const Toast = Swal.mixin({
-                toast : true,
-                color:'white',
-                iconColor:'white',
-                background:'green',
-                timer:1500,
-                showConfirmButton:false,
-                timerProgressBar: true,
-                position:'top-right'
-            })
-            Toast.fire({
-                title:'Updated',
-                icon:'success',
-            })
-            .catch((error)=>{
-              this.edit.loading=false;
-            })
+    async updateManga(dialog) {
+      this.edit.loading = true;
+      let formData = new FormData();
+      formData.append("manga_name", this.edit.mangaName);
+      formData.append("alternative_name", this.edit.alterName);
+      formData.append("author", this.edit.author);
+      formData.append("visual_key", this.edit.visualKey);
+      formData.append("current_key", this.edit.currentKey);
+      formData.append("release_date", this.edit.date);
+      formData.append("status", this.edit.status);
+      formData.append("description", this.edit.description);
+      formData.append("_method", "PUT");
+      await axios
+        .post(`/admin/manga/post/${this.edit.id}`, formData)
+        .then((resp) => {
+          eventBus.$emit("editManga");
+          this.edit.loading = false;
+          dialog.value = false;
+          const Toast = Swal.mixin({
+            toast: true,
+            color: "white",
+            iconColor: "white",
+            background: "green",
+            timer: 1500,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            position: "top-right",
+          });
+          Toast.fire({
+            title: "Updated",
+            icon: "success",
+          });
         })
-    }
+        .catch((error) => {
+          this.edit.loading = false;
+        });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.img{
-    border: 1px solid cyan;
-    border-radius:20px ;
+.img {
+  border: 1px solid cyan;
+  border-radius: 20px;
 }
 </style>

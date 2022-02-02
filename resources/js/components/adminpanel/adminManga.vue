@@ -254,12 +254,14 @@ export default {
           this.mangaInformations = resp.data;
           this.loading = false;
           this.mainLoading = false;
+          this.imgLoading = false;
           this.pagination.current = resp.data.current_page;
           this.pagination.total = resp.data.last_page;
         })
         .catch((error) => {
           this.loading = false;
           this.mainLoading = false;
+          this.imgLoading = false;
           if (error.response.status == 500) {
             this.error500 = true;
           } else {

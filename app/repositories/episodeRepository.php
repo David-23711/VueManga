@@ -11,11 +11,11 @@ class episodeRepository implements episodeInterface{
     {
         if(request('search')=="null")
         {
-           $data= Episode::where('volume_id',$id)->orderByRaw('LENGTH(episode_name)','asc')->orderBy("episode_name",'asc')->get();
+           $data= Episode::where('volume_id',$id)->orderByRaw('LENGTH(episode_name) asc')->orderBy("episode_name",'asc')->get();
         }else{
             $data = Episode::when(request('search'),function($query){
                 $query->where('episode_name','like','%'.request('search').'%');
-            })->orderByRaw("LENGTH(episode_name)",'asc')->orderBy("episode_name",'asc')->where('volume_id',$id)->get();
+            })->orderByRaw('LENGTH(episode_name) asc')->orderBy("episode_name",'asc')->where('volume_id',$id)->get();
            
         }
         

@@ -17,7 +17,7 @@ class CreateRatingsTable extends Migration
             $table->id();
             $table->bigInteger('manga_information_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            $table->double('rating');
+            $table->double('rating')->nullable();
             $table->timestamps();
         });
         Schema::table('ratings',function (Blueprint $table){

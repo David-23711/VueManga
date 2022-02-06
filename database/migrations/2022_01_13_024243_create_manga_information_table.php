@@ -24,8 +24,8 @@ class CreateMangaInformationTable extends Migration
             $table->string('release_date');
             $table->string('status');
             $table->mediumText('description');
-            $table->double('rating');
-            $table->bigInteger('users');
+            $table->double('rating')->nullable();
+            $table->bigInteger('users')->nullable();
             $table->timestamps();
         });
     }

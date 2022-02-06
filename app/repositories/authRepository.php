@@ -5,6 +5,7 @@ use App\interfaces\authInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 
 
@@ -20,6 +21,7 @@ class authRepository implements authInterface{
         $ext = $file->getClientOriginalExtension();
         $photo = time().'.'.$ext;
         $data->avatar=$photo;
+        $path=$file->move("manga/",$photo);
       }else{
         $data->avatar=null;
       }
@@ -39,6 +41,29 @@ class authRepository implements authInterface{
       }else{
         return $data;
       }
+    }
+    public function userUpdate($id,$user)
+    {
+      $data=User::find($id);
+      $current=$user->current_avatar;
+      if($user->avatar==null || $user->avatar=="null")
+      {
+        $photo=null;
+      }else{
+      $file=$user->avatar;
+      $ext = $file->getClientOriginalExtension();
+      $photo=time().'.'.$ext;
+      $path=$file->move("manga/",$photo);
+    }
+    if(File::exists("manga/$current"))
+    {
+      File::delete("manga/$current");
+    }
+      $data->first_name=$user->first_name;
+      $data->last_name=$user->last_name;
+      $data->avatar=$photo;
+      $data->save();
+      return $data;
     }
 }
 ?>

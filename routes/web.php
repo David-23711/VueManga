@@ -3,12 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\bookmarkController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MangaInformationController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MultiImageController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\VolumeController;
 use App\Models\Episode;
 use App\Models\MangaInformation;
@@ -107,7 +109,11 @@ Route::view('/user/{category}/{current}/{total}','/manga/userpanel');
 Route::get('/user/allDatas',[MangaInformationController::class,'userIndex']);
 Route::get('/admin/category/byGenre',[MangaInformationController::class,'getByGenre']);
 Route::view('/user/viewinfo/{mid}','/manga/userpanel');
-
+Route::get("/admin/manga/dashboard",[MangaInformationController::class,'dashboard']);
+Route::view("/user/readmanga/{mid}/{vid}/{eid}/{number}",'/manga/userpanel');
+Route::post("/user/viewinfo/{id}/rating",[RatingController::class,'rating']);
+Route::get("/getUserRating/{id}/{uid}",[RatingController::class,'getRating']);
+Route::post("/user/viewinfo/{id}/totalRating",[RatingController::class,'insertRating']);
 //user Register
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
@@ -117,3 +123,25 @@ Route::view("/pagination/{current}/{total}",'/manga/userpanel');
 Route::post("/user/index/register",[AuthController::class,"register"]);
 Route::post("/index/login/singIn",[AuthController::class,"login"]);
 
+
+Route::view("/portfolio",'portfolio');
+//user Bookmark
+Route::post("/user/viewinfo/{id}/bookmark",[bookmarkController::class,'bookmark']);
+Route::get("/user/viewinfo/{mid}/{uid}/getBookmark",[bookmarkController::class,'getBookmark']);
+Route::delete("/user/viewinfo/{mid}/{uid}/deleteBookmark",[bookmarkController::class,'delete']);
+//
+Route::get("/user/viewinfo/{mid}/{uid}/getRatingTotal",[RatingController::class,'total']);
+Route::get("/user/getBookmark/{id}",[bookmarkController::class,"getUserBookmark"]);
+Route::view("/bookmarks/{id}",'/manga/userpanel');
+Route::get("/bookmarks/{id}/getUserBookmark",[bookmarkController::class,"getAllBookmarks"]);
+Route::put("/update/user/{id}",[AuthController::class,"updateUser"]);
+Route::view("/user/readmanga/slideView/{eid}/{mid}/{vid}/{number}",'/manga/userpanel');
+
+//hotmanga
+Route::view("/hotmanga",'/manga/userpanel');
+Route::get("/hotmanga/getHotManga",[MangaInformationController::class,"getHotManga"]);
+Route::view("/hotmanga/pagination/{current}/{total}",'/manga/userpanel');
+
+Route::view("/newest",'/manga/userpanel');
+Route::get("/newest/getNewestManga",[MangaInformationController::class,"getNewestManga"]);
+Route::view("/newest/pagination/{current}/{total}",'/manga/userpanel');

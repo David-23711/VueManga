@@ -73,4 +73,16 @@ class MangaInformationController extends Controller
    {
        return $this->mangaInterface->getDataByGenre();
    }
+   public function dashboard()
+   {
+       return $this->mangaInterface->getForDashboard();
+   }
+   public function getHotManga()
+   {
+       return $this->mangaInterface->getHotMangaAll();
+   }
+   public function getNewestManga()
+   {
+       return $this->mangaInterface->getNewestMangaAll();
+   }
 }

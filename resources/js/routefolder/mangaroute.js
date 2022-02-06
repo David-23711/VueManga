@@ -14,6 +14,11 @@ import store from "../vuex";
 import userLogin from "../components/userpanel/login";
 import userRegister from "../components/userpanel/register";
 import viewInfo from "../components/userpanel/viewInfo";
+import userReadManga from "../components/userpanel/userReadManga";
+import userBookmark from "../components/userpanel/userBookmark";
+import userSlideView from "../components/userpanel/slideView";
+import HotManga from "../components/userpanel/hotmanga";
+import NewestManga from "../components/userpanel/newestManga";
 const routes = [
     {
         name: "admindashboard",
@@ -131,16 +136,65 @@ const routes = [
         name: "UserLogin",
         path: "/index/login",
         component: userLogin,
+        beforeEnter: (to, form, next) => {
+            if (store.getters.userData) {
+                next("/user");
+            } else {
+                next();
+            }
+        },
     },
     {
         name: "UserRegister",
         path: "/index/register",
         component: userRegister,
+        beforeEnter: (to, from, next) => {
+            if (store.getters.userData) {
+                next("/user");
+            } else {
+                next();
+            }
+        },
     },
     {
         name: "ViewInfo",
         path: "/user/viewInfo/:mid",
         component: viewInfo,
+    },
+    {
+        name: "UserReadManga",
+        path: "/user/readmanga/:mid/:vid/:eid/:number",
+        component: userReadManga,
+    },
+    {
+        name: "UserBookmark",
+        path: "/bookmarks/:uid",
+        component: userBookmark,
+    },
+    {
+        name: "SlideView",
+        path: "/user/readmanga/slideView/:eid/:mid/:vid/:number",
+        component: userSlideView,
+    },
+    {
+        name: "hotmanga",
+        path: "/hotmanga",
+        component: HotManga,
+    },
+    {
+        name: "paginateHotmanga",
+        path: "/hotmanga/pagination/:current/:total",
+        component: HotManga,
+    },
+    {
+        name: "newestmanga",
+        path: "/newest",
+        component: NewestManga,
+    },
+    {
+        name: "paginateNewestmanga",
+        path: "/newest/pagination/:current/:total",
+        component: NewestManga,
     },
 ];
 export default routes;

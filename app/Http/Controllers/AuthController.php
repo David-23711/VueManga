@@ -20,4 +20,8 @@ class AuthController extends Controller
     {
        return $this->authInterface->userLogin($req);
     }
+    public function updateUser($id,Request $req)
+    {
+        return $this->authInterface->userUpdate($id,$req);
+    }
 }

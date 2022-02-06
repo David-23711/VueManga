@@ -19,6 +19,8 @@ class MangaInformation extends Model
         'release_date',
         'status',
         'description',
+        'rating',
+        'users'
     ];
 
     public function comments()

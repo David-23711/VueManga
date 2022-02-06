@@ -172,6 +172,21 @@ class mangaInformationRepository implements mangaInformationInterface{
             }
             return $manga;
         }
+        public function getForDashboard()
+        {
+            $data=MangaInformation::orderBy("created_at","desc")->get();
+            return $data;
+        }
+        public function getHotMangaAll()
+        {
+            $data=MangaInformation::orderBy("rating","desc")->paginate(6);
+            return $data;
+        }
+        public function getNewestMangaAll()
+        {
+            $data=MangaInformation::orderByRaw("LENGTH(release_date) desc")->orderBy("release_date","desc")->paginate(6);
+            return $data;
+        }
 }
 
 ?>

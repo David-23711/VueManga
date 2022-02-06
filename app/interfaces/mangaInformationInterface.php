@@ -17,6 +17,9 @@ interface mangaInformationInterface{
     public function projectCount();
     public function getAllDataForUser();
     public function getDataByGenre();
+    public function getForDashboard();
+    public function getHotMangaAll();
+    public function getNewestMangaAll();
 }
 
 ?>

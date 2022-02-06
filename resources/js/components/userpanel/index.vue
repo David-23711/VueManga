@@ -121,13 +121,20 @@
             </v-card-text>
             <v-card-actions>
               <v-rating
-                v-model="rating"
+                :value="data.rating"
                 :length="length"
-                color="red lighten-3"
+                color="yellow accent-4"
                 background-color="grey lighten-1"
                 size="20"
+                readonly
+                half-increments
+                half-icon="star_half"
+                full-icon="star_rate"
+                empty-icon="star_outline"
               ></v-rating>
-              <span class="subtitle-2">4.9 Rating</span>
+              <span class="subtitle-2"
+                >{{ data.rating }} Rating ({{ data.users }})</span
+              >
             </v-card-actions>
             <v-toolbar>
               <v-row>
@@ -185,7 +192,7 @@ export default {
       length: 5,
       rating: 0,
       searchName: "",
-
+      total: 0,
       releaseDates: [],
       searchName: "",
       isOnGenre: false,
@@ -232,7 +239,7 @@ export default {
     async getAllDatas() {
       await axios
         .get(
-          `/admin/manga/post?search=${this.searchName} && page=${this.pagination.current}`
+          `/admin/manga/post?search=${this.searchName} && page=${this.$route.params.pageCurrent}`
         )
         .then((resp) => {
           this.datas = resp.data.data;
@@ -347,10 +354,9 @@ export default {
     },
     onPageChange(current, total) {
       let path = `/user/pagination/${current}/${total}`;
-      if (this.$route.path) {
+      if (this.$route.path != path) {
         this.$router.push(path);
       }
-
       this.getAllDatas();
     },
   },

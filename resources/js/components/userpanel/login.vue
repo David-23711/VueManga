@@ -78,7 +78,7 @@ export default {
             });
           } else {
             this.$store.dispatch("setUser", resp.data);
-            this.$router.push("/user");
+            this.$router.back();
             const Toast = Swal.mixin({
               toast: true,
               position: "top-right",

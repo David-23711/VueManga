@@ -13,5 +13,21 @@ class RatingController extends Controller
     {
         $this->ratingInterface=$ratingInterface;
     }
+    public function rating(Request $req)
+    {
+        $this->ratingInterface->userRating($req);
+    }
+    public function getRating($id,$uid)
+    {
+        return $this->ratingInterface->getUserRating($id,$uid);
+    }
+    public function total($mid,$uid)
+    {
+        return $this->ratingInterface->getTotalRating($mid,$uid);
+    }
+    public function insertRating($id,Request $req)
+    {
+        return $this->ratingInterface->addRating($id,$req);
+    }
     
 }

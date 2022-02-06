@@ -1,9 +1,11 @@
 <template>
   <div>
-    <v-app-bar app class="indigo">
-      <v-btn text class="mr-2 hidden-md-and-up" @click="drawer = !drawer">
-        <v-icon size="35" color="white">menu</v-icon>
-      </v-btn>
+    <v-app-bar v-if="hide == false" :hidden="hide" app class="indigo">
+      <div class="d-lg-none d-xl-flex">
+        <v-btn text class="mr-2" @click="drawer = !drawer">
+          <v-icon size="35" color="white">menu</v-icon>
+        </v-btn>
+      </div>
       <v-toolbar-title>
         <span class="headline white--text">Manga</span>
         <span class="headline">Mize</span>
@@ -27,19 +29,88 @@
         </v-btn>
       </div>
       <div v-if="userData">
-        <v-btn @click="logout">
-          <span>Logout</span>
-          <v-icon>logout</v-icon>
-        </v-btn>
+        <v-tooltip left>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              @click="goBookmark"
+              :loading="loading"
+              text
+              class="mr-2"
+              v-on="on"
+              v-bind="attrs"
+            >
+              <v-badge
+                :content="bookmarks == 0 ? '0' : bookmarks"
+                class="mr-5 mt-2"
+              >
+                <v-icon color="white">bookmarks</v-icon>
+              </v-badge>
+            </v-btn>
+          </template>
+          <span>Bookmarks</span>
+        </v-tooltip>
+        <v-dialog max-width="500" transition="dialog-top-transition">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              :hidden="userData.avatar != null"
+              v-on="on"
+              v-bind="attrs"
+              class="blue hidden-md-and-down"
+              fab
+            >
+              <span>{{ twoFirst() }}</span>
+            </v-btn>
+            <v-avatar v-on="on" :hidden="userData.avatar == null">
+              <img
+                :src="
+                  userData.avatar != null ? `/manga/${userData.avatar}` : ''
+                "
+                alt=""
+              />
+            </v-avatar>
+          </template>
+          <template v-slot:default="dialog">
+            <v-card>
+              <v-toolbar flat>
+                <v-spacer></v-spacer>
+                <v-btn class="pink" @click="dialog.value = false">
+                  <v-icon color="white">clear</v-icon>
+                </v-btn>
+              </v-toolbar>
+              <v-card-text class="text-center">
+                <v-avatar
+                  class="mt-3"
+                  size="100"
+                  v-if="userData.avatar != null"
+                >
+                  <v-img :src="`/manga/${userData.avatar}`"></v-img> </v-avatar
+                ><br />
+                <v-avatar
+                  class="primary mb-2"
+                  size="100"
+                  v-if="userData.avatar == null"
+                >
+                  <span class="headline">{{ twoFirst() }}</span> </v-avatar
+                ><br />
+                <edit-user-component></edit-user-component>
+                <span class="title"
+                  >{{ userData.first_name }} {{ userData.last_name }}</span
+                ><br />
+                <span class="subtitle-2">{{ userData.email }}</span>
+              </v-card-text>
+            </v-card>
+          </template>
+        </v-dialog>
       </div>
     </v-app-bar>
     <v-navigation-drawer
-      stateless
+      fixed
       v-model="drawer"
       dark
-      class="drawer hidden-md-and-up"
+      class="d-lg-none d-xl-flex"
     >
-      <div class="ml-2 hidden-md-and-up" v-if="!userData">
+      <div class="ml-2" v-if="!userData">
         <v-btn to="/index/login">
           <span>Login</span>
           <v-icon>login</v-icon>
@@ -50,7 +121,7 @@
         </v-btn>
       </div>
       <div v-if="userData">
-        <v-btn @click="logout">
+        <v-btn @click="logout" class="ml-5">
           <span>Logout</span>
           <v-icon>logout</v-icon>
         </v-btn>
@@ -70,16 +141,21 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { eventBus } from "../../../app";
+import editUserComponent from "./editUserComponent.vue";
 export default {
+  components: { editUserComponent },
   data() {
     return {
       navlinks: [
         { title: "Manga Online", link: "/user" },
-        { title: "Latest Manga", link: "" },
-        { title: "Hot Manga", link: "" },
-        { title: "Newest Manga", link: "" },
+        { title: "Hot Manga", link: "/hotmanga" },
+        { title: "Newest Manga", link: "/newest" },
       ],
+      loading: false,
       drawer: false,
+      bookmarks: 0,
+      hide: false,
     };
   },
   computed: {
@@ -89,6 +165,43 @@ export default {
     logout() {
       this.$store.dispatch("setUser", null);
     },
+    twoFirst() {
+      let first = this.userData.first_name.substring(0, 1);
+      let last = this.userData.last_name.substring(0, 1);
+      return `${first + last}`;
+    },
+    goBookmark() {
+      let path = `/bookmarks/${this.userData.id}`;
+      if (this.$route.path != path) {
+        this.$router.push(`/bookmarks/${this.userData.id}`);
+      }
+    },
+    async getBookmarks() {
+      this.loading = true;
+      await axios
+        .get(`/user/getBookmark/${this.userData.id}`)
+        .then((resp) => {
+          this.bookmarks = resp.data;
+        })
+        .then((resp) => {
+          this.loading = false;
+        })
+        .catch((error) => {
+          this.loading = false;
+        });
+    },
+  },
+  mounted() {
+    this.getBookmarks();
+    eventBus.$on("bookmark", () => {
+      this.getBookmarks();
+    });
+    eventBus.$on("hide", () => {
+      this.hide = true;
+    });
+    eventBus.$on("show", () => {
+      this.hide = false;
+    });
   },
 };
 </script>
@@ -101,11 +214,11 @@ export default {
   align-items: center;
 }
 .drawer {
-  position: absolute;
-  left: 0;
-  top: 0;
+  // position: absolute;
+  // left: 0;
+  // top: 0;
   padding-top: 70px;
-  bottom: 0;
+  // bottom: 0;
   z-index: 1;
 }
 </style>

@@ -85,7 +85,7 @@
         <v-col cols="12" md="6" sm="12">
           <v-card height="450">
             <v-card-text>
-               <div class="cframe" v-if="hide==false">
+              <div class="cframe" v-if="hide == false">
                 <v-progress-circular
                   :hidden="hide"
                   indeterminate
@@ -95,7 +95,7 @@
               <div class="outer-border">
                 <div class="inner-border">
                   <v-list :hidden="hide == false" class="content">
-                    <v-list-item v-for="item in allProject.data" :key="item.id">
+                    <v-list-item v-for="item in allProject" :key="item.id">
                       <v-list-item-icon>
                         <span class="green--text">Latest</span>
                       </v-list-item-icon>
@@ -106,7 +106,6 @@
                         <v-list-item-subtitle>
                           <span>{{ item.alternative_name }}</span>
                         </v-list-item-subtitle>
-                       
                       </v-list-item-content>
                       <v-list-item-action>
                         <v-btn
@@ -158,7 +157,7 @@ export default {
     async getAllProject() {
       this.hide = false;
       await axios
-        .get(`/admin/manga/post`)
+        .get(`/admin/manga/dashboard`)
         .then((resp) => {
           this.allProject = resp.data;
           this.hide = true;

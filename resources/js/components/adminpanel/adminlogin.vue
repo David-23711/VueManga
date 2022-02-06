@@ -99,6 +99,7 @@
                                   filled
                                   dark
                                   value=" "
+                                  @click:append="isicon = !isicon"
                                   v-model="forgetPass"
                                   :type="isicon ? 'text' : 'password'"
                                   :append-icon="
@@ -114,6 +115,7 @@
                                   dark
                                   v-model="forgetCpass"
                                   value=" "
+                                  @click:append="isicon2 = !isicon2"
                                   :type="isicon2 ? 'text' : 'password'"
                                   :append-icon="
                                     isicon2 ? 'mdi-eye' : 'mdi-eye-off'

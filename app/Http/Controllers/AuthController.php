@@ -24,4 +24,12 @@ class AuthController extends Controller
     {
         return $this->authInterface->userUpdate($id,$req);
     }
+    public function check(Request $req)
+    {
+        return $this->authInterface->checkEmail($req);
+    }
+    public function putPassword($id,Request $req)
+    {
+        return $this->authInterface->updatePassword($id,$req);
+    }
 }

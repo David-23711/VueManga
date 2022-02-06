@@ -36,7 +36,7 @@ class authRepository implements authInterface{
     public function userLogin($user)
     {
       $data = User::where(['email'=>$user->email])->first();
-      if(!$data || Hash::check($user->password, $data->password)){
+      if(!$data || !Hash::check($user->password, $data->password)){
         return response()->json(['message'=>'Email or Password not match']);
       }else{
         return $data;
@@ -63,6 +63,22 @@ class authRepository implements authInterface{
       $data->last_name=$user->last_name;
       $data->avatar=$photo;
       $data->save();
+      return $data;
+    }
+    function checkEmail($user)
+    {
+        $count = User::where("email",$user->forgetEmail)->count();
+        $data = User::where("email",$user->forgetEmail)->pluck("id")->toArray();
+        return response()->json(["count"=>$count,"data"=>$data]);
+    }
+    function updatePassword($id,$user)
+    {
+      // $data = User::find($id);
+      // $password=bcrypt($user['forgetPass']);
+      // $data->update([
+      //     'password'=>$password,
+      // ]);
+      $data=$user['forgetPass'];
       return $data;
     }
 }

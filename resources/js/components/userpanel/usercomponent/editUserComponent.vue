@@ -29,7 +29,7 @@
                   <v-avatar size="100">
                     <img
                       :src="
-                        userData.avatar != null
+                        userImage != null
                           ? `/manga/${userData.avatar}`
                           : `/manga/user.png`
                       "
@@ -63,6 +63,18 @@ export default {
   },
   computed: {
     ...mapGetters(["userData"]),
+    userImage() {
+      if (this.userData) {
+        if (this.userData.avatar == null) {
+          return null;
+        } else {
+          return this.userData.avatar;
+        }
+      }
+      if (!this.userDara) {
+        return null;
+      }
+    },
   },
   methods: {
     showImage() {

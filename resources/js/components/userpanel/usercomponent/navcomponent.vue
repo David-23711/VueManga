@@ -56,11 +56,20 @@
           transition="dialog-top-transition"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-on="on" v-bind="attrs" class="blue hidden-md-and-down" fab>
+            <v-btn
+              :hidden="userImage != null"
+              v-on="on"
+              v-bind="attrs"
+              class="blue hidden-md-and-down"
+              fab
+            >
               <span>{{ twoFirst() }}</span>
             </v-btn>
-            <v-avatar v-on="on">
-              <img :src="userData ? `/manga/${userData.avatar}` : ''" alt="" />
+            <v-avatar v-on="on" :hidden="userImage == null">
+              <img
+                :src="userImage != null ? `/manga/${userData.avatar}` : ''"
+                alt=""
+              />
             </v-avatar>
           </template>
           <template v-slot:default="dialog">
@@ -72,23 +81,17 @@
                 </v-btn>
               </v-toolbar>
               <v-card-text class="text-center">
-                <v-avatar
-                  class="mt-3"
-                  size="100"
-                  v-if="userData ? userData.avatar != null : ''"
-                >
+                <v-avatar class="mt-3" size="100" :hidden="userImage == null">
                   <v-img
-                    :src="userData ? `/manga/${userData.avatar}` : ''"
+                    :src="userImage != null ? `/manga/${userData.avatar}` : ''"
                   ></v-img> </v-avatar
                 ><br />
                 <v-avatar
                   class="primary mb-2"
                   size="100"
-                  v-if="userData ? userData.avatar == null : ''"
+                  :hidden="userImage != null"
                 >
-                  <span class="headline" v-if="userData">{{
-                    twoFirst()
-                  }}</span> </v-avatar
+                  <span class="headline">{{ twoFirst() }}</span> </v-avatar
                 ><br />
                 <edit-user-component></edit-user-component>
                 <div v-if="userData">
@@ -113,13 +116,9 @@
       class="d-lg-none d-xl-flex"
     >
       <v-row class="ma-8 justify-center">
-        <v-avatar
-          class="mt-3"
-          size="100"
-          v-if="userData ? userData.avatar != null : ''"
-        >
+        <v-avatar class="mt-3" size="100" :hidden="userImage">
           <v-img
-            :src="userData ? `/manga/${userData.avatar}` : ''"
+            :src="userImage != null ? `/manga/${userData.avatar}` : ''"
           ></v-img> </v-avatar
         ><br />
         <v-avatar
@@ -194,6 +193,18 @@ export default {
   },
   computed: {
     ...mapGetters(["userData"]),
+    userImage() {
+      if (this.userData) {
+        if (this.userData.avatar == null) {
+          return null;
+        } else {
+          return this.userData.avatar;
+        }
+      }
+      if (!this.userDara) {
+        return null;
+      }
+    },
   },
   methods: {
     logout() {

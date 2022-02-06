@@ -145,3 +145,7 @@ Route::view("/hotmanga/pagination/{current}/{total}",'/manga/userpanel');
 Route::view("/newest",'/manga/userpanel');
 Route::get("/newest/getNewestManga",[MangaInformationController::class,"getNewestManga"]);
 Route::view("/newest/pagination/{current}/{total}",'/manga/userpanel');
+
+//user auth
+Route::post('/user/login/checkEmail',[AuthController::class,'check']);
+Route::put('/user/login/putPassword/{id}',[AuthController::class,'putPassword']);

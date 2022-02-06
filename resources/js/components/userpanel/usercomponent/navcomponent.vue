@@ -50,7 +50,11 @@
           </template>
           <span>Bookmarks</span>
         </v-tooltip>
-        <v-dialog max-width="500" transition="dialog-top-transition">
+        <v-dialog
+          v-model="remote"
+          max-width="500"
+          transition="dialog-top-transition"
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               :hidden="userData.avatar != null"
@@ -110,6 +114,25 @@
       dark
       class="d-lg-none d-xl-flex"
     >
+      <v-row class="ma-8 justify-center">
+        <v-avatar class="mt-3" size="100" v-if="userData.avatar != null">
+          <v-img :src="`/manga/${userData.avatar}`"></v-img> </v-avatar
+        ><br />
+        <v-avatar
+          class="primary mb-2"
+          size="100"
+          v-if="userData.avatar == null"
+        >
+          <span class="headline">{{ twoFirst() }}</span> </v-avatar
+        ><br />
+        <v-col cols="12" class="text-center">
+          <v-btn class="primary" dark @click="remote = true">Edit</v-btn><br />
+          <span class="white--text"
+            >{{ userData.first_name }} {{ userData.last_name }}</span
+          >
+          <span class="white--text">{{ userData.email }}</span>
+        </v-col>
+      </v-row>
       <div class="ml-2" v-if="!userData">
         <v-btn to="/index/login">
           <span>Login</span>
@@ -118,12 +141,6 @@
         <v-btn to="/index/register">
           <span>Register</span>
           <v-icon>group</v-icon>
-        </v-btn>
-      </div>
-      <div v-if="userData">
-        <v-btn @click="logout" class="ml-5">
-          <span>Logout</span>
-          <v-icon>logout</v-icon>
         </v-btn>
       </div>
       <v-list
@@ -135,6 +152,12 @@
           <v-btn :to="mnav.link" text>{{ mnav.title }}</v-btn>
         </v-list-item>
       </v-list>
+      <div v-if="userData">
+        <v-btn outlined @click="logout" color="red" class="ml-5">
+          <span>Logout</span>
+          <v-icon>logout</v-icon>
+        </v-btn>
+      </div>
     </v-navigation-drawer>
   </div>
 </template>
@@ -152,6 +175,7 @@ export default {
         { title: "Hot Manga", link: "/hotmanga" },
         { title: "Newest Manga", link: "/newest" },
       ],
+      remote: false,
       loading: false,
       drawer: false,
       bookmarks: 0,

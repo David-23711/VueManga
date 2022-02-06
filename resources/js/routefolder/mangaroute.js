@@ -158,7 +158,7 @@ const routes = [
     },
     {
         name: "ViewInfo",
-        path: "/user/viewInfo/:mid",
+        path: "/index/viewInfo/:mid",
         component: viewInfo,
     },
     {

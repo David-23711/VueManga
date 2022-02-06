@@ -138,7 +138,7 @@
             </v-card-actions>
             <v-toolbar>
               <v-row>
-                <v-btn text :to="`/user/viewinfo/${data.id}`">
+                <v-btn text :to="`/index/viewinfo/${data.id}`">
                   <span>Read</span>
                 </v-btn>
               </v-row>
@@ -195,6 +195,7 @@ export default {
       total: 0,
       releaseDates: [],
       searchName: "",
+      path: this.$route.path,
       isOnGenre: false,
       isOnDate: false,
       isSearch: false,

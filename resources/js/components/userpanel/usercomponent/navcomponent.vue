@@ -56,22 +56,11 @@
           transition="dialog-top-transition"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              :hidden="userData.avatar != null"
-              v-on="on"
-              v-bind="attrs"
-              class="blue hidden-md-and-down"
-              fab
-            >
+            <v-btn v-on="on" v-bind="attrs" class="blue hidden-md-and-down" fab>
               <span>{{ twoFirst() }}</span>
             </v-btn>
-            <v-avatar v-on="on" :hidden="userData.avatar == null">
-              <img
-                :src="
-                  userData.avatar != null ? `/manga/${userData.avatar}` : ''
-                "
-                alt=""
-              />
+            <v-avatar v-on="on">
+              <img :src="userData ? `/manga/${userData.avatar}` : ''" alt="" />
             </v-avatar>
           </template>
           <template v-slot:default="dialog">
@@ -86,23 +75,32 @@
                 <v-avatar
                   class="mt-3"
                   size="100"
-                  v-if="userData.avatar != null"
+                  v-if="userData ? userData.avatar != null : ''"
                 >
-                  <v-img :src="`/manga/${userData.avatar}`"></v-img> </v-avatar
+                  <v-img
+                    :src="userData ? `/manga/${userData.avatar}` : ''"
+                  ></v-img> </v-avatar
                 ><br />
                 <v-avatar
                   class="primary mb-2"
                   size="100"
-                  v-if="userData.avatar == null"
+                  v-if="userData ? userData.avatar == null : ''"
                 >
-                  <span class="headline">{{ twoFirst() }}</span> </v-avatar
+                  <span class="headline" v-if="userData">{{
+                    twoFirst()
+                  }}</span> </v-avatar
                 ><br />
                 <edit-user-component></edit-user-component>
-                <span class="title"
-                  >{{ userData.first_name }} {{ userData.last_name }}</span
-                ><br />
-                <span class="subtitle-2">{{ userData.email }}</span>
+                <div v-if="userData">
+                  <span class="title"
+                    >{{ userData.first_name }} {{ userData.last_name }}</span
+                  ><br />
+                  <span class="subtitle-2">{{ userData.email }}</span>
+                </div>
               </v-card-text>
+              <v-card-actions class="justify-end">
+                <v-btn outlined color="red" @click="logout">Logout</v-btn>
+              </v-card-actions>
             </v-card>
           </template>
         </v-dialog>
@@ -115,22 +113,34 @@
       class="d-lg-none d-xl-flex"
     >
       <v-row class="ma-8 justify-center">
-        <v-avatar class="mt-3" size="100" v-if="userData.avatar != null">
-          <v-img :src="`/manga/${userData.avatar}`"></v-img> </v-avatar
+        <v-avatar
+          class="mt-3"
+          size="100"
+          v-if="userData ? userData.avatar != null : ''"
+        >
+          <v-img
+            :src="userData ? `/manga/${userData.avatar}` : ''"
+          ></v-img> </v-avatar
         ><br />
         <v-avatar
           class="primary mb-2"
           size="100"
-          v-if="userData.avatar == null"
+          v-if="userData ? userData.avatar == null : ''"
         >
-          <span class="headline">{{ twoFirst() }}</span> </v-avatar
+          <span class="headline" v-if="userData">{{
+            twoFirst()
+          }}</span> </v-avatar
         ><br />
         <v-col cols="12" class="text-center">
-          <v-btn class="primary" dark @click="remote = true">Edit</v-btn><br />
-          <span class="white--text"
-            >{{ userData.first_name }} {{ userData.last_name }}</span
-          >
-          <span class="white--text">{{ userData.email }}</span>
+          <v-btn v-if="userData" class="primary" dark @click="remote = true"
+            >Edit</v-btn
+          ><br />
+          <div v-if="userData">
+            <span class="white--text"
+              >{{ userData.first_name }} {{ userData.last_name }}</span
+            >
+            <span class="white--text">{{ userData.email }}</span>
+          </div>
         </v-col>
       </v-row>
       <div class="ml-2" v-if="!userData">
@@ -216,7 +226,10 @@ export default {
     },
   },
   mounted() {
-    this.getBookmarks();
+    if (this.userData) {
+      this.getBookmarks();
+    }
+
     eventBus.$on("bookmark", () => {
       this.getBookmarks();
     });

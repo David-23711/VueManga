@@ -108,7 +108,7 @@ Route::view('/user/data/{date}/{current}/{total}','/manga/userpanel');
 Route::view('/user/{category}/{current}/{total}','/manga/userpanel');
 Route::get('/user/allDatas',[MangaInformationController::class,'userIndex']);
 Route::get('/admin/category/byGenre',[MangaInformationController::class,'getByGenre']);
-Route::view('/user/viewinfo/{mid}','/manga/userpanel');
+Route::view('/index/viewinfo/{mid}','/manga/userpanel');
 Route::get("/admin/manga/dashboard",[MangaInformationController::class,'dashboard']);
 Route::view("/user/readmanga/{mid}/{vid}/{eid}/{number}",'/manga/userpanel');
 Route::post("/user/viewinfo/{id}/rating",[RatingController::class,'rating']);

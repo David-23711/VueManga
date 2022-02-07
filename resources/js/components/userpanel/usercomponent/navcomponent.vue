@@ -60,8 +60,9 @@
               :hidden="userImage != null"
               v-on="on"
               v-bind="attrs"
-              class="blue hidden-md-and-down"
+              class="blue"
               fab
+              text
             >
               <span>{{ twoFirst() }}</span>
             </v-btn>
@@ -116,19 +117,14 @@
       class="d-lg-none d-xl-flex"
     >
       <v-row class="ma-8 justify-center">
-        <v-avatar class="mt-3" size="100" :hidden="userImage">
-          <v-img
-            :src="userImage != null ? `/manga/${userData.avatar}` : ''"
-          ></v-img> </v-avatar
+        <v-avatar class="mt-3" size="100" :hidden="userImage == null">
+          <img
+            :src="
+              userImage != null ? `/manga/${userData.avatar}` : ''
+            " /></v-avatar
         ><br />
-        <v-avatar
-          class="primary mb-2"
-          size="100"
-          v-if="userData ? userData.avatar == null : ''"
-        >
-          <span class="headline" v-if="userData">{{
-            twoFirst()
-          }}</span> </v-avatar
+        <v-avatar class="primary mb-2" size="100" :hidden="userImage != null">
+          <span class="headline">{{ twoFirst() }}</span> </v-avatar
         ><br />
         <v-col cols="12" class="text-center">
           <v-btn v-if="userData" class="primary" dark @click="remote = true"

@@ -40,6 +40,7 @@
               class="form-control mt-2"
               @change="byReleaseController"
             >
+              <option value="Latest" selected>Latest</option>
               <option value="Desc" selected>Descend</option>
               <option value="Asc" selected>Ascend</option>
               <option
@@ -245,7 +246,7 @@ export default {
         .then((resp) => {
           this.datas = resp.data.data;
           // console.log("getAllDatas");
-          this.byRelease = "Desc";
+          this.byRelease = "Latest";
           this.isOnDate = false;
           this.pagination.current = resp.data.current_page;
           this.pagination.total = resp.data.last_page;

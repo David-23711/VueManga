@@ -135,9 +135,9 @@ class mangaInformationRepository implements mangaInformationInterface{
         }
         public function getByRelease()
         {
-            if(request('release')=='All')
+            if(request('release')=='Latest')
             {
-                $data = MangaInformation::orderBy('created_at','desc')->paginate(6);
+                $data = MangaInformation::orderBy("created_at","desc")->paginate(6);
             }else if(request('release') == 'Desc')
             {
                 $data = MangaInformation::orderBy('manga_name','desc')->paginate(6);

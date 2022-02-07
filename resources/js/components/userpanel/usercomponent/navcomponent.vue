@@ -63,6 +63,7 @@
               class="blue"
               fab
               text
+              v-if="userData"
             >
               <span>{{ twoFirst() }}</span>
             </v-btn>
@@ -91,6 +92,7 @@
                   class="primary mb-2"
                   size="100"
                   :hidden="userImage != null"
+                  v-if="userData"
                 >
                   <span class="headline">{{ twoFirst() }}</span> </v-avatar
                 ><br />
@@ -123,7 +125,12 @@
               userImage != null ? `/manga/${userData.avatar}` : ''
             " /></v-avatar
         ><br />
-        <v-avatar class="primary mb-2" size="100" :hidden="userImage != null">
+        <v-avatar
+          v-if="userData"
+          class="primary mb-2"
+          size="100"
+          :hidden="userImage != null"
+        >
           <span class="headline">{{ twoFirst() }}</span> </v-avatar
         ><br />
         <v-col cols="12" class="text-center">
@@ -205,6 +212,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("setUser", null);
+      this.remote = false;
     },
     twoFirst() {
       let first = this.userData.first_name.substring(0, 1);

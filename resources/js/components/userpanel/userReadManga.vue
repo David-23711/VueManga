@@ -14,7 +14,7 @@
                 v-model="byVolume"
                 style="width: 100px"
                 class="form-control"
-                @change="volumeController()"
+                disabled
               >
                 <option
                   v-for="volume in volumes"
@@ -138,14 +138,14 @@ export default {
           this.allEpisodes = resp.data;
         });
     },
-    volumeController() {
-      this.number = this.number + 1;
-      this.multiImages = null;
-      this.$router.push(
-        `/user/readmanga/${this.$route.params.mid}/${this.byVolume}/${this.$route.params.eid}/${this.number}`
-      );
-      this.getEpisodeByVid();
-    },
+    // volumeController() {
+    //   this.number = this.number + 1;
+    //   this.multiImages = null;
+    //   this.count = 0;
+    //   this.$router.push(
+    //     `/user/readmanga/${this.$route.params.mid}/${this.byVolume}/${this.$route.params.eid}/${this.number}`
+    //   );
+    // },
     scrollTop(refName) {
       var element = this.$refs[refName];
       var top = element.offsetTop;
@@ -190,6 +190,14 @@ export default {
         });
         this.byVolume = volumeData[0].id;
       });
+    },
+  },
+  watch: {
+    $route(next) {
+      if (next.params.number != this.number) {
+        this.number = this.number - 1;
+        this.$router.go(-this.number);
+      }
     },
   },
   mounted() {

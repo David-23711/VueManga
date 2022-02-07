@@ -57,9 +57,8 @@ class mangaInformationRepository implements mangaInformationInterface{
         $data = MangaInformation::find($id);
         $current = $editData->current_key;
         global $photo;
-            if(File::exists("manga/$current"))
-            {
-                if($editData->visual_key != null)
+           
+             if($editData->visual_key != null)
             {
                 $file = $editData->visual_key;
                 $ext = $file->getClientOriginalExtension();
@@ -81,7 +80,7 @@ class mangaInformationRepository implements mangaInformationInterface{
                 'description' => $editData['description'],
             ]);
             return $data;
-            }
+            
         }
         
         public function deleteManga($id,$data)

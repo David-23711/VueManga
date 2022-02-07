@@ -140,6 +140,7 @@ export default {
     },
     volumeController() {
       this.number = this.number + 1;
+      this.multiImages = null;
       this.$router.push(
         `/user/readmanga/${this.$route.params.mid}/${this.byVolume}/${this.$route.params.eid}/${this.number}`
       );

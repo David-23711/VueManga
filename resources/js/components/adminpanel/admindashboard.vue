@@ -18,7 +18,7 @@
     </v-container>
     <v-container v-if="adminData">
       <v-row>
-        <v-col cols="12" md="6" sm="6">
+        <v-col cols="12" md="8" offset-md="2" sm="12">
           <v-row>
             <v-col cols="12" md="6" sm="12">
               <v-card to="/admin/manga" justify-center>
@@ -40,49 +40,9 @@
                 </v-card-text>
               </v-card>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-card>
-                <v-card-text>
-                  <h1>Hello World</h1>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="12" md="6" sm="12">
-              <v-card to="#" justify-center>
-                <v-card-text>
-                  <h4>Hello World</h4>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="12" md="6" sm="12">
-              <v-card>
-                <v-card-text>
-                  <h4>Hello World</h4>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-carousel v-model="model" height="160">
-                <v-carousel-item
-                  v-for="(color, i) in colors"
-                  :key="color"
-                  round
-                >
-                  <v-sheet :color="color" height="100%" tile elevation="12">
-                    <v-row
-                      class="fill-height text-center"
-                      align="center"
-                      justify="center"
-                    >
-                      <div class="text-h2">Slide {{ i + 1 }}</div>
-                    </v-row>
-                  </v-sheet>
-                </v-carousel-item>
-              </v-carousel>
-            </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" md="6" sm="12">
+        <v-col cols="12" md="8" offset-md="2" sm="12">
           <v-card height="450">
             <v-card-text>
               <div class="cframe" v-if="hide == false">

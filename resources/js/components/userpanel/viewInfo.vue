@@ -187,7 +187,7 @@
               <v-list three-line>
                 <template v-for="(episode, index) in episodes">
                   <v-divider :key="index"></v-divider>
-                  <v-list-item :key="episode.id">
+                  <v-list-item :key="episode.episode">
                     <v-list-item-content>
                       <v-list-item-title>
                         <span

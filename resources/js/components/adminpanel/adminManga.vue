@@ -89,7 +89,6 @@
                           :id="index"
                           @loadstart="imgLoading = true"
                           @load="imgLoading = false"
-                          :hidden="imgLoading == true"
                           :src="`/manga/${manga.visual_key}`"
                           alt=""
                           width="100"
@@ -97,14 +96,14 @@
                           class="img"
                         >
                         </v-img>
-                        <v-skeleton-loader
+                        <!-- <v-skeleton-loader
                           v-if="imgLoading == true"
                           type="image"
                           width="100"
                           height="150"
                           class="img"
                         >
-                        </v-skeleton-loader>
+                        </v-skeleton-loader> -->
                       </td>
                       <td class="text-left">
                         <span class="overline">{{ manga.manga_name }}</span>

@@ -198,7 +198,11 @@
                       </v-card>
                     </template>
                   </v-dialog>
-                  <v-btn outlined>Website</v-btn>
+                  <v-btn
+                    outlined
+                    href="http://manga-app23711.herokuapp.com/user"
+                    >Website</v-btn
+                  >
                 </v-card-text>
                 <v-card-actions> </v-card-actions>
               </v-card>

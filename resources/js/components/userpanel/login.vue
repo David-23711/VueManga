@@ -37,6 +37,12 @@
                       <v-btn dark class="blue darken-3" @click="userSignIn"
                         >Sing In</v-btn
                       >
+                      <span class="mt-4 mb-1 white--text"
+                        >If you have account,</span
+                      >
+                      <v-btn dark class="blue darken-3" @click="userSignIn"
+                        >Register</v-btn
+                      >
                       <v-dialog
                         transition="dialog-bottom-transition"
                         max-width="600"

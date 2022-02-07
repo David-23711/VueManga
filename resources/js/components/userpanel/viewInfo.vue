@@ -399,7 +399,7 @@ export default {
           .then((resp) => {
             this.reRating = resp.data;
             for (let i = 0; i < this.reRating.length; i++) {
-              this.rating = this.reRating[i].rating;
+              this.rating = JSON.parse(this.reRating[i].rating);
             }
           });
       }

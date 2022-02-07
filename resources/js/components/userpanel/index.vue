@@ -122,7 +122,7 @@
             </v-card-text>
             <v-card-actions>
               <v-rating
-                :value="data.rating"
+                :value="JSON.parse(data.rating)"
                 :length="length"
                 color="yellow accent-4"
                 background-color="grey lighten-1"

@@ -15,7 +15,7 @@
     <v-container v-if="datas != 0">
       <v-toolbar class="mb-4">
         <v-spacer></v-spacer>
-        <span class="headline">Hotest Manga</span>
+        <span class="headline">Newest Manga</span>
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-row>

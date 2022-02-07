@@ -54,10 +54,9 @@
                   >
                     Learning programming by myself since 2019.Now, I can write
                     many business projects and some personal projects(eg.movie
-                    website,manga website).Laravel, Vue js and Mysql are mostly
-                    use in many projects. I have also learned Vuex and Vuetify
-                    to good UI performance for my projects.However, I am still
-                    learning programming everyday.
+                    website,manga website and live chat).Laravel, Vue js and
+                    Mysql are mostly use in many projects. I have also learned
+                    Vuex and Vuetify to good UI performance for my projects.
                   </h3>
                 </v-card-text>
                 <v-card-actions> </v-card-actions>

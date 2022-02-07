@@ -111,9 +111,9 @@ Route::get('/admin/category/byGenre',[MangaInformationController::class,'getByGe
 Route::view('/index/viewinfo/{mid}','/manga/userpanel');
 Route::get("/admin/manga/dashboard",[MangaInformationController::class,'dashboard']);
 Route::view("/user/readmanga/{mid}/{vid}/{eid}/{number}",'/manga/userpanel');
-Route::post("/user/viewinfo/{id}/rating",[RatingController::class,'rating']);
+Route::post("/index/viewinfo/{id}/rating",[RatingController::class,'rating']);
 Route::get("/getUserRating/{id}/{uid}",[RatingController::class,'getRating']);
-Route::post("/user/viewinfo/{id}/totalRating",[RatingController::class,'insertRating']);
+Route::post("/index/viewinfo/{id}/totalRating",[RatingController::class,'insertRating']);
 //user Register
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
@@ -126,11 +126,11 @@ Route::post("/index/login/singIn",[AuthController::class,"login"]);
 
 Route::view("/portfolio",'portfolio');
 //user Bookmark
-Route::post("/user/viewinfo/{id}/bookmark",[bookmarkController::class,'bookmark']);
-Route::get("/user/viewinfo/{mid}/{uid}/getBookmark",[bookmarkController::class,'getBookmark']);
+Route::post("/index/viewinfo/{id}/bookmark",[bookmarkController::class,'bookmark']);
+Route::get("/index/viewinfo/{mid}/{uid}/getBookmark",[bookmarkController::class,'getBookmark']);
 Route::delete("/user/viewinfo/{mid}/{uid}/deleteBookmark",[bookmarkController::class,'delete']);
 //
-Route::get("/user/viewinfo/{mid}/{uid}/getRatingTotal",[RatingController::class,'total']);
+Route::get("/index/viewinfo/{mid}/{uid}/getRatingTotal",[RatingController::class,'total']);
 Route::get("/user/getBookmark/{id}",[bookmarkController::class,"getUserBookmark"]);
 Route::view("/bookmarks/{id}",'/manga/userpanel');
 Route::get("/bookmarks/{id}/getUserBookmark",[bookmarkController::class,"getAllBookmarks"]);

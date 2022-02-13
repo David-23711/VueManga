@@ -128,7 +128,7 @@ Route::view("/portfolio",'portfolio');
 //user Bookmark
 Route::post("/index/viewinfo/{id}/bookmark",[bookmarkController::class,'bookmark']);
 Route::get("/index/viewinfo/{mid}/{uid}/getBookmark",[bookmarkController::class,'getBookmark']);
-Route::delete("/user/viewinfo/{mid}/{uid}/deleteBookmark",[bookmarkController::class,'delete']);
+Route::delete("/index/viewinfo/{mid}/{uid}/deleteBookmark",[bookmarkController::class,'delete']);
 //
 Route::get("/index/viewinfo/{mid}/{uid}/getRatingTotal",[RatingController::class,'total']);
 Route::get("/user/getBookmark/{id}",[bookmarkController::class,"getUserBookmark"]);

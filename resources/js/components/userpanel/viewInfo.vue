@@ -24,6 +24,7 @@
               <v-icon color="white">clear</v-icon>
             </v-btn>
           </v-toolbar>
+
           <v-card-text class="text-center">
             <v-row class="mt-5">
               <v-col cols="6" offset="3">
@@ -43,32 +44,30 @@
           </v-btn>
         </template>
       </v-snackbar>
-      <v-toolbar class="mb-5">
-        <v-toolbar-title>
-          <v-btn :loading="loading" class="mr-2" @click="goBack" text>
-            <v-icon>west</v-icon>
-          </v-btn>
-          <span>{{ datas != 0 ? datas[0]["manga_name"] : "" }}</span>
-        </v-toolbar-title>
-      </v-toolbar>
-      <v-row v-for="data in datas" :key="data.id">
-        <v-col cols="12" md="2" sm="3">
-          <v-card class="backCard" align="center">
-            <v-img
-              height="261"
-              width="150"
-              :src="`/manga/${data.visual_key}`"
-            ></v-img>
+      <v-row>
+        <v-col cols="12" md="12" sm="12" class="top-bar">
+          <v-card class="top-bar-card">
+            <v-btn :loading="loading" class="mr-2" @click="goBack" text>
+              <v-icon>west</v-icon>
+            </v-btn>
+            <span>{{ datas != 0 ? datas[0]["manga_name"] : "" }}</span>
           </v-card>
         </v-col>
-        <v-col class="mt-3" cols="12" md="10" sm="9">
+      </v-row>
+      <v-row v-for="data in datas" :key="data.id">
+        <v-col cols="12" md="2" sm="12" class="img-container">
+          <v-card class="backCard" align="center">
+            <img class="img" :src="`/manga/${data.visual_key}`" />
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="10" sm="12" class="content-container">
           <v-card>
             <v-row>
-              <v-col cols="12" md="8" sm="8">
+              <v-col cols="12" md="8" sm="8" class="main-container">
                 <div class="ml-7">
                   <span class="subtitle-1 hidden-md-and-up">{{ message }}</span>
                 </div>
-                <v-toolbar flat>
+                <v-toolbar flat class="rating-bar">
                   <v-rating
                     v-model="rating"
                     :length="length"
@@ -87,7 +86,9 @@
                     {{ rating }}
                   </h2>
                   <v-spacer></v-spacer>
-                  <span class="headline hidden-md-and-down">{{ message }}</span>
+                  <span class="middle-font hidden-md-and-down">{{
+                    message
+                  }}</span>
                 </v-toolbar>
                 <table class="mytable" cell-padding="50">
                   <tr>
@@ -159,7 +160,7 @@
             </v-row>
           </v-card>
         </v-col>
-        <v-col cols="12" md="12" sm="12">
+        <v-col cols="12" md="12" sm="12" class="description-box">
           <v-card>
             <v-card-title>
               <v-icon>assistant</v-icon>
@@ -171,7 +172,7 @@
             <v-card-actions> </v-card-actions>
           </v-card>
         </v-col>
-        <v-col cols="12" md="12" sm="12">
+        <v-col cols="12" md="12" sm="12" class="latest-box">
           <v-card>
             <v-card-title>
               <v-icon>pages</v-icon>
@@ -470,10 +471,15 @@ export default {
   align-items: center;
 }
 .backCard {
-  background: url("/manga/backphoto.jpg");
+  background-color: #fff;
   background-size: 100% 100%;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  width: 100%;
+  height: 100%;
+}
+.img {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
 }
 ::v-deep .mytable {
   border-bottom: none !important;
@@ -482,5 +488,102 @@ export default {
 td {
   padding-left: 20px;
   padding-bottom: 11.5px;
+}
+.middle-font {
+  font-size: 100%;
+}
+.img-container {
+  padding: 0;
+}
+.top-bar {
+  padding: 12px 10px 12px 0;
+}
+.top-bar-card {
+  height: 50px;
+  padding: 9px 0 0 0;
+}
+.main-container {
+  padding: 10px;
+}
+.rating-bar {
+  margin-left: 10px;
+}
+.description-box {
+  padding: 12px 9px 12px 0;
+}
+.latest-box {
+  padding: 12px 9px 12px 0;
+}
+@media only screen and(max-width:500px) {
+  .top-bar {
+    padding: 12px 8px 12px 8px;
+  }
+  .img-container {
+    padding: 16px;
+  }
+  .rating-bar {
+    margin: 0 5px;
+  }
+  .description-box {
+    padding: 12px 9px 12px 9px;
+  }
+  .latest-box {
+    padding: 12px 9px 12px 9px;
+  }
+  .rating-bar {
+    margin: 0 12px;
+  }
+}
+@media only screen and (min-width: 501px) and (max-width: 770px) {
+  .backCard {
+    width: 100%;
+    height: 100%;
+  }
+  .description-box {
+    padding: 12px 9px 12px 9px;
+  }
+  .latest-box {
+    padding: 12px 9px 12px 9px;
+  }
+  .content-container {
+    padding-top: 20px;
+  }
+  .backCard {
+    width: 96%;
+    margin-left: 12px;
+  }
+}
+@media only screen and (min-width: 771px) and (max-width: 860px) {
+  .backCard {
+    width: 96%;
+    margin-left: 13px;
+  }
+  .description-box {
+    padding: 12px 11px;
+  }
+  .latest-box {
+    padding: 12px 11px;
+  }
+  .main-container {
+    padding: 0;
+  }
+  .content-container {
+    padding-top: 20px;
+  }
+  .rating-bar {
+    margin: 0 15px;
+  }
+}
+@media only screen and (min-width: 861px) and (max-width: 960px) {
+  .content-container {
+    padding-top: 20px;
+  }
+  .img {
+    padding: 0;
+  }
+  .backCard {
+    width: 96%;
+    margin-left: 13px;
+  }
 }
 </style>

@@ -1,0 +1,7 @@
+html {
+    background-color: black !important;
+    font-size: 20px !important;
+    font-family: "Courier New", Courier, monospace;
+    text-rendering: optimizeLegibility;
+    font-family: "Lato", "Arial", sans-serif;
+}

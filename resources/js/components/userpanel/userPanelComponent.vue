@@ -5,7 +5,9 @@
       <v-main>
         <router-view></router-view>
       </v-main>
-      <v-footer> </v-footer>
+      <v-footer>
+        <div></div>
+      </v-footer>
     </v-app>
   </div>
 </template>
@@ -17,5 +19,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
 </style>

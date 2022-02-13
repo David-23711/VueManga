@@ -23,7 +23,7 @@
           <v-card>
             <v-card-text>
               <v-row>
-                <v-col cols="5" md="5" sm="5">
+                <v-col class="img-container" cols="5" md="5" sm="5">
                   <img class="img" :src="`/manga/${data.visual_key}`" alt="" />
                 </v-col>
                 <v-col cols="7" md="7" sm="7">
@@ -153,11 +153,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.img-container {
+  width: 100%;
+  height: 235px;
+  padding: 0;
+}
 .img {
   border: 2px solid black;
   border-radius: 6px;
-  width: 130px;
-  height: 180px;
+  width: 100%;
+  height: 100%;
 }
 .frame {
   width: 100%;

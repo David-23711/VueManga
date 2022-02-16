@@ -55,9 +55,10 @@
         </v-col>
       </v-row>
       <v-row v-for="data in datas" :key="data.id">
-        <v-col cols="12" md="2" sm="12" class="img-container">
+        <v-col cols="12" md="2" sm="12" class="imgInfo-container">
           <v-card class="backCard" align="center">
-            <img class="img" :src="`/manga/${data.visual_key}`" />
+            <img class="imgInfo" :src="`/manga/${data.visual_key}`" />
+            <span>Global {{ data.rating }}R</span>
           </v-card>
         </v-col>
         <v-col cols="12" md="10" sm="12" class="content-container">
@@ -476,9 +477,9 @@ export default {
   width: 100%;
   height: 100%;
 }
-.img {
+.imgInfo {
   width: 100%;
-  height: 100%;
+  height: 87%;
   padding: 10px;
 }
 ::v-deep .mytable {
@@ -492,7 +493,7 @@ td {
 .middle-font {
   font-size: 100%;
 }
-.img-container {
+.imgInfo-container {
   padding: 0;
 }
 .top-bar {
@@ -521,6 +522,9 @@ td {
   .img-container {
     padding: 16px;
   }
+  .content-container {
+    padding-top: 20px;
+  }
   .rating-bar {
     margin: 0 5px;
   }
@@ -535,10 +539,6 @@ td {
   }
 }
 @media only screen and (min-width: 501px) and (max-width: 770px) {
-  .backCard {
-    width: 100%;
-    height: 100%;
-  }
   .description-box {
     padding: 12px 9px 12px 9px;
   }
@@ -551,6 +551,8 @@ td {
   .backCard {
     width: 96%;
     margin-left: 12px;
+    width: 100%;
+    height: 100%;
   }
 }
 @media only screen and (min-width: 771px) and (max-width: 860px) {
@@ -582,8 +584,26 @@ td {
     padding: 0;
   }
   .backCard {
-    width: 96%;
+    width: 97%;
     margin-left: 13px;
+  }
+  .description-box {
+    width: 100%;
+    padding: 10px 13px;
+  }
+  .latest-box {
+    width: 100%;
+    padding: 5px 13px 10px 13px;
+  }
+}
+@media (min-width: 960px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+@media (max-width: 1200px) {
+  .container {
+    max-width: 900px;
   }
 }
 </style>

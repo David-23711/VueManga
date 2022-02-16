@@ -30,14 +30,13 @@
                   <v-list>
                     <v-list-item>
                       <v-list-item-content>
-                        <v-list-item-subtitle>
+                        <v-list-item-subtitle class="subFont">
                           <span>Manga Name</span>
                         </v-list-item-subtitle>
-                        <v-list-item-title>
+                        <v-list-item-title class="font">
                           <span
                             style="cursor: pointer"
                             :title="data.manga_name"
-                            class="font"
                             >{{ data.manga_name }}</span
                           >
                         </v-list-item-title>
@@ -45,14 +44,13 @@
                     </v-list-item>
                     <v-list-item>
                       <v-list-item-content>
-                        <v-list-item-subtitle>
+                        <v-list-item-subtitle class="subFont">
                           <span>Alternative Name</span>
                         </v-list-item-subtitle>
-                        <v-list-item-title>
+                        <v-list-item-title class="font">
                           <span
                             style="cursor: pointer"
                             :title="data.alternative_name"
-                            class="font"
                             >{{ data.alternative_name }}</span
                           >
                         </v-list-item-title>
@@ -60,11 +58,11 @@
                     </v-list-item>
                     <v-list-item>
                       <v-list-item-content>
-                        <v-list-item-subtitle>
+                        <v-list-item-subtitle class="subFont">
                           <span>Release Date</span>
                         </v-list-item-subtitle>
-                        <v-list-item-title>
-                          <span class="font">{{ data.release_date }}</span>
+                        <v-list-item-title class="font">
+                          <span>{{ data.release_date }}</span>
                         </v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
@@ -72,23 +70,27 @@
                 </v-col>
               </v-row>
             </v-card-text>
-            <v-card-actions>
-              <v-rating
-                :value="data.rating"
-                :length="length"
-                color="yellow accent-4"
-                background-color="grey lighten-1"
-                size="20"
-                readonly
-                half-increments
-                half-icon="star_half"
-                full-icon="star_rate"
-                empty-icon="star_outline"
-              ></v-rating>
-              <span class="subtitle-2"
-                >{{ data.rating }} Rating ({{ data.users }})</span
-              >
-            </v-card-actions>
+            <v-row>
+              <v-col cols="6" sm="12" md="12" class="rate">
+                <v-rating
+                  :value="JSON.parse(data.rating)"
+                  :length="length"
+                  color="yellow accent-4"
+                  background-color="grey lighten-1"
+                  size="20"
+                  readonly
+                  half-increments
+                  half-icon="star_half"
+                  full-icon="star_rate"
+                  empty-icon="star_outline"
+                ></v-rating>
+              </v-col>
+              <v-col cols="6" sm="12" md="12" class="rateFont">
+                <span class="subtitle-2"
+                  >{{ data.rating }} Rating ({{ data.users }})</span
+                >
+              </v-col>
+            </v-row>
             <v-toolbar>
               <v-row>
                 <v-btn text :to="`/index/viewinfo/${data.id}`">
@@ -152,23 +154,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.img-container {
-  width: 100%;
-  height: 235px;
-  padding: 0;
-}
-.img {
-  border: 2px solid black;
-  border-radius: 6px;
-  width: 100%;
-  height: 100%;
-}
-.frame {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+<style>
 </style>

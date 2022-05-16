@@ -252,9 +252,7 @@ export default {
     async getAllDatas() {
       await axios
         .get(
-          `/admin/manga/post?search=${this.searchName.toUpperCase()} && page=${
-            this.$route.params.pageCurrent
-          }`
+          `/admin/manga/post?search=${this.searchName} && page=${this.$route.params.pageCurrent}`
         )
         .then((resp) => {
           this.datas = resp.data.data;

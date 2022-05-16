@@ -141,7 +141,9 @@
               <v-col cols="2" sm="2" md="2"> </v-col>
               <v-col cols="5" sm="10" md="10" class="rateFont">
                 <span class="subtitle-2"
-                  >{{ data.rating }} Rating ({{ data.users }})</span
+                  >{{ data.rating }} Rating ({{
+                    data.users ? data.user : 0
+                  }})</span
                 >
               </v-col>
             </v-row>

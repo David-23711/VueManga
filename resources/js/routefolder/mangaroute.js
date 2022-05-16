@@ -102,6 +102,7 @@ const routes = [
         path: "/user",
         component: Userindex,
     },
+
     {
         name: "Uindex",
         path: "/user/:category",

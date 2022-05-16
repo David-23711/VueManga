@@ -56,7 +56,7 @@
           <v-col cols="6" md="4" sm="4">
             <v-text-field
               class="mt-2"
-              placeholder="Search Manga"
+              placeholder="Search with captial letter at start"
               prepend-icon="search"
               v-model="searchName"
               clearable

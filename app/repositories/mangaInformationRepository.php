@@ -35,9 +35,9 @@ class mangaInformationRepository implements mangaInformationInterface
         if (request('search') == "null") {
             $data = MangaInformation::orderBy('created_at', 'desc')->paginate(6);
         } else {
-            $data = MangaInformation::when(request('search'), function ($query) {
-                $query->where(strtolower('manga_name'), 'like', '%' . strtolower(request('search')) . '%')
-                    ->orWhere(strtolower('alternative_name'), 'like', '%' . strtolower(request('search')) . '%');
+            $data = MangaInformation::when(strtoupper(request('search')), function ($query) {
+                $query->where(strtoupper('manga_name'), 'like', '%' . strtoupper(request('search')) . '%')
+                    ->orWhere(strtoupper('alternative_name'), 'like', '%' . strtoupper(request('search')) . '%');
             })->orderBy('created_at', 'desc')->paginate(6);
         }
         //    if(request('genre')!='null')

@@ -35,4 +35,18 @@ export default {
 </script>
 
 <style>
+.slide-up-enter {
+  transform: translateY(20px);
+  opacity: 0;
+}
+.slide-up-enter-active {
+  transition: all 0.5s ease;
+}
+.slide-up-move {
+  transition: transform 0.5s ease-in;
+}
+/* .slide-up-leave-to {
+  transform: translateX(-10px);
+  opacity: 0;
+} */
 </style>

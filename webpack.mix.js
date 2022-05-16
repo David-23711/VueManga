@@ -1,17 +1,13 @@
-const mix = require('laravel-mix');
-var VuetifyLoaderPlugin=require('vuetify-loader/lib/plugin')
-var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-
+const mix = require("laravel-mix");
+var VuetifyLoaderPlugin = require("vuetify-loader/lib/plugin");
+var CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
+mix.browserSync({
+    proxy: "http://127.0.0.1:8000/user",
+});
 
 var webpackConfig = {
-    plugins: [
-        new VuetifyLoaderPlugin(),
-        new CaseSensitivePathsPlugin(),
-
-        
-       
-    ]
-}
+    plugins: [new VuetifyLoaderPlugin(), new CaseSensitivePathsPlugin()],
+};
 mix.webpackConfig(webpackConfig);
 
 /*
@@ -25,7 +21,7 @@ mix.webpackConfig(webpackConfig);
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js("resources/js/app.js", "public/js")
     .vue()
-    .sass('resources/sass/app.scss', 'public/css')
+    .sass("resources/sass/app.scss", "public/css")
     .version();

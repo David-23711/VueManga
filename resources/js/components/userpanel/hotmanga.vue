@@ -20,7 +20,7 @@
       </v-toolbar>
       <v-row>
         <v-col cols="12" sm="6" md="4" v-for="data in datas" :key="data.id">
-          <v-card>
+          <v-card class="card">
             <v-card-text>
               <v-row>
                 <v-col class="img-container" cols="5" md="5" sm="5">
@@ -117,6 +117,7 @@
 </template>
 
 <script>
+import gsap from "gsap";
 export default {
   data() {
     return {
@@ -150,6 +151,14 @@ export default {
   },
   mounted() {
     this.getDatas();
+    gsap.from(".card", {
+      duration: 0.5,
+      opacity: 0,
+      scale: 0,
+      y: 200,
+      ease: "power1",
+      stagger: 0.1,
+    });
   },
 };
 </script>

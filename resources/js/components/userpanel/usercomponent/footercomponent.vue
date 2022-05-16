@@ -1,47 +1,9 @@
 <template>
   <v-row>
     <v-col cols="12" md="6">
-      <ul class="footer-nav">
-        <li>
-          <v-btn
-            class="white--text"
-            plain
-            to="/user"
-            :class="{
-              active: $route.name == 'Uindex' || $route.name == 'Index',
-            }"
-            text
-            >Manga Online</v-btn
-          >
-        </li>
-        <li>
-          <v-btn
-            class="white--text"
-            plain
-            to="/hotmanga"
-            :class="{
-              active:
-                $route.name == 'hotmanga' || $route.name == 'paginateHotmanga',
-            }"
-            text
-            >Hot Manga</v-btn
-          >
-        </li>
-        <li>
-          <v-btn
-            class="white--text"
-            to="/newest"
-            plain
-            :class="{
-              active:
-                $route.name == 'newestmanga' ||
-                $route.name == 'paginateNewestmanga',
-            }"
-            text
-            >Newest Manga</v-btn
-          >
-        </li>
-      </ul>
+      <div class="d-flex">
+        <v-btn text></v-btn>
+      </div>
     </v-col>
     <v-col cols="12" md="6">
       <ul class="icon-nav">

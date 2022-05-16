@@ -2,7 +2,7 @@
   <div>
     <v-app-bar v-if="hide == false" :hidden="hide" app class="indigo">
       <div class="d-lg-none d-xl-flex">
-        <v-btn text class="mr-2" @click="drawer = !drawer">
+        <v-btn text class="mr-2" @click="navDrawer">
           <v-icon size="35" color="white">menu</v-icon>
         </v-btn>
       </div>
@@ -112,65 +112,75 @@
         </v-dialog>
       </div>
     </v-app-bar>
-    <v-navigation-drawer
-      fixed
-      v-model="drawer"
-      dark
-      class="d-lg-none d-xl-flex"
+    <transition
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @leave="leave"
+      :css="false"
     >
-      <v-row class="ma-8 justify-center">
-        <v-avatar class="mt-3" size="100" :hidden="userImage == null">
-          <img
-            :src="
-              userImage != null ? `/manga/${userData.avatar}` : ''
-            " /></v-avatar
-        ><br />
-        <v-avatar
-          v-if="userData"
-          class="primary mb-2"
-          size="100"
-          :hidden="userImage != null"
-        >
-          <span class="headline">{{ twoFirst() }}</span> </v-avatar
-        ><br />
-        <v-col cols="12" class="text-center">
-          <v-btn v-if="userData" class="primary" dark @click="remote = true"
-            >Edit</v-btn
-          ><br />
-          <div v-if="userData">
-            <span class="white--text"
-              >{{ userData.first_name }} {{ userData.last_name }}</span
-            >
-            <span class="white--text">{{ userData.email }}</span>
-          </div>
-        </v-col>
-      </v-row>
-      <div class="ml-2" v-if="!userData">
-        <v-btn to="/index/login">
-          <span>Login</span>
-          <v-icon>login</v-icon>
-        </v-btn>
-        <v-btn to="/index/register">
-          <span>Register</span>
-          <v-icon>group</v-icon>
-        </v-btn>
-      </div>
-      <v-list
-        v-for="mnav in navlinks"
-        :key="mnav.title"
-        class="hidden-md-and-up"
+      <v-navigation-drawer
+        fixed
+        v-model="drawer"
+        dark
+        class="d-lg-none d-xl-flex"
+        v-if="drawer"
       >
-        <v-list-item>
-          <v-btn :to="mnav.link" text>{{ mnav.title }}</v-btn>
-        </v-list-item>
-      </v-list>
-      <div v-if="userData">
-        <v-btn outlined @click="logout" color="red" class="ml-5">
-          <span>Logout</span>
-          <v-icon>logout</v-icon>
-        </v-btn>
-      </div>
-    </v-navigation-drawer>
+        <v-row class="pt-2 userFrame">
+          <v-avatar class="mt-3" size="100" :hidden="userImage == null">
+            <img
+              :src="
+                userImage != null ? `/manga/${userData.avatar}` : ''
+              " /></v-avatar
+          ><br />
+          <v-avatar
+            v-if="userData"
+            class="primary mb-2"
+            size="100"
+            :hidden="userImage != null"
+          >
+            <span class="headline">{{ twoFirst() }}</span> </v-avatar
+          ><br />
+          <v-col cols="12" class="user-info text-center">
+            <v-btn v-if="userData" class="primary" dark @click="remote = true"
+              >Edit</v-btn
+            ><br />
+            <div v-if="userData">
+              <span class="white--text"
+                >{{ userData.first_name }} {{ userData.last_name }}</span
+              >
+              <span class="white--text">{{ userData.email }}</span>
+            </div>
+          </v-col>
+        </v-row>
+        <div class="pl-2" v-if="!userData">
+          <v-btn to="/index/login">
+            <span>Login</span>
+            <v-icon>login</v-icon>
+          </v-btn>
+          <v-btn to="/index/register">
+            <span>Register</span>
+            <v-icon>group</v-icon>
+          </v-btn>
+        </div>
+        <div>
+          <v-list
+            v-for="mnav in navlinks"
+            :key="mnav.title"
+            class="hidden-md-and-up"
+          >
+            <v-list-item>
+              <v-btn :to="mnav.link" text>{{ mnav.title }}</v-btn>
+            </v-list-item>
+          </v-list>
+        </div>
+        <div v-if="userData">
+          <v-btn outlined @click="logout" color="red" class="ml-5">
+            <span>Logout</span>
+            <v-icon>logout</v-icon>
+          </v-btn>
+        </div>
+      </v-navigation-drawer>
+    </transition>
   </div>
 </template>
 
@@ -178,6 +188,7 @@
 import { mapGetters } from "vuex";
 import { eventBus } from "../../../app";
 import editUserComponent from "./editUserComponent.vue";
+import Velocity from "velocity-animate";
 export default {
   components: { editUserComponent },
   data() {
@@ -192,6 +203,7 @@ export default {
       drawer: false,
       bookmarks: 0,
       hide: false,
+      isOpen: false,
     };
   },
   computed: {
@@ -239,6 +251,29 @@ export default {
           this.loading = false;
         });
     },
+    beforeEnter(el) {
+      el.style.opacity = 0;
+      el.style.width = "0em";
+    },
+    enter(el, done) {
+      Velocity(
+        el,
+        { opacity: 1, width: "12em" },
+        { duration: 200, easing: [60, 10], complete: done }
+      );
+    },
+    leave(el, done) {
+      Velocity(
+        el,
+        { opacity: 0, width: "0em" },
+        { duration: 200, easing: "easeOutCubic", complete: done }
+      );
+    },
+
+    navDrawer() {
+      this.drawer = !this.drawer;
+      // this.isOpen = !this.isOpen;
+    },
   },
   mounted() {
     if (this.userData) {
@@ -260,7 +295,8 @@ export default {
 
 <style lang="scss" scoped>
 .center,
-.tool {
+.tool,
+.userFrame {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -272,5 +308,11 @@ export default {
   padding-top: 70px;
   // bottom: 0;
   z-index: 1;
+}
+.user-info {
+  height: 130px;
+}
+span {
+  white-space: nowrap;
 }
 </style>

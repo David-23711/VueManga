@@ -52,8 +52,8 @@
               </option>
             </select>
           </v-col>
-          <v-col cols="2" md="3" sm="2"> </v-col>
-          <v-col cols="6" md="6" sm="6">
+          <v-col cols="2" md="5" sm="4"> </v-col>
+          <v-col cols="6" md="4" sm="4">
             <v-text-field
               class="mt-2"
               placeholder="Search Manga"
@@ -66,7 +66,8 @@
           </v-col>
         </v-row>
       </v-toolbar>
-      <v-row>
+
+      <transition-group tag="div" name="slide-up" class="row" appear>
         <v-col cols="12" sm="6" md="4" v-for="data in datas" :key="data.id">
           <v-card>
             <v-card-text>
@@ -152,7 +153,8 @@
             </v-toolbar>
           </v-card>
         </v-col>
-      </v-row>
+      </transition-group>
+
       <v-toolbar class="mt-3">
         <v-row>
           <div v-if="isOnDate == false">
@@ -348,7 +350,6 @@ export default {
           `/admin/manga/post/byrelease?release=${this.byRelease}&& page=${this.paginationDate.current}`
         )
         .then((resp) => {
-          console.log("getByRElease");
           this.isOnGenre = false;
           this.isOnDate = true;
           this.datas = resp.data.data;
@@ -398,6 +399,13 @@ export default {
 </script>
 
 <style>
+.frame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .img-container {
   width: 100%;
   height: auto;

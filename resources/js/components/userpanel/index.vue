@@ -41,8 +41,8 @@
               @change="byReleaseController"
             >
               <option value="Latest" selected>Latest</option>
-              <option value="Desc" selected>Descend</option>
-              <option value="Asc" selected>Ascend</option>
+              <option value="Desc" selected>Desc</option>
+              <option value="Asc" selected>Asc</option>
               <option
                 v-for="(manga, index) in releaseDates"
                 :value="manga"
@@ -124,7 +124,7 @@
               </v-row>
             </v-card-text>
             <v-row>
-              <v-col cols="6" sm="12" md="12" class="rate">
+              <v-col cols="5" sm="10" md="10" class="rate">
                 <v-rating
                   :value="JSON.parse(data.rating)"
                   :length="length"
@@ -138,7 +138,8 @@
                   empty-icon="star_outline"
                 ></v-rating>
               </v-col>
-              <v-col cols="6" sm="12" md="12" class="rateFont">
+              <v-col cols="2" sm="2" md="2"> </v-col>
+              <v-col cols="5" sm="10" md="10" class="rateFont">
                 <span class="subtitle-2"
                   >{{ data.rating }} Rating ({{ data.users }})</span
                 >
@@ -249,7 +250,9 @@ export default {
     async getAllDatas() {
       await axios
         .get(
-          `/admin/manga/post?search=${this.searchName} && page=${this.$route.params.pageCurrent}`
+          `/admin/manga/post?search=${this.searchName.toUpperCase()} && page=${
+            this.$route.params.pageCurrent
+          }`
         )
         .then((resp) => {
           this.datas = resp.data.data;
@@ -341,7 +344,7 @@ export default {
     },
     async getReleaseDates() {
       await axios.get("/admin/manga/post/releaseDate").then((resp) => {
-        this.releaseDates = resp.data;
+        this.releaseDates = new Set(resp.data);
       });
     },
     async getByRelease() {

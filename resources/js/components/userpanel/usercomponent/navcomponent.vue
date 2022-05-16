@@ -62,6 +62,7 @@
               v-bind="attrs"
               class="blue"
               fab
+              small
               text
               v-if="userData"
             >
@@ -153,7 +154,7 @@
           </v-col>
         </v-row>
         <div class="pl-2" v-if="!userData">
-          <v-btn to="/index/login">
+          <v-btn to="/index/login" class="mb-4">
             <span>Login</span>
             <v-icon>login</v-icon>
           </v-btn>

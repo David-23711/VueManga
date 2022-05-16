@@ -194,7 +194,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true;
         let formData = new FormData();
-        formData.append("manga_name", this.info.mangaName);
+        formData.append("manga_name", this.info.mangaName.toLowerCase());
         formData.append("alternative_name", this.info.alterName);
         formData.append("author", this.info.author);
         formData.append("admin_id", this.adminData.id);
